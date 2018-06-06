@@ -8,6 +8,8 @@ data_file = 'unbalanced_train_segments.csv' # the file name from Google's AudioS
 window = 1.0 # length, in seconds, of each clip we show to the MTurk worker
 interval = 0.5 # interval, in seconds, of each window hop
 # start and end times are dictated by each individual video
+# end - start = 10sec
+length = 10.0 # end - start for every video
 
 # NOTES
 #
