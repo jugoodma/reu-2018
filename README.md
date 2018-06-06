@@ -1,5 +1,5 @@
 # REU 2018
-## Justin Goodman, Marc Moore
+by Justin Goodman & Marc Moore
 
 Data expander
 
@@ -10,7 +10,20 @@ Steps:
 1. Install our script on Amazon Mechanical Turk
 1. Do stuff...
 
+Initial setup (make sure you have python 3):
+```bash
+pip install Flask
+wget -nc http://storage.googleapis.com/us_audioset/youtube_corpus/v1/csv/unbalanced_train_segments.csv
+```
+
 To get started in dev mode, run:
 ```bash
 FLASK_APP=app.py FLASK_ENV=development flask run
+```
+
+To setup a production server (Apache/Ubuntu) [follow these instructions](http://flask.pocoo.org/docs/1.0/deploying/mod_wsgi/)
+
+To run in production (Apache/Ubuntu) (maybe, unsure about this):
+```bash
+FLASK_APP=app.py FLASK_ENV=production flask run --host=0.0.0.0
 ```
