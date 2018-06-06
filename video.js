@@ -8,7 +8,7 @@ request.onload = function() {
     // this is what happens when we get a response
     // parse the JSON, then display the YT video
     // we will update the display in this block
-    var res = JSON.parse(request.response); // example response: '{"id":"M7lc1UVf-VE","start":0.0,"end":10.0}'
+    var res = JSON.parse(request.response); // example response: '{"id":"M7lc1UVf-VE","start":0.0,"end":10.0,"labels":"some, labels, here"}'
 
     // create the youtube video
     var tag = document.createElement('script');
