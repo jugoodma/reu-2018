@@ -1,6 +1,7 @@
 from flask import Flask
 
-import csv
+import sqlite3
+
 
 app = Flask(__name__)
 data_file = 'unbalanced_train_segments.csv' # the file name from Google's AudioSet dataset
@@ -39,4 +40,21 @@ def show_video(key):
     
     # get a random video ID that's not already given
     
-    return '6SlgtELqOWc'
+    
+    conn = sqlite3.connect('test.db') #creating a connection objection to represent the database
+    c = conn.cursor() # a cursor object used to execute SQL commands
+    c.execute("""SELECT YTID
+                 FROM Audioset_Video""")
+    ytid = c.fetchone
+    symbol = ytid
+    c.execute("""SELECT start, end, label 
+                 FROM '%s'
+                 WHERE '%s'.sent = "0" """ % symbol)
+    temp_row = c.fetchone
+    temp_start = temp_row[1]
+    temp_end = temp_row[2]
+    data_return = join(temp_row)
+    c.execute("""UPDATE '%s'
+                 SET sent = "1" """ % symbol)
+
+    return data_return
