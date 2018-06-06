@@ -3,7 +3,8 @@ import csv
 import itertools
 import re
 
-try:
+#try:
+if True:
     # begin
     name = 'test.db' # change this if you want a NEW database. make sure this name matches in app.py
     interval = 0.5
@@ -30,11 +31,14 @@ try:
         for row in reader:
             lbls = ', '.join(list(map(lambda l: labels[l],row[3].split(','))))
             ytid = re.search('^(=?)(.*)$', row[0]).group(2)
-            c.execute('INSERT INTO Audioset_Video VALUES (?,?)', (ytid, lbls))
+            c.execute('INSERT INTO Audioset_Video VALUES (?, ?)', (ytid, lbls))
             # create Clip table
+            c.execute("CREATE TABLE '%s' (start REAL NOT NULL, end REAL NOT NULL, sent INTEGER, match INTEGER, PRIMARY KEY (start, end))" % ytid)
+            for i in range(int(((float(row[2]) - float(row[1]) - window) / interval) + 1)):
+                c.execute("INSERT INTO '%s' VALUES (?, ?, 0, -1)" % ytid, (interval * i + float(row[2]), interval * i + window + float(row[2])))
     # end
     conn.commit()
     conn.close()
     print('Done.')
-except sqlite3.Error as e:
-    print(e)
+#except sqlite3.Error as e:
+#    print(e)
