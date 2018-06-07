@@ -9,7 +9,7 @@ window = 1.0
 labels_file = 'class_labels_indices.csv'
 data_file = 'unbalanced_train_segments.csv'
 start_row = 3
-stop_row = 103
+stop_row = 5
 labels = {}
 
 print('Creating csv ' + name + ' with ' + str(interval) + 'sec intervals and ' + str(window) + 'sec window.')

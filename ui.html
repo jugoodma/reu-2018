@@ -21,8 +21,11 @@
 
   <div class="row" id="workContent">
     <div class="col-xs-12 col-md-10 col-md-offset-1">
-      <center>
-	<div id="player">&nbsp;</div>
+      <center><button class="btn btn-primary" id="replace" onclick="run();" type="button">Play Clip</button>
+
+	<div id="reu-container">
+	  <div id="player">&nbsp;</div>
+	</div>
       </center>
 
       <h4>Labels for this video: ${labels}</h4>
@@ -82,21 +85,23 @@
   // end expand/collapse
   });
 </script><script src = "https://www.youtube.com/iframe_api"></script><!-- REU-2018 script code (paste in for safety of our database) --><script>
-  // this code will be run when the page loads
-  // create the youtube video
   var player;
+  function run() {
+  alert('one');
+  // create the youtube video
   window.onYouTubeIframeAPIReady = function() {
-  player = new YT.Player('player', {start: ${start}, end: ${end}, videoId: '${ytid}', height: '390', width: '640', events: {'onStateChange': onPlayerStateChange}} );
-  }
-  var done = false;
-  function onPlayerStateChange(event) {
-  if (event.data == YT.PlayerState.PLAYING && !done) {
+  player = new YT.Player('player', {start: ${start}, end: ${end}, videoId: '${ytid}', height: '390', width: '640'} );
   player.seekTo(${start},true);
-  setTimeout(stopVideo, 1000 * parseInt(${end} - ${start}));
-  done = true;
+  player.playVideo();
+  setTimeout(reset, 2000 * parseInt( ${end} - ${start} + 0));
+  alert('two');
   }
   }
-  function stopVideo() {
+
+  function reset() {
+  // reset environment
+  alert('three');
   player.stopVideo();
+  document.getElementById('reu-container').firstChild().remove();
   }
   </script><!-- End REU script --><!-- Close internal javascript -->
