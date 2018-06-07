@@ -17,6 +17,12 @@ wget -nc http://storage.googleapis.com/us_audioset/youtube_corpus/v1/csv/unbalan
 wget -nc http://storage.googleapis.com/us_audioset/youtube_corpus/v1/csv/class_labels_indices.csv
 ```
 
+Make sure you have an AWS account linked to your MTurk Requester account. Then setup awscli:
+```bash
+pip install awscli
+aws configure
+```
+
 To get started in dev mode, run:
 ```bash
 FLASK_APP=app.py FLASK_ENV=development flask run
