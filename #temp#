@@ -1,1 +1,0 @@
-data_return = '{"id":' + symbol + ',"start":' + str(temp_start) + ',"end":' + str(temp_end) + ',"labels":' + 
