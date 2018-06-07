@@ -9,7 +9,7 @@ window = 1.0
 labels_file = 'class_labels_indices.csv'
 data_file = 'unbalanced_train_segments.csv'
 start_row = 3
-stop_row = 5
+num_rows = 250
 labels = {}
 
 print('Creating csv ' + name + ' with ' + str(interval) + 'sec intervals and ' + str(window) + 'sec window.')
@@ -28,7 +28,7 @@ with open('data/' + name, 'w', newline = '') as output:
     writer.writerow(['ytid'] + ['start'] + ['end'] + ['labels'])
     # read data in specified range
     with open(data_file, newline = '') as f:
-        reader = itertools.islice(csv.reader(f, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True), start_row, stop_row)
+        reader = itertools.islice(csv.reader(f, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True), start_row, start_row + num_rows)
         for row in reader:
             lbls = ', '.join(list(map(lambda l: labels[l],row[3].split(','))))
             ytid = re.search('^(=?)(.*)$', row[0]).group(2)

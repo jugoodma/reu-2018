@@ -9,4 +9,4 @@ HIT expires: 3day
 Auto-approve: 3day
 Require Masters: yes?
 
-Frame height: 1200
+Frame height: 1000
