@@ -1,0 +1,10 @@
+Project: REU
+Title: Determine if Audio matches Video
+Desc.: Watch a 1 second video clip and tell us whether the audio matches what you see in the clip
+Keywords: matching, video, audio
+Reward: $0.02
+Unique people per HIT: 3
+Time per assig.: 3min
+HIT expires: 3day
+Auto-approve: 3day
+Require Masters: yes?

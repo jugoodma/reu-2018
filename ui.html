@@ -86,22 +86,23 @@
   });
 </script><script src = "https://www.youtube.com/iframe_api"></script><!-- REU-2018 script code (paste in for safety of our database) --><script>
   var player;
-  function run() {
-  alert('one');
   // create the youtube video
   window.onYouTubeIframeAPIReady = function() {
   player = new YT.Player('player', {start: ${start}, end: ${end}, videoId: '${ytid}', height: '390', width: '640'} );
+  document.getElementById('player').style.display = "none";
+  }
+  function run() {
+  // play video
+  document.getElementById('player').style.display = "block";
   player.seekTo(${start},true);
   player.playVideo();
   setTimeout(reset, 2000 * parseInt( ${end} - ${start} + 0));
-  alert('two');
-  }
   }
 
   function reset() {
   // reset environment
-  alert('three');
   player.stopVideo();
-  document.getElementById('reu-container').firstChild().remove();
+  document.getElementById('player').style.display = "none";
   }
-  </script><!-- End REU script --><!-- Close internal javascript -->
+</script><!-- End REU script --><!-- Close internal javascript -->
+
