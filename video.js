@@ -1,8 +1,8 @@
 // this code will be run when the page loads
 var KEY = 'TESTKEY';
-var url = 'https://8.8.8.8/'; // replace this with the server ip or url
+var url = 'https://localhost:5000/'; // replace this with the server ip or url
 var request = new XMLHttpRequest();
-request.open('GET', url + 'Video/' + KEY);
+request.open('GET', url + 'video/' + KEY);
 request.responseType = 'text'; // we are expecting JSON
 request.onload = function() {
     // this is what happens when we get a response
