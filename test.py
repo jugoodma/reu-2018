@@ -13,7 +13,7 @@ temp_row = c.fetchone()
 temp_start = temp_row[0]
 temp_end = temp_row[1]
 
-data_return = '{\"id\":' + str(ytid) + ',\"start\":' + str(temp_start) + ',\"end\":' + str(temp_end) + ',\"labels\":' + temp_label + '}'
+data_return = '{"id":"' + str(ytid) + '","start":' + str(temp_start) + ',"end":' + str(temp_end) + ',"labels":"' + temp_label + '"}'
 print (data_return)
 #'{"id":"M7lc1UVf-VE","start":0.0,"end":10.0,"labels":"some, labels, here"}'
 c.execute("""UPDATE '%s' SET sent = "1" """ % symbol)
