@@ -95,23 +95,32 @@
 <script src = "https://www.youtube.com/iframe_api"></script>
 <script>
   var player;
+  var done = false;
   // create the youtube video
   window.onYouTubeIframeAPIReady = function() {
-  player = new YT.Player('player', {start: ${start}, end: ${end}, videoId: '${ytid}', height: '390', width: '640'} );
+  player = new YT.Player('player', {start: ${start}, end: ${end}, videoId: '${ytid}', height: '390', width: '640', events: {'onStateChange': checkRunning}} );
   document.getElementById('player').style.display = "none";
   }
+
+  function checkRunning(event) {
+  if (event.data == YT.PlayerState.PLAYING && !done) {
+  setTimeout(reset, 1000 * parseInt(${end} - ${start} + 0));
+  done = true;
+  }
+  }
+  
   function run() {
   // play video
   document.getElementById('player').style.display = "block";
   player.seekTo(${start},true);
   player.playVideo();
-  setTimeout(reset, 2000 * parseInt( ${end} - ${start} + 0));
   }
 
   function reset() {
   // reset environment
   player.stopVideo();
   document.getElementById('player').style.display = "none";
+  done = false;
   }
 </script>
 <!-- End REU script -->
