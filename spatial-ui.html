@@ -12,17 +12,17 @@ Marc Moore
   <div class="row">
     <div class="col-xs-12 col-md-12">
       <div class="panel panel-primary">
-	<!-- WARNING: the ids "collapseTrigger" and "instructionBody" are being used to enable expand/collapse feature -->
-	<a class="panel-heading" href="javascript:void(0);" id="collapseTrigger"><strong>Audio/Video Spatial Location</strong> <span class="collapse-text">(Click to expand)</span> </a>
-	<div class="panel-body" id="instructionBody">
-	  <p>We will be showing you a short one-second clip. We would like you to identify <em>where</em> the source of the sound is in the clip. Please have the sound enabled on your machine and be ready to listen to the clip. The labels indicate the sound you should be hearing. You should click 'Play Clip' when you are ready to play the clip. The clip will then auto-play on repeat until you click 'Pause Clip'. Controls in the YouTube player are disabled.</p>
-	  <ul>
-	    <li>Answer 'MATCH' or 'DOES NOT MATCH' if the audio matches or does not match respectively.</li>
-	    <li>Only watch the clip given, do not watch anything before or after the clip.</li>
-	    <li>Example: if the label is 'Railroad car, train wagon, Train horn, Rail transport, Train, Clickety-clack' and you see a train in the clip, you would answer MATCH.</li>
-	    <li>Example: if the label is 'Speech' and you don't see anyone speaking, you would answer DOES NOT MATCH.</li>
-	  </ul>
-	</div>
+        <!-- WARNING: the ids "collapseTrigger" and "instructionBody" are being used to enable expand/collapse feature -->
+        <a class="panel-heading" href="javascript:void(0);" id="collapseTrigger"><strong>Audio/Video Spatial Location Instructions</strong> <span class="collapse-text">(Click to expand)</span> </a>
+        <div class="panel-body" id="instructionBody">
+          <p>We will be showing you a short one-second clip. We would like you to identify <em>where</em> the source of the sound is in the clip. Please have the sound enabled on your machine and be ready to listen to the clip. The labels indicate the sound you should be hearing. You should click 'Play Clip' when you are ready to play the clip. The clip will then auto-play on repeat until you click 'Pause Clip'. Controls in the YouTube player are disabled.</p>
+          <ul>
+            <li>Answer 'MATCH' or 'DOES NOT MATCH' if the audio matches or does not match respectively.</li>
+            <li>Only watch the clip given, do not watch anything before or after the clip.</li>
+            <li>Example: if the label is 'Railroad car, train wagon, Train horn, Rail transport, Train, Clickety-clack' and you see a train in the clip, you would answer MATCH.</li>
+            <li>Example: if the label is 'Speech' and you don't see anyone speaking, you would answer DOES NOT MATCH.</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -31,16 +31,18 @@ Marc Moore
   <div class="row" id="workContent">
     <div class="col-xs-12 col-md-10 col-md-offset-1">
       <center>
-	<div id="grid-overlay" >
-	  <table id="grid-table" onmouseup="stop();" ondragstart="return false;" ondrop="return false;"></table>
-	  <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&start=${start}&end=${end}" frameborder="0" style="border: solid 4px #37474F"></iframe>
-	</div>
-	<br>
-	<button class="btn btn-primary" onClick="play();">Play</button>
-	<button class="btn btn-primary" onClick="pause();">Pause</button>
-	<button class="btn btn-danger" onclick="clearSelection();">Clear Selection</button>
-	<h4>Labels for this video: ${labels}</h4>
-	<div id="response-form" class="form-group" style="display: none;"></div>
+        <div id="grid-overlay" >
+          <table id="grid-table" onmouseup="stop();" ondragstart="return false;" ondrop="return false;"></table>
+          <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&start=${start}&end=${end}" frameborder="0" style="border: solid 4px #37474F"></iframe>
+        </div>
+        <br>
+        <button class="btn btn-primary" onClick="play();" type="button">Play</button>
+        <button class="btn btn-primary" onClick="pause();" type="button">Pause</button>
+        <button class="btn btn-danger" onclick="clearSelection();" type="button">Clear Selection</button>
+        <h4>Labels for this video: ${labels}</h4>
+        <div id="response-form" class="form-group" style="display: none;">
+          <input name="dummy" type="hidden">
+        </div>
       </center>
     </div>
   </div>
@@ -49,62 +51,161 @@ Marc Moore
 <!-- Bootstrap CSS-->
 <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" integrity="sha384-IS73LIqjtYesmURkDE9MXKbXqYA8rvKEp/ghicjem7Vc3mGRdQRptJSz60tvrB6+" rel="stylesheet" />
 <!-- Open internal style sheet -->
-<style type="text/css">#collapseTrigger{
-  color:#fff;
-  display: block;
-  text-decoration: none;
+<style type="text/css">
+  #collapseTrigger {
+    color: #fff;
+    display: block;
+    text-decoration: none;
   }
-  #submitButton{
-  white-space: normal;
+  #submitButton {
+    white-space: normal;
   }
-  .image{
-  margin-bottom: 15px;
+  .image {
+    margin-bottom: 15px;
   }
-  textarea.form-control{
-  height: 200px; /* Fix for textarea overlapping submit button */
+  textarea.form-control {
+    height: 200px; /* Fix for textarea overlapping submit button */
   }
   /* CSS for breaking long words/urls */
   .dont-break-out {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  -ms-word-break: break-all;
-  word-break: break-all;
-  word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
   }
 </style>
+<!-- REU-2018 style code -->
+<style type="text/css">
+  #grid-overlay {
+    width: 640px;
+    height: 360px;
+  }
+  #grid-table {
+    z-index: 3;
+    width: 640px;
+    height: 360px;
+    position: absolute;
+  }
+  .selected {
+    background: rgba(255,69,0,0.5);
+  }
+  table, td {
+    border: 1px solid red;
+    border-collapse: collapse;
+  }
+</style>
+<!-- End REU-2018 style code -->
 <!-- End internal style sheet -->
 <!-- External JS references -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js" integrity="sha384-s1ITto93iSMDxlp/79qhWHi+LsIi9Gx6yL+cOKDuymvihkfol83TYbLbOw+W/wv4" crossorigin="anonymous"></script>
 <!-- Open internal javascript -->
 <script>
-  $(document).ready(function() {
   // Instructions expand/collapse
-  var content = $('#instructionBody');
-  var trigger = $('#collapseTrigger');
-  content.hide();
-  $('.collapse-text').text('(Click to expand)');
-  trigger.click(function(){
-  content.toggle();
-  var isVisible = content.is(':visible');
-  if(isVisible){
-  $('.collapse-text').text('(Click to collapse)');
-  }else{
-  $('.collapse-text').text('(Click to expand)');
-  }
-  });
-  // end expand/collapse
+  $(document).ready(function() {
+    var content = $('#instructionBody');
+    var trigger = $('#collapseTrigger');
+    content.hide();
+    $('.collapse-text').text('(Click to expand)');
+    trigger.click(function() {
+      content.toggle();
+      var isVisible = content.is(':visible');
+      if (isVisible){
+        $('.collapse-text').text('(Click to collapse)');
+      } else {
+        $('.collapse-text').text('(Click to expand)');
+      }
+    });
   });
 </script>
 <!-- REU-2018 script code -->
 <script>
+  // generate table overlay and corresponding form data
+  var row;
+  var col;
+  var num_rows = 18;
+  var num_cols = 32;
+  var tbl = document.getElementById("grid-table");
+  var form = document.getElementById("response-form");
+  for (row = 0; row < num_rows; row++) {
+    var tbl_row = document.createElement("tr");
+    for (col = 0; col < num_cols; col++) {
+      // table
+      var num = (row * num_cols) + col;
+      var tbl_col = document.createElement("td");
+      tbl_col.id = "loc-" + num;
+      tbl_col.setAttribute("onmouseover", "hover(" + num + ");");
+      tbl_col.setAttribute("onmousedown", "start(" + num + ");");
+      tbl_col.setAttribute("data-selected", false)
+      tbl_row.appendChild(tbl_col);
+      // form
+      var input = document.createElement("input");
+      input.id = "input-" + num;
+      input.setAttribute("name", "loc-" + num);
+      input.setAttribute("type", "hidden");
+      input.setAttribute("value", "0");
+      form.appendChild(input);
+    }
+    tbl.appendChild(tbl_row);
+  }
+  
+  var selector = false;
+  var eraser = false;
+  function start(num) {
+    selector = true;
+    eraser = toBool(document.getElementById("loc-" + num).getAttribute("data-selected"));
+    hover(num);
+  }
+  function stop() {
+    selector = false;
+    // update form data to match selected boxes
+    for (row = 0; row < num_rows; row++) {
+      for (col = 0; col < num_cols; col++) {
+        var num = (row * num_cols) + col;
+        var ele = document.getElementById("input-" + num);
+        if (toBool(document.getElementById("loc-" + num).getAttribute("data-selected"))) {
+          ele.value = 1;
+        } else {
+          ele.value = 0;
+        }
+      }
+    }
+  }
+  function toBool(str) {
+    if (str == 'true') {return true}
+    else {return false}
+  }
+  function clearSelection() {
+    for (row = 0; row < num_rows; row++) {
+      for (col = 0; col < num_cols; col++) {
+        var num = (row * num_cols) + col;
+        var ele = document.getElementById("loc-" + num);
+        ele.setAttribute("data-selected", false);
+        ele.setAttribute("class", "");
+      }
+    }
+    stop();
+  }
+  function hover(num) {
+    if (selector) {
+      var ele = document.getElementById("loc-" + num);
+      if (eraser) {
+        ele.setAttribute("data-selected", false);
+        ele.setAttribute("class", "");
+      } else {
+        ele.setAttribute("data-selected", true);
+        ele.setAttribute("class", "selected");
+      }
+    }
+  }
   // load youtube api
   var tag = document.createElement('script');
-  tag.id = 'iframe-demo';
+  tag.id = 'yt-appi';
   tag.src = 'https://www.youtube.com/iframe_api';
   var firstScriptTag = document.getElementsByTagName('script')[0];
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
@@ -115,7 +216,7 @@ Marc Moore
     player = new YT.Player('player', {events: {'onReady': ready, 'onStateChange': change}} );
   }
 
-  // control functions
+  // video control functions
   function ready(event) {
     player.getIframe().setAttribute("style", "pointer-events: none;");
     if (player.isMuted()) {
