@@ -1,3 +1,10 @@
+<!--
+MTurk UI that takes .csv with youtube id, start time, end time, and labels
+and displays said video (should be 1sec) to the user repeatedly
+
+Justin Goodman
+Marc Moore
+-->
 <!-- html snippet to be pasted in MTurk -->
 <meta content="width=device-width,initial-scale=1" name="viewport" />
 <section class="container" id="TranscriptionFromAV">
@@ -8,7 +15,7 @@
 	<!-- WARNING: the ids "collapseTrigger" and "instructionBody" are being used to enable expand/collapse feature -->
 	<a class="panel-heading" href="javascript:void(0);" id="collapseTrigger"><strong>Audio/Video Match Instructions</strong> <span class="collapse-text">(Click to expand)</span> </a>
 	<div class="panel-body" id="instructionBody">
-	  <p>We will be showing you a short one-second clip. We would like you to identify whether the source of the sound is shown in the clip. Please have the sound enabled on your machine and be ready to listen to the clip. The labels indicate the sound you should be hearing. You should click 'Play Clip' when you are ready to play the clip. The clip will auto-play for you, then disappear. If you want to play the clip again, simply click 'Play Clip' again.</p>
+	  <p>We will be showing you a short one-second clip. We would like you to identify whether the source of the sound is shown in the clip. Please have the sound enabled on your machine and be ready to listen to the clip. The labels indicate the sound you should be hearing. You should click 'Play Clip' when you are ready to play the clip. The clip will then auto-play on repeat until you click 'Pause Clip'. Controls in the YouTube player are disabled.</p>
 	  <ul>
 	    <li>Answer 'MATCH' or 'DOES NOT MATCH' if the audio matches or does not match respectively.</li>
 	    <li>Only watch the clip given, do not watch anything before or after the clip.</li>
@@ -24,8 +31,10 @@
   <div class="row" id="workContent">
     <div class="col-xs-12 col-md-10 col-md-offset-1">
       <center>
-	<button class="btn btn-primary" id="replace" onclick="run();" type="button">Play Clip</button>
-	<div id="player">&nbsp;</div>
+	<iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&start=${start}&end=${end}"></iframe>
+	<br>
+	<button class="btn btn-danger" onclick="play();" type="button">Play Clip</button>
+	<button class="btn btn-danger" onclick="pause();" type="button">Pause Clip</button>
 	<h4>Labels for this video: ${labels}</h4>
       </center>
       <!-- Worker input -->
@@ -91,36 +100,38 @@
   // end expand/collapse
   });
 </script>
-<!-- REU-2018 script code (paste in for safety of our database) -->
-<script src = "https://www.youtube.com/iframe_api"></script>
+<!-- REU-2018 script code -->
 <script>
+  // load youtube api
+  var tag = document.createElement('script');
+  tag.id = 'iframe-demo';
+  tag.src = 'https://www.youtube.com/iframe_api';
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  // create the video
   var player;
-  var done = false;
-  // create the youtube video
   window.onYouTubeIframeAPIReady = function() {
-  player = new YT.Player('player', {start: ${start}, end: ${end}, videoId: '${ytid}', height: '390', width: '640', events: {'onStateChange': checkRunning}} );
-  document.getElementById('player').style.display = "none";
+    player = new YT.Player('player', {events: {'onReady': ready, 'onStateChange': change}} );
   }
 
-  function checkRunning(event) {
-  if (event.data == YT.PlayerState.PLAYING && !done) {
-  setTimeout(reset, 1000 * parseInt(${end} - ${start} + 0));
-  done = true;
+  // control functions
+  function ready(event) {
+    player.getIframe().setAttribute("style", "pointer-events: none;");
+    if (player.isMuted()) {
+      player.unMute();
+    }
   }
+  function change(event) {
+    if (event.data == YT.PlayerState.ENDED) {
+      player.loadVideoById({'videoId': '${ytid}','startSeconds': ${start},'endSeconds': ${end},'suggestedQuality': 'large'});
+    }
   }
-  
-  function run() {
-  // play video
-  document.getElementById('player').style.display = "block";
-  player.seekTo(${start},true);
-  player.playVideo();
+  function play() {
+    player.playVideo();
   }
-
-  function reset() {
-  // reset environment
-  player.stopVideo();
-  document.getElementById('player').style.display = "none";
-  done = false;
+  function pause() {
+    player.pauseVideo();
   }
 </script>
 <!-- End REU script -->
