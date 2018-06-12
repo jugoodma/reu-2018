@@ -1,12 +1,23 @@
-Project: REU
-Title: Determine if Audio matches Video
-Desc.: Watch a 1 second video clip and tell us whether the audio matches what you see in the clip
-Keywords: matching, video, audio
-Reward: $0.01
-Unique people per HIT: 3
-Time per assig.: 3min
-HIT expires: 3day
-Auto-approve: 3day
-Require Masters: yes?
+Project:    Temporal Classification
+Title:      Determine if Audio Matches Video
+Desc.:      Watch a 1 second video clip and tell us whether the audio matches what you see in the clip
+Keywords:   matching, video, audio
+Reward:     $0.01
+Unique ppH: 1
+Time per H: 3min
+HIT expr:   3day
+Auto-apprv: 3day
+Masters:    yes?
+Frame ht:   1000
 
-Frame height: 1000
+Project:    Spatial Classification
+Title:      Locate Where Audio Originates in a Video
+Desc.:      Watch a 1 second video clip and indicate where the audio is coming from
+Keywords:   matching, video, audio
+Reward:     $0.02
+Unique ppH: 1
+Time per H: 5min
+HIT expr:   3day
+Auto-apprv: 3day
+Masters:    yes?
+Frame ht:   1000

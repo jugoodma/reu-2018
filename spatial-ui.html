@@ -36,12 +36,12 @@ Marc Moore
           <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&start=${start}&end=${end}" frameborder="0" style="border: solid 4px #37474F"></iframe>
         </div>
         <br>
-        <button class="btn btn-primary" onClick="play();" type="button">Play</button>
-        <button class="btn btn-primary" onClick="pause();" type="button">Pause</button>
+        <button class="btn btn-primary" onClick="play(this);" type="button">Play</button>
         <button class="btn btn-danger" onclick="clearSelection();" type="button">Clear Selection</button>
         <h4>Labels for this video: ${labels}</h4>
         <div id="response-form" class="form-group" style="display: none;">
-          <input name="dummy" type="hidden">
+          <!-- why are you looking here, get out! -->
+          <input name="qa" type="hidden" value="0" id="dummy" >
         </div>
       </center>
     </div>
@@ -125,6 +125,17 @@ Marc Moore
 </script>
 <!-- REU-2018 script code -->
 <script>
+  function pad(num) {
+    // pads the number with leading zeros
+    // this is hard-coded for speed
+    var padding = "";
+    if (num < 10) {
+      padding = "00";
+    } else if (num < 100) {
+      padding = "0"
+    }
+    return padding + num;
+  }
   // generate table overlay and corresponding form data
   var row;
   var col;
@@ -146,7 +157,7 @@ Marc Moore
       // form
       var input = document.createElement("input");
       input.id = "input-" + num;
-      input.setAttribute("name", "loc-" + num);
+      input.setAttribute("name", "loc-" + pad(num));
       input.setAttribute("type", "hidden");
       input.setAttribute("value", "0");
       form.appendChild(input);
@@ -228,11 +239,20 @@ Marc Moore
       player.loadVideoById({'videoId': '${ytid}','startSeconds': ${start},'endSeconds': ${end},'suggestedQuality': 'large'});
     }
   }
-  function play() {
+  var first = true;
+  function play(ele) {
     player.playVideo();
+    if (first) {
+      first = false;
+      document.getElementById("dummy").setAttribute("value", "1");
+    }
+    ele.setAttribute("onclick", "pause(this);");
+    ele.textContent = "Pause";
   }
-  function pause() {
+  function pause(ele) {
     player.pauseVideo();
+    ele.setAttribute("onclick", "play(this);");
+    ele.textContent = "Play";
   }
 </script>
 <!-- End REU script -->

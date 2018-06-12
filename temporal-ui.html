@@ -15,7 +15,7 @@
         <!-- WARNING: the ids "collapseTrigger" and "instructionBody" are being used to enable expand/collapse feature -->
         <a class="panel-heading" href="javascript:void(0);" id="collapseTrigger"><strong>Audio/Video Temporal Location Instructions</strong> <span class="collapse-text">(Click to expand)</span> </a>
         <div class="panel-body" id="instructionBody">
-          <p>We will be showing you a short one-second clip. We would like you to identify whether the source of the sound is shown in the clip. Please have the sound enabled on your machine and be ready to listen to the clip. The labels indicate the sound you should be hearing. You should click 'Play Clip' when you are ready to play the clip. The clip will then auto-play on repeat until you click 'Pause Clip'. Controls in the YouTube player are disabled.</p>
+          <p>We will be showing you a short one-second clip. We would like you to identify whether the source of the sound is shown in the clip. Please have the sound enabled on your machine and be ready to listen to the clip. The labels indicate the sound you should be hearing. You should click 'Play' when you are ready to play the clip. The clip will then auto-play on repeat until you click 'Pause'. Controls in the YouTube player are disabled.</p>
           <ul>
             <li>Answer 'MATCH' or 'DOES NOT MATCH' if the audio matches or does not match respectively.</li>
             <li>Only watch the clip given, do not watch anything before or after the clip.</li>
@@ -33,8 +33,9 @@
       <center>
         <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&start=${start}&end=${end}"></iframe>
         <br>
-        <button class="btn btn-primary" onclick="play();" type="button">Play Clip</button>
-        <button class="btn btn-primary" onclick="pause();" type="button">Pause Clip</button>
+        <button class="btn btn-primary" onclick="play(this);" type="button">Play</button>
+        <!-- why are you looking here, get out! -->
+        <input name="qa" type="hidden" value="0" id="dummy" />
         <h4>Labels for this video: ${labels}</h4>
       </center>
       <!-- Worker input -->
@@ -127,11 +128,20 @@
       player.loadVideoById({'videoId': '${ytid}','startSeconds': ${start},'endSeconds': ${end},'suggestedQuality': 'large'});
     }
   }
-  function play() {
+  var first = true;
+  function play(ele) {
     player.playVideo();
+    if (first) {
+      first = false;
+      document.getElementById("dummy").setAttribute("value", "1");
+    }
+    ele.setAttribute("onclick", "pause(this);");
+    ele.textContent = "Pause";
   }
-  function pause() {
+  function pause(ele) {
     player.pauseVideo();
+    ele.setAttribute("onclick", "play(this);");
+    ele.textContent = "Play";
   }
 </script>
 <!-- End REU script -->
