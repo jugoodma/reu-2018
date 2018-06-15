@@ -12,6 +12,7 @@
   <head>
   <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
   <script type='text/javascript' src='https://s3.amazonaws.com/mturk-public/externalHIT_v1.js'></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
 
   <body>
@@ -22,11 +23,8 @@
 
   <!-- Instructions -->
   <div class="row">
-  <div class="col-xs-12 col-md-12">
-  <div class="panel panel-primary">
-  <!-- WARNING: the ids "collapseTrigger" and "instructionBody" are being used to enable expand/collapse feature -->
-  <a class="panel-heading" href="javascript:void(0);" id="collapseTrigger"><strong>Audio/Video Temporal Location Instructions</strong> <span class="collapse-text">(Click to expand)</span> </a>
   <div class="panel-body" id="instructionBody">
+  <h1>Instructions:</h1>
   <p>We will be showing you a short one-second clip. We would like you to identify whether the source of the sound is shown in the clip. Please have the sound enabled on your machine and be ready to listen to the clip. The labels indicate the sound you should be hearing. You should click 'Play' when you are ready to play the clip. The clip will then auto-play on repeat until you click 'Pause'. Controls in the YouTube player are disabled.</p>
   <ul>
   <li>Answer 'MATCH' or 'DOES NOT MATCH' if the audio matches or does not match respectively.</li>
@@ -36,56 +34,38 @@
   </ul>
   </div>
   </div>
-  </div>
-  </div>
   <!-- End Instructions -->
-
+  <hr />
   <!-- Video matching layout -->
   <div class="row" id="workContent">
-  <div class="col-xs-12 col-md-10 col-md-offset-1">
-  <center>
+  <div class="col-sm">
   <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&amp;start=${start}&amp;end=${end}"></iframe>
   <br>
-  <button class="btn btn-primary" onclick="play(this);" type="button">Play</button>
   <!-- why are you looking here, get out! -->
   <input name="qa" type="hidden" value="0" id="dummy" />
-  <h4>Labels for this video: ${labels}</h4>
-  </center>
+  </div>
   <!-- Worker input -->
+  <div class="col-sm">
+  <h4>Label for this video: ${labels}</h4>
   <div class="form-group">
-  <label for="Response">Respond here:</label>
+  <label for="Response">Does the audio match the video?</label>
   <br />
   <input name="response" type="radio" value="1" /> MATCH
   <br />
   <input name="response" type="radio" value="0" /> DOES NOT MATCH
   </div>
+  <button class="btn btn-primary" onclick="play(this);" type="button">Play Video</button>
+  <input type='submit' id='submitButton' class="submit btn btn-primary" value='Submit Answer' />
   </div>
   </div>
   <!-- End Video matching layout -->
   </section>
-
-  <center>
-  <input type='submit' id='submitButton' class="submit btn btn-primary" value='Submit' />
-  </center>
   </form>
 
-  <!-- Bootstrap CSS-->
-  <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" integrity="sha384-IS73LIqjtYesmURkDE9MXKbXqYA8rvKEp/ghicjem7Vc3mGRdQRptJSz60tvrB6+" rel="stylesheet" />
   <!-- Open internal style sheet -->
   <style type="text/css">
-  #collapseTrigger {
-  color: #fff;
-  display: block;
-  text-decoration: none;
-  }
   #submitButton {
   white-space: normal;
-  }
-  .image {
-  margin-bottom: 15px;
-  }
-  textarea.form-control {
-  height: 200px; /* Fix for textarea overlapping submit button */
   }
   /* CSS for breaking long words/urls */
   .dont-break-out {
@@ -103,27 +83,9 @@
   <!-- End internal style sheet -->
   <!-- External JS references -->
   <script language='Javascript'>turkSetAssignmentID();</script>
-  <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js" integrity="sha384-s1ITto93iSMDxlp/79qhWHi+LsIi9Gx6yL+cOKDuymvihkfol83TYbLbOw+W/wv4" crossorigin="anonymous"></script>
-  <!-- Open internal javascript -->
-  <script>
-  // Instructions expand/collapse
-  $(document).ready(function() {
-  var content = $('#instructionBody');
-  var trigger = $('#collapseTrigger');
-  content.hide();
-  $('.collapse-text').text('(Click to expand)');
-  trigger.click(function() {
-  content.toggle();
-  var isVisible = content.is(':visible');
-  if (isVisible){
-  $('.collapse-text').text('(Click to collapse)');
-  } else {
-  $('.collapse-text').text('(Click to expand)');
-  }
-  });
-  });
-  </script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <!-- REU-2018 script code -->
   <script>
   // load youtube api
@@ -132,13 +94,13 @@
   tag.src = 'https://www.youtube.com/iframe_api';
   var firstScriptTag = document.getElementsByTagName('script')[0];
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-  
+
   // create the video
   var player;
   window.onYouTubeIframeAPIReady = function() {
   player = new YT.Player('player', {events: {'onReady': ready, 'onStateChange': change}} );
   }
-  
+
   // control functions
   function ready(event) {
   player.getIframe().setAttribute("style", "pointer-events: none;");
@@ -168,7 +130,6 @@
   }
   </script>
   <!-- End REU script -->
-  <!-- Close internal javascript -->
 
   </body>
   </html>
