@@ -22,3 +22,7 @@ Download required files using:
 wget -nc http://storage.googleapis.com/us_audioset/youtube_corpus/v1/csv/unbalanced_train_segments.csv
 wget -nc http://storage.googleapis.com/us_audioset/youtube_corpus/v1/csv/class_labels_indices.csv
 ```
+
+```bash
+pip install boto3
+```
