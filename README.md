@@ -21,6 +21,7 @@ Download required files using:
 ```bash
 wget -nc http://storage.googleapis.com/us_audioset/youtube_corpus/v1/csv/unbalanced_train_segments.csv
 wget -nc http://storage.googleapis.com/us_audioset/youtube_corpus/v1/csv/class_labels_indices.csv
+wget -nc http://vrttest2017.oss-us-east-1.aliyuncs.com/data/videodatainfo_2017.json
 ```
 
 ```bash
