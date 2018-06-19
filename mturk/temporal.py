@@ -4,9 +4,11 @@ import re
 import json
 import math
 import requests
-
+from settings import *
+import random
 # begin
 data_path = 'data/'
+ave = 'ave.csv'
 name = 'temporal-input.csv'
 interval = 1.0
 window = 1.0
@@ -16,11 +18,15 @@ original_data = 'unbalanced_train_segments.csv'
 start_row = 3
 num_rows =  5000# (250) this shouldn't change due to batch limitations in MTurk
 labels = {}
+usable_videos = {}
 
 print('Creating csv ' + name + ' with ' + str(interval) + 'sec intervals and ' + str(window) + 'sec window.')
 
-category_list = ('Music', 'Speech', 'Vehicle', 'Musical instrument', 'Plucked string instrument', 'Singing', 'Car', 'Animal', 'Outside, rural or natural', 'Bird', 'Drum', 'Engine', 'Narration, monologue', 'Drum kit', 'Dog', 'Child speech, kid speaking', 'Bass drum', 'Rail transport', 'Motor vehicle (road)', 'Water', 'Siren', 'Tools', 'Railroad car, train wagon', 'Snare drum', 'Bird vocalization, bird call, bird song')
+#category_list = (('Music', 0), ('Speech', 0), ('Vehicle', 0), ('Musical instrument', 0), ('Plucked string instrument', 0), ('Singing',0), ('Car', 0), ('Animal', 0), ('Outside, rural or natural', 0), ('Bird', 0), ('Drum', 0), ('Engine', 0), ('Narration, monologue', 0), ('Drum kit', 0), ('Dog', 0), ('Child speech, kid speaking', 0), ('Bass drum', 0), ('Rail transport', 0), ('Motor vehicle (road)', 0), ('Water', 0), ('Siren', 0), ('Tools', 0), ('Railroad car, train wagon', 0), ('Snare drum', 0), ('Bird vocalization, bird call, bird song', 0))
 
+
+category_list = ['Music', 'Speech', 'Vehicle', 'Singing', 'Car', 'Animal', 'Outside, rural or natural', 'Bird', 'Engine', 'Narration, monologue', 'Child speech, kid speaking', 'Water', 'Siren', 'Tools', 'Bird vocalization, bird call, bird song', 'Wind instrument, woodwind instrument', 'Cheering', 'Gunshot, gunfire', 'Radio', 'Fireworks', 'Stream', 'Snoring', 'Explosion', 'Bell', 'Oink']
+print(len(category_list))
 
 # create dictionary for mapping obscured labels to human-readable labels
 with open(data_path + labels_file, newline = '') as f:
@@ -33,18 +39,34 @@ with open(data_path + labels_file, newline = '') as f:
 
 output = open(data_path + data_file, newline = '')
 
-reader = csv.reader(open(data_path + original_data, 'r', newline = ''), delimiter = ",", quotechar = '"')
+ave_reader = csv.reader(open(data_path + ave, 'r', newline = ''), quotechar = '"', delimiter = '&', quoting = csv.QUOTE_ALL, skipinitialspace = True)
+reader = csv.reader(open(data_path + original_data, 'r', newline = ''), quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
+
+for i in range(len(category_list)):
+    x = []
+    usable_videos[category_list[i]] = x
+
 
 for j in range(3):
     next(reader)
 
 for row in reader:
+    matches = False
     google_labels = row[3].split(',')
-    google_labels = google_labels[0]
-    google_labels = labels[google_labels]
-    for i in range(len(category_list)):
-        if google_labels == category_list[i]:
-            print("matches")
+    if len(google_labels) < 2:
+        english_label = labels[google_labels[0]]
+        if english_label in category_list:
+            usable_videos[english_label].append([row[0], row[1], row[2], english_label])
+
+
+for key in usable_videos:
+    count = 0
+    while count < 200:
+        the_row = random.choice(usable_videos[key])
+        print(the_row)
+        #writerow.output(random.choice(usable_videos.keys))
+        x =3
+
 
 
 
@@ -55,7 +77,7 @@ with open(data_path + original_data, newline = '') as unbalanced:
 """
 
 
-
+"""
 # create csv file with clips
 with open(data_path + name, 'w', newline = '') as output:
     writer = csv.writer(output, delimiter = ',', quotechar = '"')
@@ -70,7 +92,7 @@ with open(data_path + name, 'w', newline = '') as output:
             for i in range(int(((float(row[2]) - float(row[1]) - window) / interval) + 1)): # calculate number of clips
                 writer.writerow([row[0]] + [int(interval * i + float(row[2]))] + [int(interval * i + window + float(row[2]))] + [lbls])
 
-"""import json
+import json
 import csv
 import math
 import requests
