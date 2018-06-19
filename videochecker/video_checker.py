@@ -22,7 +22,6 @@ with open('/home/marc/Desktop/reu-2018/msr_csv.csv', 'r') as msr:
         ytid = row[0]
         url = 'https://www.googleapis.com/youtube/v3/videos?id=%s&key=AIzaSyAZUmdgun5Ao9D2kz43MxrCGOKkqsYsfFU&part=status' % ytid
         url_get = requests.get(url)
-        #print(url_get.json())
 
         if len(url_get.json()['items']) == 0:
             print("not available: ", ytid, "\n")
