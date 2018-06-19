@@ -1,4 +1,6 @@
 # DEFAULT SETTINGS FILE
+import json
+import requests
 
 mturk_type = "sandbox"
 data_type = "temporal"
@@ -6,6 +8,23 @@ data_path = "data/"
 template_path = "templates/"
 output_file = "active-hits.txt"
 approve_all = False
+
+# you must have a YouTube API v3 key
+# your key must be in a json file titled:
+#   'youtube-key.json'
+# with structure:
+#  {
+#    "key": "<YOUR API KEY HERE>"
+#  }
+# obviously without the <>
+#
+# our .gitignore ignores json files so your
+# key will not be public
+youtube_api = 'https://www.googleapis.com/youtube/v3/videos?id={}&key=' + json.loads(open('youtube-key.json', 'r').read())['key'] + '&part=status'
+
+# if the items list is > 0 then the youtube video exists/is watchable
+def youtube_video_exists(ytid):
+    return requests.get(youtube_api.format(ytid)).json()['items'] > 0
 
 # environments variable includes both mturk and data environments
 # mturk - live, sandbox
