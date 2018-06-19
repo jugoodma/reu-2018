@@ -25,7 +25,7 @@
   <div class="row">
   <div class="panel-body" id="instructionBody">
   <h1>Instructions:</h1>
-  <p>We will be showing you a short one-second clip. We would like you to identify whether the source of the sound is shown in the clip. Please have the sound enabled on your machine and be ready to listen to the clip. The labels indicate the sound you should be hearing. You should click 'Play' when you are ready to play the clip. The clip will then auto-play on repeat until you click 'Pause'. Controls in the YouTube player are disabled.</p>
+  <p>We will be showing you a short one-second clip. We would like you to identify whether the source of the sound is shown in the clip. Please have the sound enabled on your machine and be ready to listen to the clip. The label indicates the sound you should be hearing. You should click 'Play' when you are ready to play the clip. The clip will then auto-play on repeat until you click 'Pause'. Controls in the YouTube player are disabled.</p>
   <ul>
   <li>Answer 'MATCH' or 'DOES NOT MATCH' if the audio matches or does not match respectively.</li>
   <li>Only watch the clip given, do not watch anything before or after the clip.</li>
@@ -50,9 +50,9 @@
   <div class="form-group">
   <label for="Response">Does the audio match the video?</label>
   <br />
-  <input name="response" type="radio" value="1" /> MATCH
+  <input name="response" type="radio" value="1" required /> MATCH
   <br />
-  <input name="response" type="radio" value="0" /> DOES NOT MATCH
+  <input name="response" type="radio" value="0" required /> DOES NOT MATCH
   </div>
   <button class="btn btn-primary" onclick="play(this);" type="button">Play Video</button>
   <input type='submit' id='submitButton' class="submit btn btn-primary" value='Submit Answer' />
@@ -121,12 +121,12 @@
   document.getElementById("dummy").setAttribute("value", "1");
   }
   ele.setAttribute("onclick", "pause(this);");
-  ele.textContent = "Pause";
+  ele.textContent = "Pause Video";
   }
   function pause(ele) {
   player.pauseVideo();
   ele.setAttribute("onclick", "play(this);");
-  ele.textContent = "Play";
+  ele.textContent = "Play Video";
   }
   </script>
   <!-- End REU script -->
