@@ -6,7 +6,7 @@ mturk_type = "sandbox"
 data_type = "temporal"
 data_path = "data/"
 template_path = "templates/"
-output_file = "active-hits.txt"
+max_results = 10
 approve_all = False
 
 # you must have a YouTube API v3 key
