@@ -20,7 +20,7 @@ start_row = 3
 num_rows =  5000# (250) this shouldn't change due to batch limitations in MTurk
 labels = {}
 usable_videos = {}
-amount_per_category = 250 # the amount of videos you want per category from the list of top 25 categories
+amount_per_category = 2 # the amount of videos you want per category from the list of top 25 categories
 
 
 print('Creating csv ' + name + ' with ' + str(interval) + 'sec intervals and ' + str(window) + 'sec window.')
@@ -40,7 +40,7 @@ with open(data_path + labels_file, newline = '') as f:
 
 
 
-output = open(data_path + data_file, newline = '')
+output = open(data_path + data_file, 'w', newline = '')
 
 ave_reader = csv.reader(open(data_path + ave, 'r', newline = ''), quotechar = '"', delimiter = '&', quoting = csv.QUOTE_ALL, skipinitialspace = True)
 reader = csv.reader(open(data_path + original_data, 'r', newline = ''), quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
