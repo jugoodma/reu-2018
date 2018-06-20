@@ -20,6 +20,8 @@ start_row = 3
 num_rows =  5000# (250) this shouldn't change due to batch limitations in MTurk
 labels = {}
 usable_videos = {}
+amount_per_category = 250 #the amount of videos you want per category from the list of top 25 categories
+
 
 print('Creating csv ' + name + ' with ' + str(interval) + 'sec intervals and ' + str(window) + 'sec window.')
 
@@ -63,7 +65,7 @@ for row in reader:
 
 for key in usable_videos:
     count = 0
-    while count < 250:
+    while count < amount_per_category:
         the_row = random.choice(usable_videos[key])
         print(the_row)
         writer.writerow(the_row)
