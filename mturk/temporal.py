@@ -13,9 +13,8 @@ name = 'temporal-input.csv'
 interval = 1.0
 window = 1.0
 labels_file = 'class_labels_indices.csv'
-data_file = 'temp.csv'
+data_file = 'unbalanced_train_segments_trimmed.csv'
 original_data = 'unbalanced_train_segments.csv'
-final_data = 'ave++.csv'
 start_row = 3
 num_rows =  5000# (250) this shouldn't change due to batch limitations in MTurk
 labels = {}
@@ -42,7 +41,6 @@ output = open(data_path + data_file, newline = '')
 
 ave_reader = csv.reader(open(data_path + ave, 'r', newline = ''), quotechar = '"', delimiter = '&', quoting = csv.QUOTE_ALL, skipinitialspace = True)
 reader = csv.reader(open(data_path + original_data, 'r', newline = ''), quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
-writer = csv.writer(open(data_path + data_file, 'w', newline = ''), quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
 
 for i in range(len(category_list)):
     x = []
@@ -63,12 +61,10 @@ for row in reader:
 
 for key in usable_videos:
     count = 0
-    while count < 250:
+    while count < 200:
         the_row = random.choice(usable_videos[key])
         print(the_row)
-        writer.writerow(the_row)
-        count += 1
-        usable_videos[key].remove(the_row)
+        del usable_videos[key]
 
 
 
@@ -80,9 +76,9 @@ with open(data_path + original_data, newline = '') as unbalanced:
 """
 
 
-
+"""
 # create csv file with clips
-with open(data_path + final_data, 'w', newline = '') as output:
+with open(data_path + name, 'w', newline = '') as output:
     writer = csv.writer(output, delimiter = ',', quotechar = '"')
     # write the header row
     writer.writerow(['ytid'] + ['start'] + ['end'] + ['labels'])
@@ -91,11 +87,15 @@ with open(data_path + final_data, 'w', newline = '') as output:
         reader = itertools.islice(csv.reader(f, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True), start_row, start_row + num_rows)
         for row in reader:
             # the following is specific to the .csv files given by AudioSet
-            #lbls = ', '.join(list(map(lambda l: labels[l], row[3].split(','))))
+            lbls = ', '.join(list(map(lambda l: labels[l],row[3].split(','))))
             for i in range(int(((float(row[2]) - float(row[1]) - window) / interval) + 1)): # calculate number of clips
-                writer.writerow([row[0]] + [int(interval * i + float(row[2]))] + [int(interval * i + window + float(row[2]))] + [row[3]])
+                writer.writerow([row[0]] + [int(interval * i + float(row[2]))] + [int(interval * i + window + float(row[2]))] + [lbls])
 
-"""
+import json
+import csv
+import math
+import requests
+
 
 msr = open('videodatainfo_2017.json')
 
