@@ -1,7 +1,6 @@
 # DEFAULT SETTINGS FILE
 import json
 import requests
-from xml.dom.minidom import parseString
 
 mturk_type = "sandbox"
 data_type = "temporal"
