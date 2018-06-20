@@ -24,7 +24,7 @@ youtube_api = 'https://www.googleapis.com/youtube/v3/videos?id={}&key=' + json.l
 
 # if the items list is > 0 then the youtube video exists/is watchable
 def youtube_video_exists(ytid):
-    return requests.get(youtube_api.format(ytid)).json()['items'] > 0
+    return len(requests.get(youtube_api.format(ytid)).json()['items']) > 0
 
 # environments variable includes both mturk and data environments
 # mturk - live, sandbox

@@ -7,27 +7,24 @@ import requests
 from settings import *
 import random
 # begin
-data_path = 'data/'
-ave = 'ave.csv'
-name = 'temporal-input.csv'
 interval = 1.0
 window = 1.0
 labels_file = 'class_labels_indices.csv'
 data_file = 'temp.csv'
 original_data = 'unbalanced_train_segments.csv'
 final_data = environments['temporal']['csv']
-start_row = 3
-num_rows =  5000# (250) this shouldn't change due to batch limitations in MTurk
 labels = {}
 usable_videos = {}
 amount_per_category = 2 # the amount of videos you want per category from the list of top 25 categories
 
+# set random seed for reproductability
+random.seed(12345)
 
-print('Creating csv ' + name + ' with ' + str(interval) + 'sec intervals and ' + str(window) + 'sec window.')
+print('Creating csv ' + final_data + ' with ' + str(interval) + 'sec intervals and ' + str(window) + 'sec window.')
 
 #category_list = (('Music', 0), ('Speech', 0), ('Vehicle', 0), ('Musical instrument', 0), ('Plucked string instrument', 0), ('Singing',0), ('Car', 0), ('Animal', 0), ('Outside, rural or natural', 0), ('Bird', 0), ('Drum', 0), ('Engine', 0), ('Narration, monologue', 0), ('Drum kit', 0), ('Dog', 0), ('Child speech, kid speaking', 0), ('Bass drum', 0), ('Rail transport', 0), ('Motor vehicle (road)', 0), ('Water', 0), ('Siren', 0), ('Tools', 0), ('Railroad car, train wagon', 0), ('Snare drum', 0), ('Bird vocalization, bird call, bird song', 0))
 
-
+# the categories we want to run
 category_list = ['Music', 'Speech', 'Vehicle', 'Singing', 'Car', 'Animal', 'Outside, rural or natural', 'Bird', 'Engine', 'Narration, monologue', 'Child speech, kid speaking', 'Water', 'Siren', 'Tools', 'Bird vocalization, bird call, bird song', 'Wind instrument, woodwind instrument', 'Cheering', 'Gunshot, gunfire', 'Radio', 'Fireworks', 'Stream', 'Snoring', 'Explosion', 'Bell', 'Oink']
 print(len(category_list))
 
@@ -42,18 +39,22 @@ with open(data_path + labels_file, newline = '') as f:
 
 output = open(data_path + data_file, 'w', newline = '')
 
-ave_reader = csv.reader(open(data_path + ave, 'r', newline = ''), quotechar = '"', delimiter = '&', quoting = csv.QUOTE_ALL, skipinitialspace = True)
+# ave_reader = csv.reader(open(data_path + ave, 'r', newline = ''), quotechar = '"', delimiter = '&', quoting = csv.QUOTE_ALL, skipinitialspace = True)
 reader = csv.reader(open(data_path + original_data, 'r', newline = ''), quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
 writer = csv.writer(open(data_path + data_file, 'w', newline = ''), quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
 
+# create usable_video datastructure
 for i in range(len(category_list)):
     x = []
     usable_videos[category_list[i]] = x
 
-
+# skip the three header comments in AudioSet
 for j in range(3):
     next(reader)
 
+# check each AudioSet video for a few things
+# 1 - the number of labels for the video must be 1
+# 2 - the label must be in our categories list
 for row in reader:
     matches = False
     google_labels = row[3].split(',')
@@ -62,7 +63,7 @@ for row in reader:
         if english_label in category_list:
             usable_videos[english_label].append([row[0], row[1], row[2], english_label])
 
-
+# sample <amount_per_category> number of random videos from usable_videos
 for key in usable_videos:
     count = 0
     while count < amount_per_category:
@@ -72,17 +73,6 @@ for key in usable_videos:
         count += 1
         usable_videos[key].remove(the_row)
 
-
-
-
-"""
-with open(data_path + original_data, newline = '') as unbalanced:
-    read = csv.reader(unbalanced, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
-    for row in reader:
-"""
-
-
-
 # create csv file with clips
 with open(data_path + final_data, 'w', newline = '') as output:
     writer = csv.writer(output, delimiter = ',', quotechar = '"')
@@ -90,50 +80,13 @@ with open(data_path + final_data, 'w', newline = '') as output:
     writer.writerow(['ytid'] + ['start'] + ['end'] + ['labels'])
     # read data in specified range
     with open(data_path + data_file, newline = '') as f:
-        reader = itertools.islice(csv.reader(f, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True), start_row, start_row + num_rows)
+        #reader = itertools.islice(csv.reader(f, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True), start_row, start_row + num_rows)
+        reader = csv.reader(f, quotechar= '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
         for row in reader:
             # the following is specific to the .csv files given by AudioSet
             #lbls = ', '.join(list(map(lambda l: labels[l], row[3].split(','))))
             for i in range(int(((float(row[2]) - float(row[1]) - window) / interval) + 1)): # calculate number of clips
-                writer.writerow([row[0]] + [int(interval * i + float(row[2]))] + [int(interval * i + window + float(row[2]))] + [row[3]])
-
-"""
-
-msr = open('videodatainfo_2017.json')
-
-msr_json_parsed = json.loads(msr.read())
-
-msr_data_videos = msr_json_parsed['videos']
-
-# open a file for writing
-
-msr_csv = open('msr_csv.csv', 'a')
-
-# create the csv writer object
-
-csvwriter = csv.writer(msr_csv)
-header = ['ytid', 'start_time', 'end_time', 'category']
-csvwriter.writerow(header)
-
-for row in msr_data_videos:
-    ytid = row['url']
-    ytid = ytid.split('=')
-    ytid = ytid[1]
-
-    url = 'https://www.googleapis.com/youtube/v3/videos?id=%s&key=AIzaSyAZUmdgun5Ao9D2kz43MxrCGOKkqsYsfFU&part=status' % ytid
-    url_get = requests.get(url)
-    
-    if len(url_get.json()['items']) != 0:
-        start_t = math.floor(row['start time'])
-
-        end_t = math.ceil(row['end time'])
-
-        category = row['category']
-
-        row_string = (ytid, start_t, end_t, category)
-
-        csvwriter.writerow(row_string)
-        """
+                writer.writerow([row[0]] + [int(interval * i + float(row[1]))] + [int(interval * i + window + float(row[1]))] + [row[3]])
 
 # end
 print('Done.')
