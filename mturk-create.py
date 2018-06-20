@@ -23,7 +23,6 @@ print("Your account balance is {}".format(client.get_account_balance()['Availabl
 
 # open csv, create a HIT for each csv line
 file_in = open(data_path + data_environment['csv'], "r")
-file_out = open(output_file, "a")
 reader = csv.reader(file_in)
 headers = next(reader)
 print("Parameters: " + ', '.join(headers))
@@ -32,31 +31,35 @@ template = open(template_path + data_environment['xml'], "r").read()
 # go through each row in the csv
 for row in reader:
     q = template
+    exist_flag = None
     # replace each ${var} with the corresponding row data
     for i, ele in enumerate(headers):
+        if headers[i] == 'ytid' and not youtube_video_exists(row[i]):
+            exist_flag = row[i]
         q = re.sub("\$\{" + ele + "\}", row[i], q)
     # create the HIT
-    response = client.create_hit(
-        MaxAssignments = data_environment['assignments'],
-        LifetimeInSeconds = data_environment['lifetime'],
-        AssignmentDurationInSeconds = data_environment['duration'],
-        Reward = data_environment['reward'],
-        Title = data_environment['title'],
-        Keywords = data_environment['keywords'],
-        Description = data_environment['desc'],
-        Question = q,
-        QualificationRequirements = data_environment['worker'],
-    )
-    # print HIT details
-    hit_type_id = response['HIT']['HITTypeId']
-    hit_id = response['HIT']['HITId']
-    print("Created HIT: {}".format(hit_id))
-    print("You can work the HIT here:")
-    print(mturk_environment['preview'] + "?groupId={}\n".format(hit_type_id))
-    file_out.write("HIT: " + response['HIT']['HITId'] + ", Group: " + response['HIT']['HITTypeId'] + "\n")
-print("You can see results here:")
+    if not exist_flag:
+        response = client.create_hit(
+            MaxAssignments = data_environment['assignments'],
+            LifetimeInSeconds = data_environment['lifetime'],
+            AssignmentDurationInSeconds = data_environment['duration'],
+            Reward = data_environment['reward'],
+            Title = data_environment['title'],
+            Keywords = data_environment['keywords'],
+            Description = data_environment['desc'],
+            Question = q,
+            QualificationRequirements = data_environment['worker'],
+        )
+        # print HIT details
+        hit_type_id = response['HIT']['HITTypeId']
+        hit_id = response['HIT']['HITId']
+        print("Created HIT: {}".format(hit_id))
+        print("You can work the HIT here:")
+        print(mturk_environment['preview'] + "?groupId={}\n".format(hit_type_id))
+    else:
+        print("YouTube video " + exist_flag + " does not exist")
+print("You can (apparently) see results here:")
 print(mturk_environment['manage'])
 file_in.close()
-file_out.close()
 
 print("Done.")
