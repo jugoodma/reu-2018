@@ -1,6 +1,7 @@
 # DEFAULT SETTINGS FILE
 import json
 import requests
+from xml.dom.minidom import parseString
 
 mturk_type = "sandbox"
 data_type = "temporal"
@@ -74,6 +75,7 @@ environments = {
             'RequiredToPreview': True,
         }],
         "hit-type-id": "3ISL4H6O6ITRSQNC3OSL4OKOO05ICC",
+        "out": "temporal-output.csv",
     },
     "spatial": {
         "csv": "spatial-input.csv",
@@ -92,6 +94,7 @@ environments = {
             'RequiredToPreview': True,
         }],
         "hit-type-id": "3M8DJV5FJWDQ93IDR6VEH2187CRFN0",
+        "out":"spatial-output.csv",
     },
     "audio": {
         "csv": "audio-input.csv",
@@ -110,5 +113,6 @@ environments = {
             'RequiredToPreview': True,
         }],
         "hit-type-id": "",
+        "out":"audio-output.csv",
     },
 }

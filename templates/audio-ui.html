@@ -33,7 +33,8 @@
       </div>
       <br>
       <!-- why are you looking here, get out! -->
-      <input name="identifier" type="hidden" value="temporal" />
+      <input name="identifier" type="hidden" value="audio" />
+      <input name="ytid" type="hidden" value="${ytid}" />
       <input name="qa" type="hidden" value="0" id="dummy" />
     </div>
     <!-- Worker input -->
@@ -41,7 +42,7 @@
       <div class="form-group">
   <label for="Response">Describe the Audio Scene:</label>
 	<br />
-	<textarea class="form-control" name="Response" rows="6" cols="250" required></textarea>
+	<textarea class="form-control" name="response" rows="6" cols="250" required></textarea>
       </div>
       <button class="btn btn-primary" onclick="play(this);" type="button">Play Video</button>
       <input type='submit' id='submitButton' class="submit btn btn-primary" value='Submit Answer' />
