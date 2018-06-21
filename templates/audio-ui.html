@@ -15,11 +15,10 @@
   <div class="row">
     <div class="panel-body" id="instructionBody">
       <h1>Instructions:</h1>
-      <p>We will be showing you a short 10-30 second clip of a blurred video. We would like you to describe <em>with as much detail as possible</em> what is going on in the auditory scene. Use the blurred video merely as a context; our sole focus is the auditory scene. Please have the sound enabled on your machine and be ready to listen to the clip. You should click 'Play' when you are ready to play the clip. The clip will then auto-play on repeat until you click 'Pause'. Controls in the YouTube player are disabled.</p>
+      <p>We will be showing you a short 10-30 second clip of a blurred video. We would like you to describe <em>with as much detail as possible</em> what is going on in the video <b>based on the sound</b>. Use the blurred video merely as a context; our sole focus is the <b>audio</b>. Please write <b>5 or more sentences</b> describing what is happening in the video. Avoid using phrases like, 'i think' or 'it seems like'. Please write your sentences as one whole paragraph (do not press enter after every sentence, separate them by periods). Please have the sound enabled on your machine and be ready to listen to the clip. You should click 'Play Video' when you are ready to play the clip. The clip will then auto-play on repeat until you click 'Pause Video'. <b>Controls in the YouTube player are disabled</b>.</p>
       <ul>
-	<li>Be as descriptive as possible. You are allowed to add creativity and infer what might be going on, but base all of your descriptions on the audio scene.</li>
-	<li>Example: </li>
-	<li>Example: </li>
+        <li><b>Be as descriptive as possible</b>. You are allowed to add creativity and infer what might be going on visually, but base all of your descriptions on the <b>audio scene</b>.</li>
+        <li>Example: In the blurred frame you see a lot of green and some dark blobs. In the audio scene you hear a ball being kicked and then a loud cheer from what sounds like thousands of people. Two sample sentences you might write are - <ul><li>two teams play a game in a large green field.</li><li>a goal is scored and the crowd in the stadium cheers.</li></ul></li>
       </ul>
     </div>
   </div>
@@ -29,7 +28,7 @@
   <div class="row" id="workContent">
     <div class="col-sm">
       <div class="blur">
-        <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&amp;start=${start}&amp;end=${end}"></iframe>
+        <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&amp;start=${start}&amp;end=${end}" filter="url(#svgBlur)"></iframe>
       </div>
       <br>
       <!-- why are you looking here, get out! -->
@@ -40,9 +39,8 @@
     <!-- Worker input -->
     <div class="col-sm">
       <div class="form-group">
-  <label for="Response">Describe the Audio Scene:</label>
-	<br />
-	<textarea class="form-control" name="response" rows="6" cols="250" required></textarea>
+        <h5>Describe the Audio Scene:</h5>
+        <textarea class="form-control" name="response" rows="6" cols="250" required></textarea>
       </div>
       <button class="btn btn-primary" onclick="play(this);" type="button">Play Video</button>
       <input type='submit' id='submitButton' class="submit btn btn-primary" value='Submit Answer' />
@@ -50,7 +48,11 @@
   </div>
 </section>
 <!-- End Video matching layout -->
-
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <filter id="svgBlur">
+    <feGaussianBlur stdDeviation="30" />
+  </filter>
+</svg>
 <!-- Open internal style sheet -->
 <style type="text/css">
   #submitButton {
@@ -70,7 +72,13 @@
   }
   
   .blur {
+  filter: url(#svgBlur);
+  -webkit-filter: blur(30px) opacity(0.80);
   filter: blur(30px) opacity(0.80);
+  // This is for IE 4 and up
+  filter: Blur(Strength=20);
+  // This is for IE 5.5 and up
+  filter: progid:DXImageTransform.Microsoft.blur(pixelradius=30);
   }
 </style>
 <!-- End internal style sheet -->

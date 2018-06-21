@@ -54,6 +54,7 @@ for row in reader:
             MaxAssignments = data_environment['assignments'],
             LifetimeInSeconds = data_environment['lifetime'],
             AssignmentDurationInSeconds = data_environment['duration'],
+            AutoApprovalDelayInSeconds = data_environment['approve'],
             Reward = data_environment['reward'],
             Title = data_environment['title'],
             Keywords = data_environment['keywords'],

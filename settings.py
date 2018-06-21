@@ -36,6 +36,7 @@ def youtube_video_exists(ytid):
 # assignments - number of unique workers per HIT
 # lifetime    - number of seconds that each HIT is visible
 # duration    - number of seconds that the assignment is available to the worker
+# approve     - number of seconds after assignment is submitted that it is auto-approved
 # reward      - cost per assignment
 # title       - the title of the HIT
 # keywords    - the keywords of the HIT
@@ -62,6 +63,7 @@ environments = {
         "assignments": 1,
         "lifetime": 3 * 24 * 60 * 60, # 3 days
         "duration": 10 * 60, # 10 minutes
+        "approve": 3 * 24 * 60 * 60, # 3 days
         "reward": "0.01",
         "title": "Determine if Audio Matches Video",
         "keywords": "matching, video, audio",
@@ -81,6 +83,7 @@ environments = {
         "assignments": 1,
         "lifetime": 3 * 24 * 60 * 60, # 3 days
         "duration": 5 * 60, # 5 minutes
+        "approve": 3 * 24 * 60 * 60, # 3 days
         "reward": "0.02",
         "title": "Locate Where Audio Originates in a Video",
         "keywords": "matching, video, audio",
@@ -97,18 +100,19 @@ environments = {
     },
     "audio": {
         "csv": "audio-input.csv",
-        "assignments": 2,
-        "lifetime": 3 * 24 * 60 * 60, # 3 days
-        "duration": 20 * 60, # 20 minutes
+        "assignments": 1,
+        "lifetime": 7 * 24 * 60 * 60, # 7 days
+        "duration": 60 * 60, # 1 hour
+        "approve": 5 * 24 * 60 * 60, # 5 days
         "reward": "0.10",
-        "title": "",
-        "keywords": "",
-        "desc": "",
+        "title": "Describe the Audio Scene in a Video",
+        "keywords": "classify, video, audio",
+        "desc": "Watch a blurred 10 to 30 second video and describe what happens in the audio scene",
         "xml": "audio-ui.xml",
         "worker": [{
             'QualificationTypeId': '000000000000000000L0',
             'Comparator': 'GreaterThanOrEqualTo',
-            'IntegerValues': [80],
+            'IntegerValues': [90],
             'RequiredToPreview': True,
         }],
         "hit-type-id": "",
