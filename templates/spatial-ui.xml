@@ -166,7 +166,7 @@ Marc Moore
     }
     tbl.appendChild(tbl_row);
   }
-  // handler code for grid coloring
+  
   var selector = false;
   var eraser = false;
   function start(num) {
@@ -190,7 +190,8 @@ Marc Moore
     }
   }
   function toBool(str) {
-    return str == 'true';
+    if (str == 'true') {return true}
+    else {return false}
   }
   function clearSelection() {
     for (row = 0; row < num_rows; row++) {

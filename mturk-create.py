@@ -4,16 +4,27 @@ import csv
 import re
 from settings import *
 
-# read command line arguments...
-# TODO!
+print("MTurk HIT creation tool. Tool will run automatically. To specify different environments, run with arguments. Format: python mturk-create.py [profile-name] [turk-environment] [data-environment]; Example: python mturk-create.py default sandbox audio")
+
+# get turk environment if given
+mturk_type = sys.argv[2] if len(sys.argv) >= 3 else "sandbox"
+if mturk_type != "live" and mturk_type != "sandbox":
+    print("Invalid turk environment, defaulting to sandbox")
+    mturk_type = "sandbox"
 
 # set the turk environment
 mturk_environment = environments[mturk_type]
 
+# get data environment if given
+data_type = sys.argv[3] if len(sys.argv) >= 4 else "temporal"
+if data_type != "temporal" and data_type != "spatial" and data_type != "audio":
+    print("Invalid data environment, defaulting to temporal")
+    data_type = "temporal"
+
 # set the data environment
 data_environment = environments[data_type]
 
-# use profile if one was passed as an arg, otherwise
+# use profile if one was passed as an arg, otherwise default
 profile_name = sys.argv[1] if len(sys.argv) >= 2 else None
 session = boto3.Session(profile_name = profile_name)
 client = session.client(service_name = 'mturk', region_name = 'us-east-1', endpoint_url = mturk_environment['endpoint'])

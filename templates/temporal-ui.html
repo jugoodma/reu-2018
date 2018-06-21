@@ -12,15 +12,15 @@
 
 <!-- Instructions -->
 <section class="container">
-  <div class="row">
+  <div class="row justify-content-center">
     <div class="panel-body" id="instructionBody">
       <h1>Instructions:</h1>
-      <p>We will be showing you a short one-second clip. We would like you to identify whether the source of the sound is shown in the clip. Please have the sound enabled on your machine and be ready to listen to the clip. The label indicates the sound you should be hearing. You should click 'Play' when you are ready to play the clip. The clip will then auto-play on repeat until you click 'Pause'. Controls in the YouTube player are disabled.</p>
+      <p>We will be showing you a short one-second clip. We would like you to <b>identify whether the source of the sound is shown in the clip</b>. Please have the sound enabled on your machine and be ready to listen to the clip. The label indicates the sound you should be hearing. You should click 'Play Video' when you are ready to play the clip. The clip will then auto-play on repeat until you click 'Pause Clip'. <b>Controls in the YouTube player are disabled</b>. We disabled the controls so we can show you one specific part of the video.</p>
       <ul>
-	<li>Answer 'MATCH' or 'DOES NOT MATCH' if the audio matches or does not match respectively.</li>
-	<li>Only watch the clip given, do not watch anything before or after the clip.</li>
-	<li>Example: if the label is 'Railroad car, train wagon, Train horn, Rail transport, Train, Clickety-clack' and you see a train in the clip, you would answer MATCH.</li>
-	<li>Example: if the label is 'Speech' and you don't see anyone speaking, you would answer DOES NOT MATCH.</li>
+        <li>Answer 'MATCH' or 'DOES NOT MATCH' if the audio matches or does not match respectively.</li>
+        <li>Only watch the clip given, do not watch anything before or after the clip.</li>
+        <li>Example: if the label is 'Oink' and you see a pig in the clip and the pig oinks during the clip, you would answer MATCH.</li>
+        <li>Example: if the label is 'Speech' and you see a person about to give a speech but that person is not actually speaking during the clip, you would answer DOES NOT MATCH.</li>
       </ul>
     </div>
   </div>
@@ -29,25 +29,20 @@
   <!-- Video matching layout -->
   <div class="row" id="workContent">
     <div class="col-sm">
+      <h4>Label for this video: <b>${labels}</b></h4>
       <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&amp;start=${start}&amp;end=${end}"></iframe>
-      <br>
-      <!-- why are you looking here, get out! -->
-      <input name="identifier" type="hidden" value="temporal" />
-      <input name="ytid" type="hidden" value="${ytid}" />
-      <input name="qa" type="hidden" value="0" id="dummy" />
-    </div>
-    <!-- Worker input -->
-    <div class="col-sm">
-      <h4>Label for this video: ${labels}</h4>
-      <div class="form-group">
-	<label for="Response">Does the audio match the video?</label>
-	<br />
-	<input name="response" type="radio" value="1" required /> MATCH
-	<br />
-	<input name="response" type="radio" value="0" required /> DOES NOT MATCH
-      </div>
+      <!-- Worker input -->
+      <table id="response-bar" class="table" onmouseup="stop();" ondragstart="return false;" ondrop="return false;"></table>
+      <br />
       <button class="btn btn-primary" onclick="play(this);" type="button">Play Video</button>
       <input type='submit' id='submitButton' class="submit btn btn-primary" value='Submit Answer' />
+      <br />
+      <div id="response-form" class="form-group" style="display: none;">
+        <!-- why are you looking here, get out! -->
+        <input name="identifier" type="hidden" value="temporal" />
+        <input name="ytid" type="hidden" value="${ytid}" />
+        <input name="qa" type="hidden" value="0" id="dummy" />
+      </div>
     </div>
   </div>
 </section>
@@ -71,6 +66,23 @@
   hyphens: auto;
   }
 </style>
+<!-- REU-2018 style code -->
+<style>
+  .selected {
+    background: rgba(255,69,0,0.5);
+  }
+  .current {
+    background: rgba(255, 75, 0, 1);
+  }
+  .selected.current {
+    background: rgba(69, 0, 255, 0.8);
+  }
+  table, td {
+    border: 1px solid red;
+    border-collapse: collapse;
+  }
+</style>
+<!-- End REU-2018 style code -->
 <!-- End internal style sheet -->
 <!-- External JS references -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -78,6 +90,92 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <!-- REU-2018 script code -->
 <script>
+  var timer;
+  function secToMin(time) {
+    var min = Math.floor(time / 60);
+    var sec = time - min * 60;
+    return min + ":" + sec
+  }
+  // generate response bar and corresponding form data
+  // NOTE: assuming 1-second window. Change this if the window length changes!
+  // NOTE: also assuming 1-second intervals. Change this if the interval changes!
+  var num_cells = ${end} - ${start} // divided by window
+  var i;
+  var tbl = document.getElementById("response-bar");
+  var form = document.getElementById("response-form");
+  var tbl_row = document.createElement("tr");
+  var info_row = document.createElement("tr");
+  for (i = 0; i < num_cells; i++) {
+    // table
+    var tbl_col = document.createElement("td");
+    tbl_col.id = "loc-" + i;
+    tbl_col.setAttribute("onmouseover", "hover(" + i + ");");
+    tbl_col.setAttribute("onmousedown", "start(" + i + ");");
+    tbl_col.setAttribute("data-selected", false)
+    tbl_row.appendChild(tbl_col);
+    // info (still table)
+    var info_col = document.createElement("td");
+    var but = document.createElement("button");
+    but.classList.add("btn", "btn-primary");
+    but.setAttribute("type", "button");
+    but.setAttribute("onclick", "seek(" + i + ");");
+    but.innerHtml = secToMin(${start} + i)
+    info_col.appendChild(but);
+    info_row.appendChild(info_col);
+    // form
+    var input = document.createElement("input");
+    input.id = "input-" + i;
+    input.setAttribute("name", "loc-" + i);
+    input.setAttribute("type", "hidden");
+    input.setAttribute("value", "0");
+    form.appendChild(input);
+  }
+  tbl.appendChild(tbl_row);
+  tbl.appendChild(info_row);
+  // handler code for time-step coloring
+  var selector = false;
+  var eraser = false;
+  function start(num) {
+    selector = true;
+    eraser = toBool(document.getElementById("loc-" + num).getAttribute("data-selected"));
+    hover(num);
+  }
+  function stop() {
+    selector = false;
+    // update form data to match selected boxes
+    for (i = 0; i < num_cells; i++) {
+      var ele = document.getElementById("input-" + i);
+      if (toBool(document.getElementById("loc-" + i).getAttribute("data-selected"))) {
+        ele.value = 1;
+      } else {
+        ele.value = 0;
+      }
+    }
+  }
+  // self explanatory...
+  function toBool(str) {
+    return str == 'true';
+  }
+  function clearSelection() {
+    for (i = 0; i < num_cells; i++) {
+      var ele = document.getElementById("loc-" + i);
+      ele.setAttribute("data-selected", false);
+      ele.setAttribute("class", "");
+    }
+    stop();
+  }
+  function hover(num) {
+    if (selector) {
+      var ele = document.getElementById("loc-" + num);
+      if (eraser) {
+        ele.setAttribute("data-selected", false);
+        ele.setAttribute("class", "");
+      } else {
+        ele.setAttribute("data-selected", true);
+        ele.setAttribute("class", "selected");
+      }
+    }
+  }
   // load youtube api
   var tag = document.createElement('script');
   tag.id = 'yt-api';
@@ -88,35 +186,60 @@
   // create the video
   var player;
   window.onYouTubeIframeAPIReady = function() {
-  player = new YT.Player('player', {events: {'onReady': ready, 'onStateChange': change}} );
+    player = new YT.Player('player', {events: {'onReady': ready, 'onStateChange': change}} );
   }
 
   // control functions
   function ready(event) {
-  player.getIframe().setAttribute("style", "pointer-events: none;");
-  if (player.isMuted()) {
-  player.unMute();
-  }
+    player.getIframe().setAttribute("style", "pointer-events: none;");
+    if (player.isMuted()) {
+      player.unMute();
+    }
   }
   function change(event) {
-  if (event.data == YT.PlayerState.ENDED) {
-  player.loadVideoById({'videoId': '${ytid}','startSeconds': ${start},'endSeconds': ${end},'suggestedQuality': 'large'});
+    if (event.data == YT.PlayerState.ENDED) {
+      player.loadVideoById({'videoId': '${ytid}','startSeconds': ${start},'endSeconds': ${end},'suggestedQuality': 'large'});
+    }
   }
+  var prev = -1;
+  function vidStatus() {
+    var t = Math.floor(player.getCurrentTime()) - ${start} + 0; // current time in video - start time for clip
+    if (t != prev) {
+      prev = t;
+      for (i = 0; i < ${end} - ${start}; i++) {
+        var b = document.getElementById("loc-" + i);
+        if (i == t) {
+          b.classList.add("current");
+        } else {
+          b.classList.remove("current");
+        }
+      }
+    }
+    timer = setTimeout(vidStatus, 100);
   }
   var first = true;
   function play(ele) {
-  player.playVideo();
-  if (first) {
-  first = false;
-  document.getElementById("dummy").setAttribute("value", "1");
-  }
-  ele.setAttribute("onclick", "pause(this);");
-  ele.textContent = "Pause Video";
+    player.playVideo();
+    if (first) {
+      first = false;
+      document.getElementById("dummy").setAttribute("value", "1");
+    }
+    ele.setAttribute("onclick", "pause(this);");
+    ele.textContent = "Pause Video";
+    vidStatus();
   }
   function pause(ele) {
-  player.pauseVideo();
-  ele.setAttribute("onclick", "play(this);");
-  ele.textContent = "Play Video";
+    player.pauseVideo();
+    ele.setAttribute("onclick", "play(this);");
+    ele.textContent = "Play Video";
+    clearTimeout(timer);
+  }
+  function seek(num) {
+    //player.loadVideoById({'videoId': '${ytid}','startSeconds': ${start} + num,'endSeconds': ${end},'suggestedQuality': 'large'});
+    player.seekTo(${start} + num);
+    if (first) {
+      player.pauseVideo();
+    }
   }
 </script>
 <!-- End REU script -->
