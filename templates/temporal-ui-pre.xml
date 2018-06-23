@@ -10,74 +10,77 @@
 <script type='text/javascript' src='https://s3.amazonaws.com/mturk-public/externalHIT_v1.js'></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+<!-- Instructions -->
 <section class="container">
-  <!-- Instructions -->
-  <div class="row">
+  <div class="row justify-content-center">
     <div class="panel-body" id="instructionBody">
       <h1>Instructions:</h1>
-      <p>We will be showing you a 10 second clip from a YouTube video. Look at the label provided for the video. First, determine if the video has an audio-visual event (<a href="#ave">described below</a>). If it does <b>not</b> have an audio-visual event, check the 'DOES NOT' button and give us a label (or two) that would <em>better</em> describe an audio-visual event in the video. If it <b>is</b> good quality, then <b>for each 1 second segment, mark if the audio-visual event occurs (i.e. indicate whether the event or object from the label appears in the segment)</b>. Our goal is to annotate <em>when</em> in the video the audio-visual event occurs, accurate to the nearest 1-second. . A quick tutorial on the annotation tool is <a href="#ann">described below</a>. Please have the sound enabled on your machine and be ready to listen to the clip. You should click 'Play Video' when you are ready to play the clip. The clip will then auto-play on repeat until you click 'Pause Clip'. <b>Controls in the YouTube player are disabled</b>. We disabled the controls so we can show you one specific part of the video.</p>
-      <h4 id="ave">Audio-Visual Event:</h4>
-      <p>We define an audio-visual event as an event that is both visible and audible in a video segment. This means that the sound and the object making the sound are both visible and audible at the same time. Here are some examples:</p>
+      <p>There are two parts to this task.</p>
+      <p>We will be showing you a 10 second clip from a YouTube video. Look at the label provided for the video. <b>For each 1 second segment, please indicate whether the event or object from the label appears in the segment</b>. Each box under the video indicates a 1 second segment. If the label is present in a segment click the box for that segment. You can click and drag to select multiple boxes. Under each box is a button that seeks to that segment of the clip. Please have the sound enabled on your machine and be ready to listen to the clip. You should click 'Play Video' when you are ready to play the clip. The clip will then auto-play on repeat until you click 'Pause Clip'. <b>Controls in the YouTube player are disabled</b>. We disabled the controls so we can show you one specific part of the video.</p>
       <ul>
-        <li>If the label is 'Car' and you see the car and hear the engine at the same time, then the video contains an audio-visual event.</li>
-        <li>If the label is 'Tool', and in the video you see a power-sander, but the sander never makes a sound, then the video does not contain an audio-visual event.</li>
-        <li>If the label is 'Fireworks', and you hear the fireworks but never see them, then the video does not contain an audio-visual event.</li>
-        <li>If the label is 'Water', and you neither hear nor see water, then the video does not contain an audio-visual event.</li>
-      </ul>
-      <h4 id="ann">How to Use the Annotator:</h4>
-      <p>Each box under the video indicates a 1 second segment. If the label is present in a segment, click the box for that segment. To highlight a box, you would left click the box. To un-highlight a highlighted box, you would left click the box again. You can click and drag to highlight (and un-highlight) multiple boxes. Under each box is a button that seeks to that segment of the clip. When the video is playing, you should see a darker red in the box that the video is currently on. Here are the colors with their respective meaning:</p>
-      <center>
-        <table>
-          <tr height="50px">
-            <td width="200px" style="border: 1px solid black"></td>
-            <td width="30px"></td>
-            <td width="200px" class="selected" style="border: 1px solid black"></td>
-            <td width="30px"></td>
-            <td width="200px" class="current" style="border: 1px solid black"></td>
-            <td width="30px"></td>
-            <td width="200px" class="selected current" style="border: 1px solid black"></td>
-          </tr>
-          <tr>
-            <td>Not Selected</td>
-            <td></td>
-            <td>Selected</td>
-            <td></td>
-            <td>Not Selected</td>
-            <td></td>
-            <td>Selected</td>
-          </tr>
-          <tr>
-            <td>Video Not Playing Here</td>
-            <td></td>
-            <td>Video Not Playing Here</td>
-            <td></td>
-            <td>Video Playing Here</td>
-            <td></td>
-            <td>Video Playing Here</td>
-          </tr>
-        </table>
-      </center>
-      <ul>
+        <li>To highlight a box, you would left click the box. To un-highlight a highlighted box, you would left click the box again. You can click and drag to highlight (and un-highlight) multiple boxes. When the video is playing, you should see a darker red in the box that the video is currently on. Here are the colors with their respective meaning:
+          <br />
+          <center>
+            <table>
+              <tr height="50px">
+                <td width="200px" style="border: 1px solid black"></td>
+                <td width="30px"></td>
+                <td width="200px" class="selected" style="border: 1px solid black"></td>
+                <td width="30px"></td>
+                <td width="200px" class="current" style="border: 1px solid black"></td>
+                <td width="30px"></td>
+                <td width="200px" class="selected current" style="border: 1px solid black"></td>
+              </tr>
+              <tr>
+                <td>Not Selected</td>
+                <td></td>
+                <td>Selected</td>
+                <td></td>
+                <td>Not Selected</td>
+                <td></td>
+                <td>Selected</td>
+              </tr>
+              <tr>
+                <td>Video Not Playing Here</td>
+                <td></td>
+                <td>Video Not Playing Here</td>
+                <td></td>
+                <td>Video Playing Here</td>
+                <td></td>
+                <td>Video Playing Here</td>
+              </tr>
+            </table>
+          </center>
+        </li>
+        <li>Only watch the clip given, do not watch anything before or after the clip.</li>
         <li>Example: if the label is 'Oink' and you see a pig in the clip and the pig oinks during the fourth and fifth second, you would highlight the fourth and fifth box.</li>
-        <li>Example: if the label is 'Speech' and you see a person speaking during the whole clip, you would highlight every box.</li>
+        <li>Example: if the label is 'Speech' and you see a person about to give a speech but that person never actually speaks during the clip, you would highlight nothing.</li>
       </ul>
-      <h4>About us:</h4>
-      <p>Our names are Justin Goodman and Marc Moore. We are undergraduate researchers working on a data-expansion research project for University of Rochester's <a href="http://www.sas.rochester.edu/dsc/undergraduate/reu.html" target="_blank">Computational Methods</a> <a href="https://www.nsf.gov/crssprgm/reu/" target="_blank">REU</a> program. We are working under Dr. Chenliang Xu, a well-established computer vision researcher. Thank you for helping us complete our research project!</p>
+      <p>*Bad video: A video is bad if ... . You should check the box below the selection-table if a video was bad quality. We need high quality audio-visual events in our dataset, so this simple screening is very important.</p>
     </div>
   </div>
   <!-- End Instructions -->
   <hr />
-  <!-- Video Annotator -->
+  <!-- Video matching layout -->
   <div class="row" id="workContent">
     <div class="col-sm">
-      <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&amp;start=${start}&amp;end=${end}"></iframe>
-      <br />
-      
-      <br />
-      <!-- Worker input -->
-      <table id="response-bar" onmouseup="stop();" ondragstart="return false;" ondrop="return false;" width="640px"></table>
-      <button class="btn btn-primary" onclick="play(this);" type="button">Play Video</button>
-      
+      <h4>Label for this video: <b>${labels}</b></h4>
+      <center>
+        <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&amp;start=${start}&amp;end=${end}"></iframe>
+        <br />
+        <button class="btn btn-primary" onclick="play(this);" type="button" style="margin: 10px;">Play Video</button>
+        <!-- Worker input -->
+        
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="bad" />
+            This is a bad* video
+          </label>
+        </div>
+        <br />
+        <table id="response-bar" onmouseup="stop();" ondragstart="return false;" ondrop="return false;" width="640px"></table>
+        <input type="submit" id="submitButton" class="submit btn btn-primary" value="Submit Answer" />
+      </center>
       <br />
       <div id="response-form" class="form-group" style="display: none;">
         <!-- why are you looking here, get out! -->
@@ -86,34 +89,9 @@
         <input name="qa" type="hidden" value="0" id="dummy" />
       </div>
     </div>
-    <!-- Worker input -->
-    <div class="col-sm">
-      <h4>Label for this video: <b>${labels}</b></h4>
-      <div class="form-group">
-        <div class="form-check">
-          <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="contains" value="1" required onclick="longDong(1);" />
-            This video DOES contain an Audio-Visual Event
-          </label>
-        </div>
-        <div class="form-check">
-          <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="contains" value="0" onclick="longDong(0);" />
-            This video DOES NOT contain an Audio-Visual Event
-          </label>
-        </div>
-        <br />
-        <label>If there is no Audio-Visual Event, please provide a better label:</label>
-        <input type="text" id="label-input" class="form-control" name="fixedLabel" placeholder="Put label here" />
-        <br />
-        <label>Comments to improve this HIT:</label>
-        <textarea class="form-control" name="comments" rows="2" cols="250"></textarea>
-      </div>
-      <input type="submit" id="submitButton" class="submit btn btn-primary" value="Submit Answer" />
-    </div>
   </div>
-  <!-- End Video Annotator -->
 </section>
+<!-- End Video matching layout -->
 
 <!-- Open internal style sheet -->
 <style type="text/css">
@@ -169,13 +147,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <!-- REU-2018 script code -->
 <script>
-  function longDong(num) {
-    if (num == 0) {
-      document.getElementById("label-input").setAttribute("required","required");
-    } else {
-      document.getElementById("label-input").removeAttribute("required");
-    }
-  }
   var timer;
   function secToMin(time) {
     var min = Math.floor(time / 60);
