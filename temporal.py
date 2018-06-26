@@ -19,6 +19,9 @@ amount_per_category = 1 # the amount of videos you want per category from the li
 # set random seed for reproductability
 random.seed(6942069)
 
+# skip amount
+skip = 1
+
 print('Creating csv ' + final_data + ' with ' + str(interval) + 'sec intervals and ' + str(window) + 'sec window.')
 
 #category_list = (('Music', 0), ('Speech', 0), ('Vehicle', 0), ('Musical instrument', 0), ('Plucked string instrument', 0), ('Singing',0), ('Car', 0), ('Animal', 0), ('Outside, rural or natural', 0), ('Bird', 0), ('Drum', 0), ('Engine', 0), ('Narration, monologue', 0), ('Drum kit', 0), ('Dog', 0), ('Child speech, kid speaking', 0), ('Bass drum', 0), ('Rail transport', 0), ('Motor vehicle (road)', 0), ('Water', 0), ('Siren', 0), ('Tools', 0), ('Railroad car, train wagon', 0), ('Snare drum', 0), ('Bird vocalization, bird call, bird song', 0))
@@ -61,6 +64,9 @@ with open(data_path + final_data, 'w', newline = '') as f:
     writer.writerow(['ytid'] + ['start'] + ['end'] + ['labels'])
     # sample <amount_per_category> number of random videos from usable_videos
     for key in usable_videos:
+        for count in range(skip):
+            row = random.choice(usable_videos[key])
+            usable_videos[key].remove(row)
         for count in range(amount_per_category):
             row = random.choice(usable_videos[key])
             usable_videos[key].remove(row)

@@ -48,7 +48,7 @@ for i in range(20):
 videos = json.loads(open(data_path + "videodatainfo_2017.json").read())['videos']
 for vid in videos:
     ytid = vid['url'].split('=')[1]
-    temp[vid['category']].append([ytid]+[math.floor(vid['start time'])]+[math.ceil(vid['end time'])])
+    temp[vid['category']].append([ytid]+[math.ceil(vid['start time'])]+[math.floor(vid['end time'])])
 # write final output file
 with open(data_path + environments['audio']['csv'], 'w', newline = '') as f:
     writer = csv.writer(f, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)

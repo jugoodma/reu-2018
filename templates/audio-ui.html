@@ -13,20 +13,49 @@
 <!-- Instructions -->
 <section class="container">
   <div class="row">
-    <div class="panel-body" id="instructionBody">
-      <h1>Instructions:</h1>
-      <p>We will be showing you a short 10-30 second clip of a blurred video. We would like you to describe <em>with as much detail as possible</em> what is going on in the video <b>based on the sound</b>. Use the blurred video merely as a context; our sole focus is the <b>audio</b>. Please write <b>5 or more sentences</b> describing what is happening in the video. Avoid using phrases like, 'i think' or 'it seems like'. Please write your sentences as one whole paragraph (do not press enter after every sentence, separate them by periods). Please have the sound enabled on your machine and be ready to listen to the clip. You should click 'Play Video' when you are ready to play the clip. The clip will then auto-play on repeat until you click 'Pause Video'. <b>Controls in the YouTube player are disabled</b>.</p>
-      <ul>
-        <li><b>Be as descriptive as possible</b>. You are allowed to add creativity and infer what might be going on visually, but base all of your descriptions on the <b>audio scene</b>.</li>
-        <li>Example: In the blurred frame you see a lot of green and some dark blobs. In the audio scene you hear a ball being kicked and then a loud cheer from what sounds like thousands of people. Two sample sentences you might write are - <ul><li>two teams play a game in a large green field.</li><li>a goal is scored and the crowd in the stadium cheers.</li></ul></li>
-      </ul>
+    <div class="col-sm">
+      <div class="accordian">
+        <div class="card">
+          <div class="card-header" role="tab" id="headingOne">
+            <h5 class="mb-0">
+              <a data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><b>Instructions</b> (Please read if this is your first time) (Click to expand)</a>
+            </h5>
+          </div>
+          <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body" id="instructionBody">
+              <p>We will be showing you a short 10-30 second clip of a blurred video. We would like you to describe <em>with as much detail as possible</em> what is going on in the video <b>based on the sound</b>. Use the blurred video merely as a context; our sole focus is the <b>audio</b>. Please write <b>5 or more sentences</b> describing what is happening in the video. Avoid using phrases like, 'i think' or 'it seems like'. Please write your sentences as one whole paragraph (do not press enter after every sentence, separate them by periods). Please have the sound enabled on your machine and be ready to listen to the clip. You should click <span><button class="btn btn-primary" onclick="" type="button">Play Video</button></span> when you are ready to play the clip. The clip will then auto-play on repeat until you click <span><button class="btn btn-primary" onclick="" type="button">Pause Video</button></span>. <b>Controls in the YouTube player are disabled</b>. We disabled the controls so we can show you one specific part of the video.</p>
+              <ul>
+                <li><b>Be as descriptive as possible</b>. You are allowed to add creativity and infer what might be going on visually, but base all of your descriptions on the <b>audio scene</b>.</li>
+                <li>Pay attention to details in the sound. Here is a list of some things to think about. Do not limit yourself to this list; it may or may not apply to your video -
+                  <ul>
+                    <li>Where do you think this is taking place?</li>
+                    <li>Do you hear any people or animals? How many? What do you think they're doing?</li>
+                    <li>If you hear music, consider the instruments or the genre.</li>
+                    <li>If you hear speech, think about the age or gender of the speaker, where they might be, and why they're speaking.</li>
+                  </ul>
+                </li>
+                <li>Example: In the blurred frame you see a lot of green and some dark blobs. In the audio scene you hear a ball being kicked and then a loud cheer from what sounds like thousands of people. Two sample sentences you might write are -
+                  <ul>
+                    <li>two teams play a game in a large green field.</li>
+                    <li>a goal is scored and the crowd in the stadium cheers.</li>
+                  </ul>
+                </li>
+              </ul>
+              <p><b>NOTE: IF YOU SEE THE VIDEO WITHOUT A BLUR, THE VIDEO IS UNAVAILABLE, AND/OR YOU EXPERIENCE ANY DISPLAY ERRORS, DO NOT ACCEPT THIS HIT!</b></p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <!-- End Instructions -->
-  <hr /><br /><br />
+  <hr />
   <!-- Video matching layout -->
   <div class="row" id="workContent">
     <div class="col-sm">
+      <h3 id="ass">Assignment:</h3>
+      <br />
+      <br />
       <div class="blur">
         <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&amp;start=${start}&amp;end=${end}" filter="url(#svgBlur)"></iframe>
       </div>
