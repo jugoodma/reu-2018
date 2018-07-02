@@ -8,40 +8,74 @@
 <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 <meta content="width=device-width,initial-scale=1" name="viewport" />
 <script type='text/javascript' src='https://s3.amazonaws.com/mturk-public/externalHIT_v1.js'></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<!-- Instructions -->
 <section class="container">
+  <!-- Instructions -->
   <div class="row">
-    <div class="col-sm">
+    <div class="col-sm-12">
       <div class="accordian">
         <div class="card">
           <div class="card-header" role="tab" id="headingOne">
-            <h5 class="mb-0">
+            <h3 class="mb-0">
               <a data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><b>Instructions</b> (Please read if this is your first time) (Click to expand)</a>
-            </h5>
+            </h3>
           </div>
           <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body" id="instructionBody">
-              <p>We will be showing you a short 10-30 second clip of a blurred video. We would like you to describe <em>with as much detail as possible</em> what is going on in the video <b>based on the sound</b>. Use the blurred video merely as a context; our sole focus is the <b>audio</b>. Please write <b>5 or more sentences</b> describing what is happening in the video. Avoid using phrases like, 'i think' or 'it seems like'. Please write your sentences as one whole paragraph (do not press enter after every sentence, separate them by periods). Please have the sound enabled on your machine and be ready to listen to the clip. You should click <span><button class="btn btn-primary" onclick="" type="button">Play Video</button></span> when you are ready to play the clip. The clip will then auto-play on repeat until you click <span><button class="btn btn-primary" onclick="" type="button">Pause Video</button></span>. <b>Controls in the YouTube player are disabled</b>. We disabled the controls so we can show you one specific part of the video.</p>
-              <ul>
-                <li><b>Be as descriptive as possible</b>. You are allowed to add creativity and infer what might be going on visually, but base all of your descriptions on the <b>audio scene</b>.</li>
-                <li>Pay attention to details in the sound. Here is a list of some things to think about. Do not limit yourself to this list; it may or may not apply to your video -
+              <p><b>TL;DR:</b> We are artificial intelligence researchers looking to create a dataset. We want to describe what happens in a video based <b>only</b> on its audio information.</p>
+              <p>If you are using Internet Explorer, please do not accept these HITs as we cannot guarantee the blur effect will work. <b>We will reject your response if you use an old browser</b>.</p>
+              <p>If you do NOT have an ad-blocker on your browser, please do not accept these HITs. Ads can interfere with what you hear in the YouTube video. We will reject your response if you do not have an ad-blocker.</p>
+              <h4>Steps to complete these HITs successfully:</h4>
+              <ol>
+                <li>Read these instructions in full before starting (they don't change, so once you read them you're good to go!).</li>
+                <li>Scroll to the <a href="#ass">Assignment</a> part of this HIT.</li>
+                <li>Click the <span><button class="btn btn-primary" onclick="" type="button">Play Video</button></span> button and listen to the video.
                   <ul>
-                    <li>Where do you think this is taking place?</li>
-                    <li>Do you hear any people or animals? How many? What do you think they're doing?</li>
-                    <li>If you hear music, consider the instruments or the genre.</li>
-                    <li>If you hear speech, think about the age or gender of the speaker, where they might be, and why they're speaking.</li>
+                    <li><b style="color: red;">IMPORTANT:</b> You should see a blur over the video. Our goal with this dataset is to understand how much of human visual context is based on audio information. Thus, if you can see the video then your response to this HIT is useless.</li>
+                    <li>The YouTube video player will then play the specified 10-30 second clip for you. The 'Play Video' button will change to a <span><button class="btn btn-primary" onclick="" type="button">Pause Video</button></span> button. The clip will play on repeat until you click the 'Pause Video' button.</li>
+                    <li><b>Controls in the YouTube player are disabled</b>. We disabled the controls so we can show you one specific part of the video.</li>
                   </ul>
                 </li>
-                <li>Example: In the blurred frame you see a lot of green and some dark blobs. In the audio scene you hear a ball being kicked and then a loud cheer from what sounds like thousands of people. Two sample sentences you might write are -
+                <li>Describe, <em>with as much detail as possible</em> in the <span><textarea rows="1" placeholder="Describe here..."></textarea></span> textbox with <b>at least 3 sentences</b>, what you think is going on in the video.
                   <ul>
-                    <li>two teams play a game in a large green field.</li>
-                    <li>a goal is scored and the crowd in the stadium cheers.</li>
+                    <li><b>YOU MUST USE AT LEAST 3 SENTENCES!</b> You may absolutely write more than 3 sentences, but no less.</li>
+                    <li>Avoid using self-referring phrases. We know these are your thoughts and we know you're talking about the video. Examples:
+                      <ul>
+                        <li>'i think'</li>
+                        <li>'it seems like'</li>
+                        <li>'this sounds like'</li>
+                        <li>'the video appears to be'</li>
+                        <li>'YouTube'</li>
+                        <li>etc...</li>
+                      </ul>
+                    </li>
+                    <li>Be confident in your answer. You are allowed to use creativity to infer what might be going on visually, but base all of your descriptions on the audio.</li>
+                    <li>Avoid pressing enter after each sentence. Write your sentences as one paragraph, with periods at the end of each sentence.</li>
+                    <li><b>Avoid spelling mistakes</b>.</li>
+                    <li>Example Description: In the blurred frame you see a lot of green and some dark blobs. In the audio scene you hear a ball being kicked and then a loud cheer from what sounds like thousands of people. You might write the following:
+                      <ul>
+                        <li>two teams play a game of soccer in a large green field. one player kicks a ball down the field. a goal is scored and the crowd in the stadium cheers.</li>
+                      </ul>
+                      The video may be of an American football fieldgoal shot, but if it sounds like soccer to you then specify that!
+                    </li>
+                    <li>Here is a list of some things to think about for your descriptions. Do not limit yourself to this list; it may or may not apply to your video:
+                      <ul>
+                        <li>Where do you think this is taking place?</li>
+                        <li>Do you hear any people or animals? How many? What do you think they're doing?</li>
+                        <li>If you hear music, consider the instruments or the genre.</li>
+                        <li>If you hear speech, think about the age or gender of the speaker, where they might be, and why they're speaking.</li>
+                      </ul>
+                    </li>
                   </ul>
                 </li>
-              </ul>
+                <li>(Optional) leave comments to improve this HIT.</li>
+                <li>Click submit!</li>
+              </ol>
               <p><b>NOTE: IF YOU SEE THE VIDEO WITHOUT A BLUR, THE VIDEO IS UNAVAILABLE, AND/OR YOU EXPERIENCE ANY DISPLAY ERRORS, DO NOT ACCEPT THIS HIT!</b></p>
+              <h4>About us:</h4>
+              <p>Our names are Justin Goodman and Marc Moore. We are undergraduate researchers working on a data-expansion research project for University of Rochester's <a href="http://www.sas.rochester.edu/dsc/undergraduate/reu.html" target="_blank">Computational Methods</a> <a href="https://www.nsf.gov/crssprgm/reu/" target="_blank">REU</a> program. We are working under Dr. Chenliang Xu, a well-established computer vision researcher. Thank you for helping us complete our research project!</p>
             </div>
           </div>
         </div>
@@ -52,37 +86,73 @@
   <hr />
   <!-- Video matching layout -->
   <div class="row" id="workContent">
-    <div class="col-sm">
+    <div class="col-sm-8">
       <h3 id="ass">Assignment:</h3>
+      <h3 id="ieOnly" style="display: none; color: red;">It seems like you're using Internet Explorer. You won't be able to see the blurred video due to browser restrictions so we advise you do NOT complete this HIT or we will reject your responses.</h3>
+      <h3 id="noAdBlock" style="display: none; color: red;">It seems that you are not using an Ad-Blocker. The YouTube video player may, unknown to you, display an advertisement which will mess up your interpretation of the video. We advise you do NOT complete this HIT or we will reject your responses.</h3>
       <br />
       <br />
       <div class="blur">
+        <div id="ieBlur" style="display: none;"></div>
         <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&amp;start=${start}&amp;end=${end}" filter="url(#svgBlur)"></iframe>
       </div>
-      <br>
-      <!-- why are you looking here, get out! -->
-      <input name="identifier" type="hidden" value="audio" />
-      <input name="ytid" type="hidden" value="${ytid}" />
-      <input name="qa" type="hidden" value="0" id="dummy" />
+      <br />
+      <br />
+      <button class="btn btn-primary" onclick="play(this);" type="button">Play Video</button>
+      <br />
+      <div id="response-form" class="form-group" style="display: none;">
+        <!-- why are you looking here, get out! -->
+        <input name="identifier" type="hidden" value="audio" />
+        <input name="ytid" type="hidden" value="${ytid}" />
+        <input name="clickedPlay" type="hidden" value="0" id="dummy" />
+        <input name="youtubeError" type="hidden" value="0" id="yt-error" />
+        <input name="userAgent" type="hidden" value="" id="ua" />
+        <input name="hasAdBlock" type="hidden" value="1" id="adb" />
+      </div>
     </div>
     <!-- Worker input -->
-    <div class="col-sm">
+    <div class="col-sm-4">
       <div class="form-group">
-        <h5>Describe the Audio Scene:</h5>
-        <textarea class="form-control" name="response" rows="6" cols="250" required></textarea>
+        <h4>Describe the Audio Scene <b>(3 sentences)</b>:</h4>
+        <textarea class="form-control" name="response" rows="6" cols="250" placeholder="Describe here..." required></textarea>
+        <br />
+        <label>Comments on this assignment (optional):</label>
+        <textarea class="form-control" name="comments" rows="2" cols="250"></textarea>
+        <br />
+        <label>Comments to improve these HITs (optional):</label>
+        <textarea class="form-control" name="improve" rows="2" cols="250"></textarea>
       </div>
-      <button class="btn btn-primary" onclick="play(this);" type="button">Play Video</button>
       <input type='submit' id='submitButton' class="submit btn btn-primary" value='Submit Answer' />
     </div>
   </div>
 </section>
 <!-- End Video matching layout -->
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+<svg>
   <filter id="svgBlur">
     <feGaussianBlur stdDeviation="30" />
   </filter>
 </svg>
 <!-- Open internal style sheet -->
+<style type="text/css">
+  .blur {
+    /* none of this shit works on IE */
+    filter: url(#svgBlur);
+    -webkit-filter: blur(30px) opacity(0.80);
+    filter: blur(30px) opacity(0.80);
+    /* This is for IE 4 and up */
+    filter: Blur(Strength=20);
+    /* This is for IE 5.5 and up */
+    filter: progid:DXImageTransform.Microsoft.blur(pixelradius=30);
+  }
+  #ieBlur {
+    z-index: 3;
+    height: 360px;
+    width: 640px;
+    position: absolute;
+    color: black;
+    background-color: black;
+  }
+</style>
 <style type="text/css">
   #submitButton {
   white-space: normal;
@@ -99,24 +169,28 @@
   -webkit-hyphens: auto;
   hyphens: auto;
   }
-  
-  .blur {
-  filter: url(#svgBlur);
-  -webkit-filter: blur(30px) opacity(0.80);
-  filter: blur(30px) opacity(0.80);
-  // This is for IE 4 and up
-  filter: Blur(Strength=20);
-  // This is for IE 5.5 and up
-  filter: progid:DXImageTransform.Microsoft.blur(pixelradius=30);
-  }
 </style>
 <!-- End internal style sheet -->
 <!-- External JS references -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>-->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- REU-2018 script code -->
-<script>
+<script type="text/javascript">
+  // --- general variables
+  var ua = window.navigator.userAgent;
+  // --- document object variables
+  var err = $("#yt-error");
+  // --- script code
+  //document.documentElement.setAttribute("data-agent", navigator.userAgent);
+  $('#ua').val(ua);
+  //if (/*@cc_on!@*/false) {
+  if (ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0) {
+    $('#ieOnly').css('display', 'block');
+    $('#ieBlur').css('display', 'block');
+  }
+  // --- functions
   // load youtube api
   var tag = document.createElement('script');
   tag.id = 'yt-api';
@@ -127,35 +201,75 @@
   // create the video
   var player;
   window.onYouTubeIframeAPIReady = function() {
-  player = new YT.Player('player', {events: {'onReady': ready, 'onStateChange': change}} );
+    player = new YT.Player('player', {events: {'onReady': ready, 'onStateChange': change, 'onError': error}});
   }
 
   // control functions
   function ready(event) {
-  player.getIframe().setAttribute("style", "pointer-events: none;");
-  if (player.isMuted()) {
-  player.unMute();
-  }
+    player.getIframe().setAttribute("style", "pointer-events: none;");
+    if (player.isMuted()) {
+      player.unMute();
+    }
   }
   function change(event) {
-  if (event.data == YT.PlayerState.ENDED) {
-  player.loadVideoById({'videoId': '${ytid}','startSeconds': ${start},'endSeconds': ${end},'suggestedQuality': 'large'});
+    if (event.data == YT.PlayerState.ENDED) {
+      player.loadVideoById({'videoId': '${ytid}','startSeconds': ${start},'endSeconds': ${end},'suggestedQuality': 'large'});
+    }
   }
+  function error(event) {
+    err.val(1);
   }
   var first = true;
   function play(ele) {
-  player.playVideo();
-  if (first) {
-  first = false;
-  document.getElementById("dummy").setAttribute("value", "1");
-  }
-  ele.setAttribute("onclick", "pause(this);");
-  ele.textContent = "Pause Video";
+    player.playVideo();
+    if (first) {
+      first = false;
+      document.getElementById("dummy").setAttribute("value", "1");
+    }
+    ele.setAttribute("onclick", "pause(this);");
+    ele.textContent = "Pause Video";
   }
   function pause(ele) {
-  player.pauseVideo();
-  ele.setAttribute("onclick", "play(this);");
-  ele.textContent = "Play Video";
+    player.pauseVideo();
+    ele.setAttribute("onclick", "play(this);");
+    ele.textContent = "Play Video";
   }
 </script>
 <!-- End REU script -->
+<script src="https://cdn.jsdelivr.net/npm/fuckadblock@3.2.1/fuckadblock.min.js" integrity="sha256-xjwKUY/NgkPjZZBOtOxRYtK20GaqTwUCf7WYCJ1z69w=" crossorigin="anonymous" ></script><!-- need this to detect adblock -->
+<script>
+  // Function called if AdBlock is not detected
+  function adBlockNotDetected() {
+    document.getElementById('adb').value = '0';
+    document.getElementById('noAdBlock').style.display = 'block';
+  }
+  // Function called if AdBlock is detected
+  function adBlockDetected() {
+    document.getElementById('adb').value = '1';
+    document.getElementById('noAdBlock').style.display = 'none';
+  }
+
+  // We look at whether FuckAdBlock already exists.
+  if(typeof fuckAdBlock !== 'undefined' || typeof FuckAdBlock !== 'undefined') {
+    // If this is the case, it means that something tries to usurp are identity
+    // So, considering that it is a detection
+    adBlockDetected();
+  } else {
+    // Otherwise, you import the script FuckAdBlock
+    var importFAB = document.createElement('script');
+    importFAB.onload = function() {
+      // If all goes well, we configure FuckAdBlock
+      fuckAdBlock.onDetected(adBlockDetected)
+      fuckAdBlock.onNotDetected(adBlockNotDetected);
+    };
+    importFAB.onerror = function() {
+      // If the script does not load (blocked, integrity error, ...)
+      // Then a detection is triggered
+      adBlockDetected(); 
+    };
+    importFAB.integrity = 'sha256-xjwKUY/NgkPjZZBOtOxRYtK20GaqTwUCf7WYCJ1z69w=';
+    importFAB.crossOrigin = 'anonymous';
+    importFAB.src = 'https://cdnjs.cloudflare.com/ajax/libs/fuckadblock/3.2.1/fuckadblock.min.js';
+    document.head.appendChild(importFAB);
+  }
+</script>

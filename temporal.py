@@ -14,20 +14,22 @@ original_data = 'unbalanced_train_segments.csv'
 final_data = environments['temporal']['csv']
 labels = {}
 usable_videos = {}
-amount_per_category = 1 # the amount of videos you want per category from the list of top 25 categories
+# the amount of videos you want per category from the list of top 25 categories
+amount_per_category = 4
 
 # set random seed for reproductability
 random.seed(6942069)
 
-# skip amount
-skip = 1
+# skip amount (started at 1)
+# 6/26 running 20 videos per category
+# 6/27 running 1 video per category
+# 6/28 running 4 video per category
+skip = 23
 
 print('Creating csv ' + final_data + ' with ' + str(interval) + 'sec intervals and ' + str(window) + 'sec window.')
 
-#category_list = (('Music', 0), ('Speech', 0), ('Vehicle', 0), ('Musical instrument', 0), ('Plucked string instrument', 0), ('Singing',0), ('Car', 0), ('Animal', 0), ('Outside, rural or natural', 0), ('Bird', 0), ('Drum', 0), ('Engine', 0), ('Narration, monologue', 0), ('Drum kit', 0), ('Dog', 0), ('Child speech, kid speaking', 0), ('Bass drum', 0), ('Rail transport', 0), ('Motor vehicle (road)', 0), ('Water', 0), ('Siren', 0), ('Tools', 0), ('Railroad car, train wagon', 0), ('Snare drum', 0), ('Bird vocalization, bird call, bird song', 0))
-
 # the categories we want to run
-category_list = ['Music', 'Speech', 'Vehicle', 'Singing', 'Car', 'Animal', 'Outside, rural or natural', 'Bird', 'Engine', 'Narration, monologue', 'Child speech, kid speaking', 'Water', 'Siren', 'Tools', 'Bird vocalization, bird call, bird song', 'Wind instrument, woodwind instrument', 'Cheering', 'Gunshot, gunfire', 'Radio', 'Fireworks', 'Stream', 'Snoring', 'Explosion', 'Bell', 'Oink']
+category_list = ['Music', 'Speech', 'Vehicle', 'Singing', 'Car', 'Animal', 'Outside, rural or natural', 'Bird', 'Engine', 'Child speech, kid speaking', 'Water', 'Siren', 'Tools', 'Bird vocalization, bird call, bird song', 'Wind instrument, woodwind instrument', 'Laughter', 'Cheering', 'Gunshot, gunfire', 'Radio', 'Fireworks', 'Stream', 'Snoring', 'Explosion', 'Bell', 'Oink']
 print(len(category_list))
 
 # create dictionary for mapping obscured labels to human-readable labels
