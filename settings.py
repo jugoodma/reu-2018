@@ -63,16 +63,16 @@ environments = {
         "assignments": 1,
         "lifetime": 3 * 24 * 60 * 60, # 3 days
         "duration": 10 * 60, # 10 minutes
-        "approve": 3 * 24 * 60 * 60, # 3 days
-        "reward": "0.01",
-        "title": "Determine if Audio Matches Video",
-        "keywords": "matching, video, audio",
-        "desc": "Watch a 1 second video clip and tell us whether the audio matches what you see in the clip",
+        "approve": 5 * 24 * 60 * 60, # 5 days
+        "reward": "0.07",
+        "title": "Annotate when audio source appears in video",
+        "keywords": "annotating, video, audio",
+        "desc": "Watch a 10 second video clip and tell us when the source of a labeled sound appears in the frame of the video",
         "xml": "temporal-ui.xml",
         "worker": [{
             'QualificationTypeId': '000000000000000000L0',
             'Comparator': 'GreaterThanOrEqualTo',
-            'IntegerValues': [80],
+            'IntegerValues': [95],
             'RequiredToPreview': True,
         }],
         "hit-type-id": "3ISL4H6O6ITRSQNC3OSL4OKOO05ICC",

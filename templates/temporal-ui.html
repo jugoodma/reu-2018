@@ -19,51 +19,73 @@
         <div class="card">
           <div class="card-header" role="tab" id="headingOne">
             <h3 class="mb-0">
-              <a data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><b>Instructions</b> (Please read if this is your first time) (Click to expand)</a>
+              <a data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" id="instrLink" style="color: cornflowerblue;"><b>Instructions</b> (Please read if this is your first time) (Click to expand)</a>
             </h3>
           </div>
           <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body" id="instructionBody">
-              <p><b>TL;DR:</b> We are artificial intelligence researchers looking to expand our dataset. We want to label when, in a 10-second video, an <a href="#ave">Audio-Visual Event</a> occurs.</p>
-              <p>If you are using Internet Explorer 8 or below, please do not accept these HITs as we cannot guarantee they'll work. <b>We may reject your HIT if you use an old browser</b>.</p>
-              <h4>Steps to complete these HITs successfully:</h4>
+              <p><b>TL;DR:</b> We are artificial intelligence researchers looking to expand our dataset. Given a label of some sounds, we want to annotate <em>when</em>, in a 10-second video, you <em>see</em> the object actually <em>producing</em> those sounds. Sometimes the video will not show the object or the object may not make the sounds, so you should handle that video accordingly.</p>
+              <p>If you are using Internet Explorer 8 or below, please do not accept these HITs as we cannot guarantee they'll work.</p>
+              <h4>STEPS TO SUCCESSFULLY COMPLETE THESE HITS:</h4>
               <ol>
-                <li>Read these instructions in full before starting (they don't change, so once you read them you're good to go!)</li>
-                <li>Scroll to the <a href="#ass">Assignment</a> part of this HIT</li>
-                <li>Look at the label associated with the video</li>
-                <li>Click the <span><button class="btn btn-primary" onclick="" type="button">Play Video</button></span> button and watch the video
+                <li>Look at the label, and description of the label, that describes the sounds you will hear in this video.</li>
+                <li>Click the <span><button class="btn btn-primary" onclick="" type="button">Play Video</button></span> button and watch the video.
                   <ul>
-                    <li>The YouTube video player will then play the specified 10-second clip for you. The 'Play Video' button will change to a <span><button class="btn btn-primary" onclick="" type="button">Pause Video</button></span> button. The clip will play on repeat until you click the 'Pause Video' button</li>
+                    <li>The YouTube video player will then play the specified 10-second clip for you. The 'Play Video' button will change to a <span><button class="btn btn-primary" onclick="" type="button">Pause Video</button></span> button. The clip will play on repeat until you click the 'Pause Video' button.</li>
                     <li><b>Controls in the YouTube player are disabled</b>. We disabled the controls so we can show you one specific part of the video.</li>
+                    <li>Please ignore any advertisements that may play during the YouTube video. Use of an ad-blocker is highly suggested (for speed, so you don't have to wait for ads to play) but not required.</li>
                   </ul>
                 </li>
-                <li>Determine if the label describes an <a href="#ave">Audio-Visual Event</a> in the video</li>
-                <li>IF IT DOES:
+                <li>Determine which category your video falls into and follow the corresponding instructions (note, all categories are of equal importance and take the same amount of time to complete):
                   <ul>
-                    <li>Mark the 'DOES contain' <input type="radio" /> radio button</li>
-                    <li>Use the <a href="#ann">annotator</a> under the video to mark <em>when</em> (accurate to the nearest 1-second) the <a href="#ave">Audio-Visual Event</a> occurs in the video</li>
+                    <li>If you <b>SEE</b> the object that makes the sounds described by the label <b>AND</b> that object produces the described sounds <b>AT THE SAME TIME</b>:
+                      <ul>
+                        <li>Mark the <input type="radio" /> <b>SEE AND HEAR</b> radio button.</li>
+                        <li>Use the <a href="#ann">annotator</a> under the video to mark <em>when</em> (accurate to the nearest 1-second) this occurs in the video.</li>
+                        <li>Note: Still images CANNOT fall in this category.</li>
+                        <li>Purpose: Videos in this category will go into our dataset. We want these videos.</li>
+                        <li>Example: The label says 'Water'. For the whole video you hear splashing and rushing of water. Only during the 4th-7th seconds you actually see the water. You would select the 'SEE AND HEAR' option, and annotate the 4th-7th box in the annotator.</li>
+                      </ul>
+                    </li>
+                    <li>If you <b>HEAR</b> the object that makes the sounds described by the label <b>BUT</b> that object <b>NEVER</b> appears in the video:
+                      <ul>
+                        <li>Mark the <input type="radio" /> <b>HEAR</b> radio button.</li>
+                        <li>Use the <a href="#ann">annotator</a> under the video to mark <em>when</em> (accurate to the nearest 1-second) you hear the object.</li>
+                        <li>Purpose: This category of videos will help us understand how the dataset we are pulling from was constructed. Finding these videos will verify the integrity of the dataset.</li>
+                        <li>Example: The label says 'Fireworks'. The video is of the night sky, and at the last second you hear a boom. The video ends before you see any light, however. You would select the 'HEAR' option, and solely annotate the last box in the annotator.</li>
+                      </ul>
+                    </li>
+                    <li>If you <b>SEE</b> the object that makes the sounds described by the label <b>BUT</b> that object <b>NEVER</b> produces the described sounds:
+                      <ul>
+                        <li>Mark the <input type="radio" /> <b>SEE</b> radio button.</li>
+                        <li>Use the <a href="#ann">annotator</a> under the video to mark <em>when</em> (accurate to the nearest 1-second) you see the object.</li>
+                        <li>Purpose: This category of videos will show us potential flaws in the dataset we are pulling from. These videos will help improve how researchers collect large quantities of data.</li>
+                        <li>Example: The label says 'Tool'. The video shows a power-sander for the whole 10-second clip. The power-sander (a tool) is never turned (so no sound is produced). You would select the 'SEE' option, and annotate every box in the annotator.</li>
+                      </ul>
+                    </li>
+                    <li>In the rare case where you SEE AND HEAR the object, but NEVER at the same time:
+                      <ul>
+                        <li>Decide which, <b>SEE</b> or <b>HEAR</b>, has more time in the video, and mark its corresponding <input type="radio" /> radio button. In the case of a tie, choose <b>SEE</b>.</li>
+                        <li>Use the <a href="#ann">annotator</a> under the video to mark <em>when</em> (accurate to the nearest 1-second) you either see or hear the object.</li>
+                        <li>Purpose: See the categories above.</li>
+                        <li>Example: The label says 'Racecar'. The video starts black but you hear racecars for 3 seconds. The last 7 seconds of the video shows racecars driving but you never hear them. You would select the 'SEE' option (7 seconds &gt; 3 seconds), and annotate the last 7 boxes in the annotator.</li>
+                      </ul>
+                    </li>
+                    <li>If the video is UNRELATED to the label:
+                      <ul>
+                        <li>Mark the <input type="radio" /> <b>UNRELATED</b> radio button.</li>
+                        <li>Provide us, in the <input type="text" placeholder="Reason" /> textbox, an explanation for why the label is unrelated to the video.</li>
+                        <li>Purpose: These videos will help us improve the dataset we are pulling from. The makers of the dataset we are pulling from want to know the bad videos.</li>
+                        <li>Example: The label says 'Snoring'. The whole video is of a coffee-maker brewing a cup of coffee. Obviously the label is unrelated to the video, and you are confused because this rarely happens. You would select the 'UNRELATED' option, and explain in the textbox that the video showed a coffee-maker instead of a person snoring.</li>
+                      </ul>
+                    </li>
                   </ul>
                 </li>
-                <li>IF IT DOES NOT:
-                  <ul>
-                    <li>Mark the 'DOES NOT contain' <input type="radio" /> radio button</li>
-                    <li>Provide us, in the <input type="text" placeholder="Reason" /> textbox, an explanation for why there is no <a href="#ave">Audio-Visual Event</a> present in the video</li>
-                  </ul>
-                </li>
-                <li>(Optional) leave comments to improve this HIT</li>
-                <li>Click submit!</li>
+                <li>Click submit! Thank you for completing our HIT!</li>
               </ol>
-              <h4 id="ave">Audio-Visual Event <b>(THIS IS THE MOST IMPORTANT THING TO READ)</b>:</h4>
-              <p>We define an audio-visual event as an event that is both visible and audible in a video segment. This means that the sound and the object making the sound are both visible and audible at the same time. Here are some examples:</p>
-              <ul>
-                <li>If the label is 'Car' and you see the car and hear the engine at the same time, then the video contains an audio-visual event.</li>
-                <li>If the label is 'Tool', and in the video you see a power-sander, but the sander never makes a sound, then the video does not contain an audio-visual event.</li>
-                <li>If the label is 'Fireworks', and you hear the fireworks but never see them, then the video does not contain an audio-visual event.</li>
-                <li>If the label is 'Water', and you neither hear nor see water, then the video does not contain an audio-visual event.</li>
-              </ul>
-              <p><b>NOTE: still images cannot have an Audio-Visual Event</b>.</p>
-              <h4 id="ann">How to Use the Annotator:</h4>
-              <p>Each box under the video indicates a 1 second segment. If the label is present in a segment, click the box for that segment. To highlight a box, you would left click the box. To un-highlight a highlighted box, you would left click the box again. You can click and drag to highlight (and un-highlight) multiple boxes. Under each box is a button that seeks to that segment of the clip. When the video is playing, you should see a darker red in the box that the video is currently on. Here are the colors with their respective meaning:</p>
+              <p>If this is your first time doing these HITs, please tell us the first word that comes to your head just so we know you read the instructions :) (you should only do this on your first time!).</p>
+              <h4 id="ann">HOW TO USE THE ANNOTATOR:</h4>
+              <p>Each box under the video indicates a 1 second segment. If the category you chose is present in a segment, click the box for that segment. To highlight a box, you would left click the box. To un-highlight a highlighted box, you would left click the box again. You can click and drag to highlight (and un-highlight) multiple boxes. Under each box is a button that seeks to that segment of the clip. When the video is playing, you should see a bright yellow in the box that the video is currently on. Here are the colors with their respective meaning:</p>
               <center>
                 <table>
                   <tr height="50px">
@@ -103,8 +125,8 @@
               <center>
                 <iframe width="640" height="360" src="https://www.youtube.com/embed/ybfv2-2l3Jk"></iframe>
               </center>
-              <h4>About us:</h4>
-              <p>Our names are Justin Goodman and Marc Moore. We are undergraduate researchers working on a data-expansion research project for University of Rochester's <a href="http://www.sas.rochester.edu/dsc/undergraduate/reu.html" target="_blank">Computational Methods</a> <a href="https://www.nsf.gov/crssprgm/reu/" target="_blank">REU</a> program. We are working under Dr. Chenliang Xu, a well-established computer vision researcher. Thank you for helping us complete our research project!</p>
+              <h4>ABOUT US:</h4>
+              <p>Our names are <a href="http://terpconnect.umd.edu/~jugoodma" target="_blank">Justin Goodman</a> and Marc Moore. We are undergraduate researchers working on a data-expansion research project for University of Rochester's <a href="http://www.sas.rochester.edu/dsc/undergraduate/reu.html" target="_blank">Computational Methods</a> <a href="https://www.nsf.gov/crssprgm/reu/" target="_blank">REU</a> program. We are working under Dr. Chenliang Xu, a well-established computer vision researcher. We are pulling from the <a href="https://research.google.com/audioset/" target="_blank">Google AudioSet</a> dataset, which has over 2 million 10-second clips labeled with the sounds heard in each clip. Thank you for helping us complete our research project!</p>
             </div>
           </div>
         </div>
@@ -129,28 +151,43 @@
         <input name="identifier" type="hidden" value="temporal" />
         <input name="ytid" type="hidden" value="${ytid}" />
         <input name="clickedPlay" type="hidden" value="0" id="dummy" />
+        <input name="clickedInstructions" type="hidden" value="0" id="instr" />
         <input name="youtubeError" type="hidden" value="0" id="yt-error" />
         <input name="userAgent" type="hidden" value="" id="ua" />
       </div>
     </div>
     <!-- Worker input -->
     <div class="col-md-4">
-      <h4>Label for this video: <b>${labels}</b></h4>
+      <h4>Label for this video: <b>${label}</b></h4>
+      <h5>Description for this label:</h5>
+      <p>${description}</p>
       <div class="form-group">
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" id="radioContains" type="radio" name="contains" value="1" required onclick="longDong(1);" />
-            This video DOES contain an Audio-Visual Event
+            <input class="form-check-input" id="radioNotContains" type="radio" name="contains" value="0" onclick="longDong(0);" />
+            <b>UNRELATED</b> (The label and video are completely UNRELATED, I DO NOT SEE the object, AND I DO NOT HEAR that object, that makes sounds described by the label)
           </label>
         </div>
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" id="radioNotContains" type="radio" name="contains" value="0" onclick="longDong(0);" />
-            This video DOES NOT contain an Audio-Visual Event
+            <input class="form-check-input" type="radio" name="contains" value="-1" onclick="longDong(1);" />
+            <b>SEE</b> (I SEE the object that makes the sounds described by the label BUT I NEVER HEAR that object make those sounds)
+          </label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="contains" value="-2" onclick="longDong(1);" />
+            <b>HEAR</b> (I HEAR the object that makes the sounds described by the label BUT I NEVER SEE that object in the video)
+          </label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" id="radioContains" type="radio" name="contains" value="1" required onclick="longDong(1);" />
+            <b>SEE AND HEAR</b> (I SEE the object that makes the sounds described by the label AND I HEAR that object making those sounds at the same time)
           </label>
         </div>
         <br />
-        <label>If you clicked 'DOES NOT contain', please specify why:</label>
+        <label>If you clicked 'UNRELATED', please specify why:</label>
         <input type="text" id="label-input" class="form-control" name="reason" placeholder="Reason" />
         <br />
         <label>Comments on this assignment (optional):</label>
@@ -188,6 +225,9 @@
 </style>
 <!-- REU-2018 style code -->
 <style>
+  label {
+    font-weight: 100 !important;
+  }
   .hide {
     display: none;
   }
@@ -255,10 +295,13 @@
   var player;
   var err = $("#yt-error");
   var playButton = $("#play").on('click', play);
+  var instr = $("#instr");
   // --- runtime script code
   // get user agent
   $('#ua').val(window.navigator.userAgent);
   $('#checkButton').on('click', checkAnn);
+  // set onclick for instructions
+  $('#instrLink').on('click', instrClicked);
   // youtube api code
   // load youtube api
   tag.id = 'yt-api';
@@ -312,6 +355,9 @@
       sec = "0" + sec;
     }
     return min + ":" + sec;
+  }
+  function instrClicked() {
+    instr.val(1);
   }
   function checkAnn() {
     if ($('#radioContains').is(':checked')) {
