@@ -9,7 +9,7 @@ import random
 # begin
 interval = 1.0
 window = 1.0
-labels_file = 'class_labels_indices.csv'
+labels_file = 'ontology.json'
 original_data = 'unbalanced_train_segments.csv'
 final_data = environments['temporal']['csv']
 labels = {}
@@ -33,11 +33,11 @@ category_list = ['Music', 'Speech', 'Vehicle', 'Singing', 'Car', 'Animal', 'Outs
 print(len(category_list))
 
 # create dictionary for mapping obscured labels to human-readable labels
-with open(data_path + labels_file, newline = '') as f:
-    reader = csv.reader(f)
-    next(reader) # skip the first line since it has headers for the columns
+with open(data_path + labels_file).read() as json_data:
+    data = json.loads(json_data)
+         # skip the first line since it has headers for the columns
     for row in reader:
-        labels[row[1]] = row[2]
+        labels[] = row[2]
 
 # comment
 with open(data_path + original_data, 'r', newline = '') as f:
@@ -63,7 +63,7 @@ with open(data_path + original_data, 'r', newline = '') as f:
 # comment
 with open(data_path + final_data, 'w', newline = '') as f:
     writer = csv.writer(f, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
-    writer.writerow(['ytid'] + ['start'] + ['end'] + ['labels'])
+    writer.writerow(['ytid'] + ['start'] + ['end'] + ['label'] + ['description'])
     # sample <amount_per_category> number of random videos from usable_videos
     for key in usable_videos:
         for count in range(skip):
