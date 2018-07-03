@@ -180,8 +180,11 @@
 <!-- REU-2018 script code -->
 <script type="text/javascript">
   // --- general variables
+  var firstScriptTag;
+  var player;
   var ua = window.navigator.userAgent;
   // --- document object variables
+  var tag = document.createElement('script');
   var err = $("#yt-error");
   var instr = $("#instr");
   // --- script code
@@ -194,20 +197,18 @@
   }
   // set onclick for instructions
   $('#instrLink').on('click', instrClicked);
-  // --- functions
-  // load youtube api
-  var tag = document.createElement('script');
+  // youtube api code
   tag.id = 'yt-api';
   tag.src = 'https://www.youtube.com/iframe_api';
-  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag = document.getElementsByTagName('script')[0];
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-  // create the video
-  var player;
   window.onYouTubeIframeAPIReady = function() {
     player = new YT.Player('player', {events: {'onReady': ready, 'onStateChange': change, 'onError': error}});
   }
-
+  // --- functions
+  function instrClicked() {
+    instr.val(1);
+  }
   // control functions
   function ready(event) {
     player.getIframe().setAttribute("style", "pointer-events: none;");
