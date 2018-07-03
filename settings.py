@@ -100,19 +100,19 @@ environments = {
     },
     "audio": {
         "csv": "audio-input.csv",
-        "assignments": 1,
+        "assignments": 4,
         "lifetime": 7 * 24 * 60 * 60, # 7 days
         "duration": 60 * 60, # 1 hour
         "approve": 5 * 24 * 60 * 60, # 5 days
-        "reward": "0.10",
-        "title": "Describe the Audio Scene in a Video",
+        "reward": "0.01",
+        "title": "Annotate a video without visual context",
         "keywords": "classify, video, audio",
-        "desc": "Watch a blurred 10 to 30 second video and describe what happens in the audio scene",
+        "desc": "Listen to a blurred 10 to 30 second video and describe what happens in the audio scene",
         "xml": "audio-ui.xml",
         "worker": [{
             'QualificationTypeId': '000000000000000000L0',
             'Comparator': 'GreaterThanOrEqualTo',
-            'IntegerValues': [90],
+            'IntegerValues': [95],
             'RequiredToPreview': True,
         }],
         "hit-type-id": "",

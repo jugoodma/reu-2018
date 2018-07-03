@@ -19,18 +19,17 @@
         <div class="card">
           <div class="card-header" role="tab" id="headingOne">
             <h3 class="mb-0">
-              <a data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><b>Instructions</b> (Please read if this is your first time) (Click to expand)</a>
+              <a data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" id="instrLink" style="color: red;"><b>Instructions</b> (Please read if this is your first time) (Click to expand)</a>
             </h3>
           </div>
           <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body" id="instructionBody">
-              <p><b>TL;DR:</b> We are artificial intelligence researchers looking to create a dataset. We want to describe what happens in a video based <b>only</b> on its audio information.</p>
-              <p>If you are using Internet Explorer, please do not accept these HITs as we cannot guarantee the blur effect will work. <b>We will reject your response if you use an old browser</b>.</p>
-              <p>If you do NOT have an ad-blocker on your browser, please do not accept these HITs. Ads can interfere with what you hear in the YouTube video. We will reject your response if you do not have an ad-blocker.</p>
-              <h4>Steps to complete these HITs successfully:</h4>
+              <p><b>TL;DR:</b> We are artificial intelligence researchers looking to create a dataset. We want you to annotate a video without <em>seeing</em> and only <em>hearing</em> the video.</p>
+              <p>If you are using Internet Explorer, please do not accept these HITs as we cannot guarantee the blur effect will work. <b>We will reject your response if you use an old browser</b>. This should not be an issue for most workers.</p>
+              <p>If you do NOT have an ad-blocker on your browser, please do not accept these HITs. Ads will interfere with what you hear in the YouTube video. Since you cannot see the YouTube video, you may not know an Ad is playing. We will reject your response if you do not have an ad-blocker.</p>
+              <p><b>NOTE: IF YOU SEE THE VIDEO WITHOUT A BLUR, THE VIDEO IS UNAVAILABLE, AND/OR YOU EXPERIENCE ANY DISPLAY ERRORS, DO NOT ACCEPT THIS HIT!</b></p>
+              <h4>STEPS TO SUCCESSFULLY COMPLETE THESE HITS:</h4>
               <ol>
-                <li>Read these instructions in full before starting (they don't change, so once you read them you're good to go!).</li>
-                <li>Scroll to the <a href="#ass">Assignment</a> part of this HIT.</li>
                 <li>Click the <span><button class="btn btn-primary" onclick="" type="button">Play Video</button></span> button and listen to the video.
                   <ul>
                     <li><b style="color: red;">IMPORTANT:</b> You should see a blur over the video. Our goal with this dataset is to understand how much of human visual context is based on audio information. Thus, if you can see the video then your response to this HIT is useless.</li>
@@ -38,27 +37,28 @@
                     <li><b>Controls in the YouTube player are disabled</b>. We disabled the controls so we can show you one specific part of the video.</li>
                   </ul>
                 </li>
-                <li>Describe, <em>with as much detail as possible</em> in the <span><textarea rows="1" placeholder="Describe here..."></textarea></span> textbox with <b>at least 3 sentences</b>, what you think is going on in the video.
+                <li>Annotate the video in the <span><textarea rows="1" placeholder="Describe here..."></textarea></span> textbox.
                   <ul>
-                    <li><b>YOU MUST USE AT LEAST 3 SENTENCES!</b> You may absolutely write more than 3 sentences, but no less.</li>
-                    <li>Avoid using self-referring phrases. We know these are your thoughts and we know you're talking about the video. Examples:
+                    <li>Be confident in your answer. You are allowed to use creativity to infer what might be going on visually, but base all of your descriptions on the audio.</li>
+                    <li>Your response should be complete sentences. If your sentences are too short <b>we will reject your response</b>.</li>
+                    <li><b>AVOID spelling mistakes</b>.</li>
+                    <li>AVOID using self-referring phrases. We know these are your thoughts and we know you're talking about the video. Example phrases (DO NOT USE THESE):
                       <ul>
                         <li>'i think'</li>
                         <li>'it seems like'</li>
                         <li>'this sounds like'</li>
                         <li>'the video appears to be'</li>
+                        <li>'i guess'</li>
                         <li>'YouTube'</li>
                         <li>etc...</li>
                       </ul>
                     </li>
-                    <li>Be confident in your answer. You are allowed to use creativity to infer what might be going on visually, but base all of your descriptions on the audio.</li>
-                    <li>Avoid pressing enter after each sentence. Write your sentences as one paragraph, with periods at the end of each sentence.</li>
-                    <li><b>Avoid spelling mistakes</b>.</li>
-                    <li>Example Description: In the blurred frame you see a lot of green and some dark blobs. In the audio scene you hear a ball being kicked and then a loud cheer from what sounds like thousands of people. You might write the following:
+                    <li>AVOID pressing enter after each sentence. Write your sentences as one paragraph, with periods at the end of each sentence.</li>
+                    <li>Example description: In the blurred frame you see a lot of green and some dark blobs. In the audio scene you hear a ball being kicked and then a loud cheer from what sounds like thousands of people. You might write the following:
                       <ul>
                         <li>two teams play a game of soccer in a large green field. one player kicks a ball down the field. a goal is scored and the crowd in the stadium cheers.</li>
                       </ul>
-                      The video may be of an American football fieldgoal shot, but if it sounds like soccer to you then specify that!
+                      The video may actually be of an American football fieldgoal shot, but if it sounds like soccer to you then specify that!
                     </li>
                     <li>Here is a list of some things to think about for your descriptions. Do not limit yourself to this list; it may or may not apply to your video:
                       <ul>
@@ -70,12 +70,11 @@
                     </li>
                   </ul>
                 </li>
-                <li>(Optional) leave comments to improve this HIT.</li>
-                <li>Click submit!</li>
+                <li>Click <span><button class="btn btn-primary" onclick="" type="button">Submit Answer</button></span>! Thank you for completing our HIT!</li>
               </ol>
-              <p><b>NOTE: IF YOU SEE THE VIDEO WITHOUT A BLUR, THE VIDEO IS UNAVAILABLE, AND/OR YOU EXPERIENCE ANY DISPLAY ERRORS, DO NOT ACCEPT THIS HIT!</b></p>
-              <h4>About us:</h4>
-              <p>Our names are Justin Goodman and Marc Moore. We are undergraduate researchers working on a data-expansion research project for University of Rochester's <a href="http://www.sas.rochester.edu/dsc/undergraduate/reu.html" target="_blank">Computational Methods</a> <a href="https://www.nsf.gov/crssprgm/reu/" target="_blank">REU</a> program. We are working under Dr. Chenliang Xu, a well-established computer vision researcher. Thank you for helping us complete our research project!</p>
+              <p><b>Note</b>: If this is your first time doing these HITs, please tell us, in the first comments box, your favorite color just so we know you read the instructions :) (you should only do this on your first time!).</p>
+              <h4>ABOUT US:</h4>
+              <p>Our names are Justin Goodman and Marc Moore. We are undergraduate researchers working on a data-expansion research project for University of Rochester's <a href="http://www.sas.rochester.edu/dsc/undergraduate/reu.html" target="_blank">Computational Methods</a> <a href="https://www.nsf.gov/crssprgm/reu/" target="_blank">REU</a> program. We are working under Dr. Chenliang Xu, a well-established computer vision researcher. With this dataset we hope to understand the subtle differences in features we notice in visual versus audio information. We hope to combine the differences in visual and audio information to help an artifiial intelligence gain a better understanding of a scene. Thank you for helping us complete our research project!</p>
             </div>
           </div>
         </div>
@@ -94,7 +93,7 @@
       <br />
       <div class="blur">
         <div id="ieBlur" style="display: none;"></div>
-        <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&amp;start=${start}&amp;end=${end}" filter="url(#svgBlur)"></iframe>
+        <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&amp;start=${start}&amp;end=${end}" filter="url(#svgBlur)" style="pointer-events: none;"></iframe>
       </div>
       <br />
       <br />
@@ -104,7 +103,9 @@
         <!-- why are you looking here, get out! -->
         <input name="identifier" type="hidden" value="audio" />
         <input name="ytid" type="hidden" value="${ytid}" />
+        <input name="category" type="hidden" value="${category}" />
         <input name="clickedPlay" type="hidden" value="0" id="dummy" />
+        <input name="clickedInstructions" type="hidden" value="0" id="instr" />
         <input name="youtubeError" type="hidden" value="0" id="yt-error" />
         <input name="userAgent" type="hidden" value="" id="ua" />
         <input name="hasAdBlock" type="hidden" value="1" id="adb" />
@@ -113,7 +114,7 @@
     <!-- Worker input -->
     <div class="col-sm-4">
       <div class="form-group">
-        <h4>Describe the Audio Scene <b>(3 sentences)</b>:</h4>
+        <h4>Annotate the video:</h4>
         <textarea class="form-control" name="response" rows="6" cols="250" placeholder="Describe here..." required></textarea>
         <br />
         <label>Comments on this assignment (optional):</label>
@@ -182,6 +183,7 @@
   var ua = window.navigator.userAgent;
   // --- document object variables
   var err = $("#yt-error");
+  var instr = $("#instr");
   // --- script code
   //document.documentElement.setAttribute("data-agent", navigator.userAgent);
   $('#ua').val(ua);
@@ -190,6 +192,8 @@
     $('#ieOnly').css('display', 'block');
     $('#ieBlur').css('display', 'block');
   }
+  // set onclick for instructions
+  $('#instrLink').on('click', instrClicked);
   // --- functions
   // load youtube api
   var tag = document.createElement('script');

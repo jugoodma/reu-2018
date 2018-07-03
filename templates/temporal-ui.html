@@ -19,7 +19,7 @@
         <div class="card">
           <div class="card-header" role="tab" id="headingOne">
             <h3 class="mb-0">
-              <a data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" id="instrLink" style="color: cornflowerblue;"><b>Instructions</b> (Please read if this is your first time) (Click to expand)</a>
+              <a data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" id="instrLink" style="color: red;"><b>Instructions</b> (Please read if this is your first time) (Click to expand)</a>
             </h3>
           </div>
           <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
@@ -83,7 +83,7 @@
                 </li>
                 <li>Click submit! Thank you for completing our HIT!</li>
               </ol>
-              <p>If this is your first time doing these HITs, please tell us the first word that comes to your head just so we know you read the instructions :) (you should only do this on your first time!).</p>
+              <p><b>Note</b>: If this is your first time doing these HITs, please tell us, in the first comments box, your favorite flavor of ice cream just so we know you read the instructions :) (you should only do this on your first time!).</p>
               <h4 id="ann">HOW TO USE THE ANNOTATOR:</h4>
               <p>Each box under the video indicates a 1 second segment. If the category you chose is present in a segment, click the box for that segment. To highlight a box, you would left click the box. To un-highlight a highlighted box, you would left click the box again. You can click and drag to highlight (and un-highlight) multiple boxes. Under each box is a button that seeks to that segment of the clip. When the video is playing, you should see a bright yellow in the box that the video is currently on. Here are the colors with their respective meaning:</p>
               <center>
@@ -170,20 +170,20 @@
         </div>
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="contains" value="-1" onclick="longDong(1);" />
+            <input class="form-check-input" id="radioContains" type="radio" name="contains" value="1" required onclick="longDong(1);" />
+            <b>SEE AND HEAR</b> (I SEE the object that makes the sounds described by the label AND I HEAR that object making those sounds at the same time)
+          </label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" id="radioSee" type="radio" name="contains" value="-1" onclick="longDong(1);" />
             <b>SEE</b> (I SEE the object that makes the sounds described by the label BUT I NEVER HEAR that object make those sounds)
           </label>
         </div>
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="contains" value="-2" onclick="longDong(1);" />
+            <input class="form-check-input" id="radioHear" type="radio" name="contains" value="-2" onclick="longDong(1);" />
             <b>HEAR</b> (I HEAR the object that makes the sounds described by the label BUT I NEVER SEE that object in the video)
-          </label>
-        </div>
-        <div class="form-check">
-          <label class="form-check-label">
-            <input class="form-check-input" id="radioContains" type="radio" name="contains" value="1" required onclick="longDong(1);" />
-            <b>SEE AND HEAR</b> (I SEE the object that makes the sounds described by the label AND I HEAR that object making those sounds at the same time)
           </label>
         </div>
         <br />
@@ -281,6 +281,7 @@
   var prev = -1; // the previous selected 
   var t; // the current selected
   var first = true;
+  var ischecked = false;
   // --- document object variables
   var tbl = $("#response-bar");
   var form = $("#response-form");
@@ -343,8 +344,10 @@
   function longDong(num) {
     if (num === 0) {
       lblInput.attr('required', 'required');
+      ischecked = false;
     } else {
       lblInput.removeAttr('required');
+      ischecked = true;
     }
   }
   // translates number of seconds to readable time
@@ -360,7 +363,7 @@
     instr.val(1);
   }
   function checkAnn() {
-    if ($('#radioContains').is(':checked')) {
+    if (ischecked) {
       for (i = 0; i < num_cells && inputRes[i].val() === '0'; i++) {}
       if (i < num_cells) {
         // user put in at least one annotation, yay!
