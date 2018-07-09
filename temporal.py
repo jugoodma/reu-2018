@@ -15,7 +15,7 @@ final_data = environments['temporal']['csv']
 labels = {} # and descriptions
 usable_videos = {}
 # the amount of videos you want per category from the list of top 25 categories
-amount_per_category = 20
+amount_per_category = 200
 
 # set random seed for reproductability
 random.seed(6942069)
@@ -35,29 +35,29 @@ print('Creating csv ' + final_data + ' with ' + str(interval) + 'sec intervals a
 # the categories we want to run
 category_list = ['Outside, rural or natural',
                  'Child speech, kid speaking',
-                 'Bass drum',
-                 'Chirp, tweet',
                  'Rapping',
                  'Cheering',
                  'Radio',
-                 'Hi-hat',
                  'Stream',
                  'Snoring',
-                 'Crowing, cock-a-doodle-doo',
                  'Computer keyboard',
-                 'Civil defense siren',
                  'Oink',
                  'Tick',
                  'Traffic noise, roadway noise',
                  'Whack, thwack',
-                 'Sink (filling or washing)',
                  'Sneeze',
-                 'Giggle',
-                 'Sawing',
-                 'Tambourine',
                  'Motorboat, speedboat',
                  'Choir',
-                 'Water tap, faucet']
+                 'Vacuum cleaner',
+                 'Sewing machine',
+                 'Walk, footsteps',
+                 'Thunder',
+                 'Ringtone',
+                 'Buzzer',
+                 'Fire alarm',
+                 'Microwave oven',
+                 'Change ringing (campanology)',
+                 'Waves, surf']
 print(len(category_list))
 
 # create dictionary for mapping obscured labels to human-readable labels + descriptions
