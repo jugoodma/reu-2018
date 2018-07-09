@@ -25,7 +25,7 @@
           <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body" id="instructionBody">
               <p><b>TL;DR:</b> We are artificial intelligence researchers looking to expand our dataset. Given a label of some sounds, we want to annotate <em>when</em>, in a 10-second video, you <em>see</em> the object actually <em>producing</em> those sounds. Sometimes the video will not show the object or the object may not make the sounds, so you should handle that video accordingly.</p>
-              <p>If you are using Internet Explorer 8 or below, please do not accept these HITs as we cannot guarantee they'll work.</p>
+              <p>If you are using Internet Explorer 8 or below, or you are on a mobile device, please do not accept these HITs as they will not work.</p>
               <h4>STEPS TO SUCCESSFULLY COMPLETE THESE HITS:</h4>
               <ol>
                 <li>Look at the label, and description of the label, that describes the sounds you will hear in this video.</li>
@@ -38,10 +38,10 @@
                 </li>
                 <li>Determine which category your video falls into and follow the corresponding instructions (note, all categories are of equal importance and take the same amount of time to complete):
                   <ul>
-                    <li>If you <b>SEE</b> the object that makes the sounds described by the label <b>AND</b> that object produces the described sounds <b>AT THE SAME TIME</b>:
+                    <li>If you <b>SEE</b> the object that makes the sounds described by the label <b>AND</b> you <b>HEAR</b> that object producing the described sounds <b>AT THE SAME TIME</b>:
                       <ul>
                         <li>Mark the <input type="radio" /> <b>SEE AND HEAR</b> radio button.</li>
-                        <li>Use the <a href="#ann">annotator</a> under the video to mark <em>when</em> (accurate to the nearest 1-second) this occurs in the video.</li>
+                        <li>Use the <a href="#ann">annotator</a> under the video to mark <em>when</em> (accurate to the nearest quarter-second) this occurs in the video.</li>
                         <li>Note: Still images CANNOT fall in this category.</li>
                         <li>Purpose: Videos in this category will go into our dataset. We want these videos.</li>
                         <li>Example: The label says 'Water'. For the whole video you hear splashing and rushing of water. Only during the 4th-7th seconds you actually see the water. You would select the 'SEE AND HEAR' option, and annotate the 4th-7th box in the annotator.</li>
@@ -50,7 +50,7 @@
                     <li>If you <b>HEAR</b> the object that makes the sounds described by the label <b>BUT</b> that object <b>NEVER</b> appears in the video:
                       <ul>
                         <li>Mark the <input type="radio" /> <b>HEAR</b> radio button.</li>
-                        <li>Use the <a href="#ann">annotator</a> under the video to mark <em>when</em> (accurate to the nearest 1-second) you hear the object.</li>
+                        <li>Use the <a href="#ann">annotator</a> under the video to mark <em>when</em> (accurate to the nearest quarter-second) you hear the object.</li>
                         <li>Purpose: This category of videos will help us understand how the dataset we are pulling from was constructed. Finding these videos will verify the integrity of the dataset.</li>
                         <li>Example: The label says 'Fireworks'. The video is of the night sky, and at the last second you hear a boom. The video ends before you see any light, however. You would select the 'HEAR' option, and solely annotate the last box in the annotator.</li>
                       </ul>
@@ -58,7 +58,7 @@
                     <li>If you <b>SEE</b> the object that makes the sounds described by the label <b>BUT</b> that object <b>NEVER</b> produces the described sounds:
                       <ul>
                         <li>Mark the <input type="radio" /> <b>SEE</b> radio button.</li>
-                        <li>Use the <a href="#ann">annotator</a> under the video to mark <em>when</em> (accurate to the nearest 1-second) you see the object.</li>
+                        <li>Use the <a href="#ann">annotator</a> under the video to mark <em>when</em> (accurate to the nearest quarter-second) you see the object.</li>
                         <li>Purpose: This category of videos will show us potential flaws in the dataset we are pulling from. These videos will help improve how researchers collect large quantities of data.</li>
                         <li>Example: The label says 'Tool'. The video shows a power-sander for the whole 10-second clip. The power-sander (a tool) is never turned (so no sound is produced). You would select the 'SEE' option, and annotate every box in the annotator.</li>
                       </ul>
@@ -68,7 +68,7 @@
                         <li>Decide which, <b>SEE</b> or <b>HEAR</b>, has more time in the video, and mark its corresponding <input type="radio" /> radio button. In the case of a tie, choose <b>SEE</b>.</li>
                         <li>Use the <a href="#ann">annotator</a> under the video to mark <em>when</em> (accurate to the nearest 1-second) you either see or hear the object.</li>
                         <li>Purpose: See the categories above.</li>
-                        <li>Example: The label says 'Racecar'. The video starts black but you hear racecars for 3 seconds. The last 7 seconds of the video shows racecars driving but you never hear them. You would select the 'SEE' option (7 seconds &gt; 3 seconds), and annotate the last 7 boxes in the annotator.</li>
+                        <li>Example: The label says 'Racecar'. The video starts black but you hear racecars for 3 seconds. The last 7 seconds of the video shows racecars driving but you never hear them. You would select the 'SEE' option (7 seconds &gt; 3 seconds), and annotate the last 28 boxes in the annotator.</li>
                       </ul>
                     </li>
                     <li>If the video is UNRELATED to the label:
@@ -85,7 +85,7 @@
               </ol>
               <p><b>Note</b>: If this is your first time doing these HITs, please tell us, in the first comments box, your favorite flavor of ice cream just so we know you read the instructions :) (you should only do this on your first time!).</p>
               <h4 id="ann">HOW TO USE THE ANNOTATOR:</h4>
-              <p>Each box under the video indicates a 1 second segment. If the category you chose is present in a segment, click the box for that segment. To highlight a box, you would left click the box. To un-highlight a highlighted box, you would left click the box again. You can click and drag to highlight (and un-highlight) multiple boxes. Under each box is a button that seeks to that segment of the clip. When the video is playing, you should see a bright yellow in the box that the video is currently on. Here are the colors with their respective meaning:</p>
+              <p>Each box under the video indicates a quarter-second segment. If the category you chose is present in a segment, you should highlight that segment in the first row of boxes. To highlight a box, you would left click the box. To un-highlight a highlighted box, you would right click the box or left click the box. You can click and drag to highlight (and un-highlight) multiple boxes. Under each box is a button that seeks to that segment of the clip. When the video is playing, you should see bright yellow in the second-row box that the video is currently on. Here are the colors with their respective meaning:</p>
               <center>
                 <table>
                   <tr height="50px">
@@ -94,24 +94,11 @@
                     <td width="200px" class="selected" style="border: 1px solid black"></td>
                     <td width="30px"></td>
                     <td width="200px" class="current" style="border: 1px solid black"></td>
-                    <td width="30px"></td>
-                    <td width="200px" class="selected current" style="border: 1px solid black"></td>
                   </tr>
                   <tr>
                     <td>Not Selected</td>
                     <td></td>
                     <td>Selected</td>
-                    <td></td>
-                    <td>Not Selected</td>
-                    <td></td>
-                    <td>Selected</td>
-                  </tr>
-                  <tr>
-                    <td>Video Not Playing Here</td>
-                    <td></td>
-                    <td>Video Not Playing Here</td>
-                    <td></td>
-                    <td>Video Playing Here</td>
                     <td></td>
                     <td>Video Playing Here</td>
                   </tr>
@@ -121,7 +108,7 @@
                 <li>Example: if the label is 'Oink' and you see a pig in the clip and the pig oinks during the fourth and fifth second, you would highlight the fourth and fifth box.</li>
                 <li>Example: if the label is 'Speech' and you see a person speaking during the whole clip, you would highlight every box.</li>
               </ul>
-              <p>Here's a demo of the annotator (note, the HIT questions in the video may differ slightly):</p>
+              <p>Here's an OLD demo of the annotator:</p>
               <center>
                 <iframe width="640" height="360" src="https://www.youtube.com/embed/ybfv2-2l3Jk"></iframe>
               </center>
@@ -142,7 +129,7 @@
       <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&amp;start=${start}&amp;end=${end}" style="pointer-events: none;"></iframe>
       <br /><br />
       <!-- Worker input -->
-      <table id="response-bar" onmouseup="stop();" ondragstart="return false;" ondrop="return false;" width="640px"></table>
+      <table id="response-bar" onmouseup="stop();" ondragstart="return false;" ondrop="return false;" oncontextmenu="return false;" width="640px"></table>
       <p class="hide" id="errorMessage">Please indicate when the Audio-Visual Event occured.</p>
       <button class="btn btn-primary" type="button" id="play">Play Video</button>
       <br />
@@ -159,30 +146,29 @@
     <!-- Worker input -->
     <div class="col-md-4">
       <h4>Label for this video: <b>${label}</b></h4>
-      <h5>Description for this label:</h5>
-      <p>${description}</p>
+      <p><span style="font-size: 15px;">Description for this label:</span> <b>${description}</b></p>
       <div class="form-group">
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" id="radioNotContains" type="radio" name="contains" value="0" onclick="longDong(0);" />
+            <input class="form-check-input" id="radioNotContains" type="radio" name="contains" value="0" />
             <b>UNRELATED</b> (The label and video are completely UNRELATED, I DO NOT SEE the object, AND I DO NOT HEAR that object, that makes sounds described by the label)
           </label>
         </div>
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" id="radioContains" type="radio" name="contains" value="1" required onclick="longDong(1);" />
+            <input class="form-check-input" id="radioContains" type="radio" name="contains" value="1" required />
             <b>SEE AND HEAR</b> (I SEE the object that makes the sounds described by the label AND I HEAR that object making those sounds at the same time)
           </label>
         </div>
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" id="radioSee" type="radio" name="contains" value="-1" onclick="longDong(1);" />
+            <input class="form-check-input" id="radioSee" type="radio" name="contains" value="-1" />
             <b>SEE</b> (I SEE the object that makes the sounds described by the label BUT I NEVER HEAR that object make those sounds)
           </label>
         </div>
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" id="radioHear" type="radio" name="contains" value="-2" onclick="longDong(1);" />
+            <input class="form-check-input" id="radioHear" type="radio" name="contains" value="-2" />
             <b>HEAR</b> (I HEAR the object that makes the sounds described by the label BUT I NEVER SEE that object in the video)
           </label>
         </div>
@@ -248,10 +234,15 @@
     margin-bottom: 10px;
     border-collapse: collapse;
     text-align: center;
+    table-layout: fixed;
   }
   #rowOne > td {
-  border: 1px solid blue;
+    border: 1px solid blue;
     height: 50px;
+  }
+  #timeRow > td {
+    border: 1px solid blue;
+    height: 15px;
   }
   #rowTwo > td {
     border-style: none;
@@ -275,7 +266,8 @@
   var min;
   var sec;
   var i;
-  var num_cells = ${end} - ${start}; // divided by window
+  var wind = 4; // 0.25 sec window
+  var num_cells = (${end} - ${start}) * wind; // quarter-second window : ((end - start) * 4) same as ((end - start) / 0.25)
   var selector = false;
   var eraser = false;
   var prev = -1; // the previous selected 
@@ -286,8 +278,10 @@
   var tbl = $("#response-bar");
   var form = $("#response-form");
   var tbl_row = $(document.createElement("tr")).attr({'id': 'rowOne'});
+  var time_row = $(document.createElement("tr")).attr({'id': 'timeRow'});
   var info_row = $(document.createElement("tr")).attr({'id': 'rowTwo'});
   var inputRes = [num_cells]; // array of input objects
+  var timeRes = [num_cells]; // array of time location objects
   var locRes = [num_cells]; // array of location objects
   var dummy = $("#dummy");
   var lblInput = $("#label-input");
@@ -303,6 +297,9 @@
   $('#checkButton').on('click', checkAnn);
   // set onclick for instructions
   $('#instrLink').on('click', instrClicked);
+  // more event listeners
+  $('#radioNotContains').on('click', {val: 0}, longDong);
+  $('#radioContains, #radioSee, #radioHear').on('click', {val: 1}, longDong);
   // youtube api code
   // load youtube api
   tag.id = 'yt-api';
@@ -316,33 +313,45 @@
   // NOTE: assuming 1-second window. Change this if the window length changes!
   // NOTE: also assuming 1-second intervals. Change this if the interval changes!
   for (i = 0; i < num_cells; i++) {
-    // table
+    // locations
     locRes[i] = $(document.createElement("td")).attr({
       'id': 'loc-' + i,
       'onmouseover': 'hover(' + i + ');',
-      'onmousedown': 'start(' + i + ');',
+      'onmousedown': 'start(event, ' + i + ');',
       'data-selected': false
     }).appendTo(tbl_row);
-    // info (still table)
-    info_row.append(
-      $(document.createElement("td")).append(
-        $('<button type="button"></button>').attr({'class': 'btn btn-primary'}).on('click', {pos: i}, seek).html(secToMin(${start} + i))
-      )
-    );
+    // time row
+    timeRes[i] = $(document.createElement("td")).attr({
+      'id': 'time-' + i
+    }).appendTo(time_row);
+    if ((i + 1) % wind === 0) {
+      timeRes[i].attr({'style': 'border-right-width: 3px; border-right-color: red;'});
+    }
+    if (i % wind === 0) {
+      timeRes[i].attr({'style': 'border-left-width: 3px; border-left-color: red;'});
+    // info
+      info_row.append(
+        $(document.createElement("td")).attr({'colspan': wind}).append(
+          $('<button type="button"></button>').attr({'class': 'btn btn-primary'}).on('click', {pos: i / wind}, seek).html(secToMin(${start} + i / wind))
+        )
+      );  
+    }
+      
     // form
     inputRes[i] = $('<input type="hidden" />').attr({
       'id': 'input-' + i,
-      'name': 'loc-' + i,
+      'name': 'loc-' + (i < 10 ? '0' : '') + i,
       'value': 0
     }).appendTo(form);
   }
   tbl.append(tbl_row);
+  tbl.append(time_row);
   tbl.append(info_row);
   // --- functions
   // if 'does not contain' is selected then label-input is required
   // else the user must select at least one annotation box
-  function longDong(num) {
-    if (num === 0) {
+  function longDong(event) {
+    if (event.data.val === 0) {
       lblInput.attr('required', 'required');
       ischecked = false;
     } else {
@@ -379,9 +388,9 @@
     }
   }
   // handler code for time-step coloring
-  function start(num) {
+  function start(event, num) {
     selector = true;
-    eraser = locRes[num].attr('data-selected') === 'true';
+    eraser = event.button === 2 || locRes[num].attr('data-selected') === 'true';
     hover(num);
   }
   function hover(num) {
@@ -412,13 +421,13 @@
   }
   // control functions
   function vidStatus() {
-    t = Math.floor(player.getCurrentTime()) - ${start} + 0; // current time in video - start time for clip
+    t = Math.floor((player.getCurrentTime() - ${start} + 0) * wind); // current time in video - start time for clip
     // console.log("vidStatus curr time: " + t);
     if (t != prev) {
       // console.log("vidStatus updating current box highlight");
       prev = t;
-      locRes[t].addClass('current');
-      locRes[(t === 0 ? num_cells : t) - 1].removeClass('current');
+      timeRes[t].addClass('current');
+      timeRes[(t === 0 ? num_cells : t) - 1].removeClass('current');
     }
   }
   function play(ele) {
@@ -428,7 +437,7 @@
       dummy.val(1);
     }
     playButton.off().on('click', pause).html('Pause Video');
-    timer = setInterval(vidStatus, 200);
+    timer = setInterval(vidStatus, 150);
   }
   function pause(ele) {
     player.pauseVideo();
@@ -440,10 +449,10 @@
     if (first) {
       player.pauseVideo();
     } else {
-      locRes[prev].removeClass('current');
+      timeRes[prev].removeClass('current');
     }
     prev = event.data.pos;
-    locRes[event.data.pos].addClass('current');
+    timeRes[event.data.pos * wind].addClass('current');
   }
 </script>
 <!-- End REU script -->

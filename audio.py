@@ -8,7 +8,8 @@ msrvtt = 'videodatainfo_2017.json'
 # number of videos per category to skip
 # started with 1 video per category
 # 7/3 running 10 videos per category
-skip = 1
+# 7/5 running 10 videos per category
+skip = 11
 
 print("Creating audio input from msr-vtt...")
 # number of vids per category

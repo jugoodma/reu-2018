@@ -24,57 +24,64 @@
           </div>
           <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body" id="instructionBody">
-              <p><b>TL;DR:</b> We are artificial intelligence researchers looking to create a dataset. We want you to annotate a video without <em>seeing</em> and only <em>hearing</em> the video.</p>
-              <p>If you are using Internet Explorer, please do not accept these HITs as we cannot guarantee the blur effect will work. <b>We will reject your response if you use an old browser</b>. This should not be an issue for most workers.</p>
-              <p>If you do NOT have an ad-blocker on your browser, please do not accept these HITs. Ads will interfere with what you hear in the YouTube video. Since you cannot see the YouTube video, you may not know an Ad is playing. We will reject your response if you do not have an ad-blocker.</p>
-              <p><b>NOTE: IF YOU SEE THE VIDEO WITHOUT A BLUR, THE VIDEO IS UNAVAILABLE, AND/OR YOU EXPERIENCE ANY DISPLAY ERRORS, DO NOT ACCEPT THIS HIT!</b></p>
-              <h4>STEPS TO SUCCESSFULLY COMPLETE THESE HITS:</h4>
-              <ol>
-                <li>Click the <span><button class="btn btn-primary" onclick="" type="button">Play Video</button></span> button and listen to the video.
-                  <ul>
-                    <li><b style="color: red;">IMPORTANT:</b> You should see a blur over the video. Our goal with this dataset is to understand how much of human visual context is based on audio information. Thus, if you can see the video then your response to this HIT is useless.</li>
-                    <li>The YouTube video player will then play the specified 10-30 second clip for you. The 'Play Video' button will change to a <span><button class="btn btn-primary" onclick="" type="button">Pause Video</button></span> button. The clip will play on repeat until you click the 'Pause Video' button.</li>
-                    <li><b>Controls in the YouTube player are disabled</b>. We disabled the controls so we can show you one specific part of the video.</li>
-                  </ul>
-                </li>
-                <li>Annotate the video in the <span><textarea rows="1" placeholder="Describe here..."></textarea></span> textbox.
-                  <ul>
-                    <li>Be confident in your answer. You are allowed to use creativity to infer what might be going on visually, but base all of your descriptions on the audio.</li>
-                    <li>Your response should be complete sentences. If your sentences are too short <b>we will reject your response</b>.</li>
-                    <li><b>AVOID spelling mistakes</b>.</li>
-                    <li>AVOID using self-referring phrases. We know these are your thoughts and we know you're talking about the video. Example phrases (DO NOT USE THESE):
-                      <ul>
-                        <li>'i think'</li>
-                        <li>'it seems like'</li>
-                        <li>'this sounds like'</li>
-                        <li>'the video appears to be'</li>
-                        <li>'i guess'</li>
-                        <li>'YouTube'</li>
-                        <li>etc...</li>
-                      </ul>
-                    </li>
-                    <li>AVOID pressing enter after each sentence. Write your sentences as one paragraph, with periods at the end of each sentence.</li>
-                    <li>Example description: In the blurred frame you see a lot of green and some dark blobs. In the audio scene you hear a ball being kicked and then a loud cheer from what sounds like thousands of people. You might write the following:
-                      <ul>
-                        <li>two teams play a game of soccer in a large green field. one player kicks a ball down the field. a goal is scored and the crowd in the stadium cheers.</li>
-                      </ul>
-                      The video may actually be of an American football fieldgoal shot, but if it sounds like soccer to you then specify that!
-                    </li>
-                    <li>Here is a list of some things to think about for your descriptions. Do not limit yourself to this list; it may or may not apply to your video:
-                      <ul>
-                        <li>Where do you think this is taking place?</li>
-                        <li>Do you hear any people or animals? How many? What do you think they're doing?</li>
-                        <li>If you hear music, consider the instruments or the genre.</li>
-                        <li>If you hear speech, think about the age or gender of the speaker, where they might be, and why they're speaking.</li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-                <li>Click <span><button class="btn btn-primary" onclick="" type="button">Submit Answer</button></span>! Thank you for completing our HIT!</li>
-              </ol>
-              <p><b>Note</b>: If this is your first time doing these HITs, please tell us, in the first comments box, your favorite color just so we know you read the instructions :) (you should only do this on your first time!).</p>
-              <h4>ABOUT US:</h4>
-              <p>Our names are Justin Goodman and Marc Moore. We are undergraduate researchers working on a data-expansion research project for University of Rochester's <a href="http://www.sas.rochester.edu/dsc/undergraduate/reu.html" target="_blank">Computational Methods</a> <a href="https://www.nsf.gov/crssprgm/reu/" target="_blank">REU</a> program. We are working under Dr. Chenliang Xu, a well-established computer vision researcher. With this dataset we hope to understand the subtle differences in features we notice in visual versus audio information. We hope to combine the differences in visual and audio information to help an artifiial intelligence gain a better understanding of a scene. Thank you for helping us complete our research project!</p>
+              <section>
+                <p><b>TL;DR:</b> We are artificial intelligence researchers looking to create a dataset. We want you to caption (with 1 sentence) a video <em>focusing on the audio content</em>. For this HIT we intentionally blur the video so that the visual content provides context to describe the audio.</p>
+                <p><b>NOTE: IF YOU CAN SEE THE VIDEO WITHOUT A BLUR, DO NOT ACCEPT THIS HIT!</b></p>
+                <p>If you are using Internet Explorer, the blur effect will not work and you should instead see a black screen.</p>
+                <p>If you do NOT have an ad-blocker on your browser, please do NOT accept these HITs. Ads will interfere with what you hear in the YouTube video. Since you cannot see the YouTube video, you may not know an advertisement is playing. Here is an excellent ad-blocker: <a href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm?hl=en-US" target="_blank">for Chrome</a>, <a href="https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/" target="_blank">for Firefox</a>.</p>
+              </section>
+              <section>
+                <h4>STEPS TO SUCCESSFULLY COMPLETE THESE HITS:</h4>
+                <ol>
+                  <li>Click the <span><button class="btn btn-primary" onclick="" type="button">Play Video</button></span> button and listen to the video.
+                    <ul>
+                      <li><b style="color: red;">IMPORTANT:</b> You should see a blur over the video. Our goal with this dataset is to understand how much of human scene understanding is based on audio information. Thus, if you can see the unblurred video then your response to this HIT is useless.</li>
+                      <li>The YouTube video player will then play the specified 10-30 second clip for you. The 'Play Video' button will change to a <span><button class="btn btn-primary" onclick="" type="button">Pause Video</button></span> button. The clip will play on repeat until you click the 'Pause Video' button.</li>
+                      <li><b>Controls in the YouTube player are disabled</b>. We disabled the controls so we can show you one specific part of the video.</li>
+                    </ul>
+                  </li>
+                  <li>Annotate the video with <b>1 descriptive sentence</b> in the <span><textarea rows="1" placeholder="Describe here..."></textarea></span> textbox.
+                    <ul>
+                      <li>Your annotation should be in English.</li>
+                      <li>Be confident in your answer. You are allowed to <b>use creativity to infer</b> what might be going on in the scene, but <b>base all of your descriptions on the audio</b>.</li>
+                      <li>Your response should be a complete sentence. If your sentence is too short <b>we will reject your response</b>.</li>
+                      <li>Feel free to write more than 1 sentence. Please use a period and a space, like you would write a normal paragraph, to separate your sentences.</li>
+                      <li><b>AVOID spelling mistakes and grammatical mistakes</b>.</li>
+                      <li>AVOID using self-referring phrases. We know these are your thoughts and we know you're talking about the video. Example phrases (DO NOT USE THESE):
+                        <ul>
+                          <li>'i think'</li>
+                          <li>'it seems like'</li>
+                          <li>'this sounds like'</li>
+                          <li>'the video appears to be'</li>
+                          <li>'i guess'</li>
+                          <li>'YouTube'</li>
+                          <li>etc...</li>
+                        </ul>
+                      </li>
+                      <li>Example description: In the blurred frame you see a lot of green and some dark blobs. In the audio scene you hear a ball being kicked and then a loud cheer from what sounds like thousands of people. You might write the following:
+                        <ul>
+                          <li>two teams play a game of soccer in a large green field. one player kicks a ball down the field, and a goal is scored and the crowd in the stadium cheers.</li>
+                        </ul>
+                        The video may actually be of an American football fieldgoal shot, but if it sounds like soccer to you then specify that!
+                      </li>
+                      <li>Here is a list of some things to think about for your descriptions. Do not limit yourself to this list; it may or may not apply to your video:
+                        <ul>
+                          <li>Where do you think this is taking place?</li>
+                          <li>Do you hear any people or animals? How many? What do you think they're doing?</li>
+                          <li>If you hear music, consider the instruments or the genre.</li>
+                          <li>If you hear speech, think about the age or gender of the speaker, where they might be, and why they're speaking.</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>Click <span><button class="btn btn-primary" onclick="" type="button">Submit Answer</button></span>! Thank you for completing our HIT!</li>
+                </ol>
+                <p><b>Note</b>: If this is your first time doing these HITs, please tell us, in the first comments box, your favorite color just so we know you read the instructions :) (you should only do this on your first time!).</p>
+              </section>
+              <section>
+                <h4>ABOUT US:</h4>
+                <p>Our names are Justin Goodman and Marc Moore. We are undergraduate researchers working on a data-expansion research project for University of Rochester's <a href="http://www.sas.rochester.edu/dsc/undergraduate/reu.html" target="_blank">Computational Methods</a> <a href="https://www.nsf.gov/crssprgm/reu/" target="_blank">REU</a> program. We are working under Dr. Chenliang Xu, a well-established computer vision researcher. With this dataset we hope to understand the subtle differences in features we notice in visual versus audio information. We hope to combine the differences in visual and audio information to help an artifiial intelligence gain a better understanding of a scene. Thank you for helping us complete our research project!</p>
+              </section>
             </div>
           </div>
         </div>
@@ -87,8 +94,8 @@
   <div class="row" id="workContent">
     <div class="col-sm-8">
       <h3 id="ass">Assignment:</h3>
-      <h3 id="ieOnly" style="display: none; color: red;">It seems like you're using Internet Explorer. You won't be able to see the blurred video due to browser restrictions so we advise you do NOT complete this HIT or we will reject your responses.</h3>
-      <h3 id="noAdBlock" style="display: none; color: red;">It seems that you are not using an Ad-Blocker. The YouTube video player may, unknown to you, display an advertisement which will mess up your interpretation of the video. We advise you do NOT complete this HIT or we will reject your responses.</h3>
+      <h3 id="ieOnly" style="display: none; color: red;">It seems like you're using Internet Explorer. You should see a black screen instead of a blurred video.</h3>
+      <h3 id="noAdBlock" style="display: none; color: red;">It seems that you are not using an Ad-Blocker. The YouTube video player may, unknown to you, display an advertisement which will mess up your interpretation of the video.</h3>
       <br />
       <br />
       <div class="blur">
@@ -114,7 +121,10 @@
     <!-- Worker input -->
     <div class="col-sm-4">
       <div class="form-group">
-        <h4>Annotate the video:</h4>
+        <h4>Annotate the video (1 sentence):</h4>
+        <center>
+          <p>Remember, <b>focus on the audio</b>. The blurred visual is just for context - the more you describe the audio, the better the quality.</p>
+        </center>
         <textarea class="form-control" name="response" rows="6" cols="250" placeholder="Describe here..." required></textarea>
         <br />
         <label>Comments on this assignment (optional):</label>

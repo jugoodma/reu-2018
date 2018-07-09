@@ -15,7 +15,7 @@ final_data = environments['temporal']['csv']
 labels = {} # and descriptions
 usable_videos = {}
 # the amount of videos you want per category from the list of top 25 categories
-amount_per_category = 10
+amount_per_category = 20
 
 # set random seed for reproductability
 random.seed(6942069)
@@ -25,12 +25,39 @@ random.seed(6942069)
 # 6/27 running 1 video per category
 # 6/28 running 4 video per category
 # 7/3 running 10 videos per category
-skip = 30
+# 7/5 running 200 videos per category
+# 7/6 running 20 videos per category (new categories, some are the same)
+# skip = 240
+# changing to random shuffle
 
 print('Creating csv ' + final_data + ' with ' + str(interval) + 'sec intervals and ' + str(window) + 'sec window.')
 
 # the categories we want to run
-category_list = ['Music', 'Speech', 'Vehicle', 'Singing', 'Car', 'Animal', 'Outside, rural or natural', 'Bird', 'Engine', 'Child speech, kid speaking', 'Water', 'Siren', 'Tools', 'Bird vocalization, bird call, bird song', 'Wind instrument, woodwind instrument', 'Laughter', 'Cheering', 'Gunshot, gunfire', 'Radio', 'Fireworks', 'Stream', 'Snoring', 'Explosion', 'Bell', 'Oink']
+category_list = ['Outside, rural or natural',
+                 'Child speech, kid speaking',
+                 'Bass drum',
+                 'Chirp, tweet',
+                 'Rapping',
+                 'Cheering',
+                 'Radio',
+                 'Hi-hat',
+                 'Stream',
+                 'Snoring',
+                 'Crowing, cock-a-doodle-doo',
+                 'Computer keyboard',
+                 'Civil defense siren',
+                 'Oink',
+                 'Tick',
+                 'Traffic noise, roadway noise',
+                 'Whack, thwack',
+                 'Sink (filling or washing)',
+                 'Sneeze',
+                 'Giggle',
+                 'Sawing',
+                 'Tambourine',
+                 'Motorboat, speedboat',
+                 'Choir',
+                 'Water tap, faucet']
 print(len(category_list))
 
 # create dictionary for mapping obscured labels to human-readable labels + descriptions
@@ -66,14 +93,17 @@ with open(data_path + final_data, 'w', newline = '') as f:
     writer.writerow(['ytid'] + ['start'] + ['end'] + ['label'] + ['description'])
     # sample <amount_per_category> number of random videos from usable_videos
     for key in usable_videos:
+        print(key)
+        print(len(usable_videos[key]))
         # skip some
-        for count in range(skip):
-            row = random.choice(usable_videos[key])
-            usable_videos[key].remove(row)
+        #for count in range(skip):
+        #    row = random.choice(usable_videos[key])
+        #    usable_videos[key].remove(row)
+        # shuffle usable_videos
+        random.shuffle(usable_videos[key])
         # write videos
         for count in range(amount_per_category):
-            row = random.choice(usable_videos[key])
-            usable_videos[key].remove(row)
+            row = usable_videos[key][count]
             row[1] = int(float(row[1]))
             row[2] = int(float(row[2]))
             print(row)
