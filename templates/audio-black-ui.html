@@ -97,7 +97,7 @@
       <br />
       <br />
       <div>
-        <div id="ieBlur" style="display: block;"></div>
+        <div id="blackOverlay"></div>
         <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&amp;start=${start}&amp;end=${end}" style="pointer-events: none;"></iframe>
       </div>
       <br />
@@ -108,7 +108,6 @@
         <!-- why are you looking here, get out! -->
         <input name="identifier" type="hidden" value="audio" />
         <input name="ytid" type="hidden" value="${ytid}" />
-        <input name="category" type="hidden" value="${category}" />
         <input name="clickedPlay" type="hidden" value="0" id="dummy" />
         <input name="clickedInstructions" type="hidden" value="0" id="instr" />
         <input name="youtubeError" type="hidden" value="0" id="yt-error" />
@@ -138,7 +137,8 @@
 <!-- End Video matching layout -->
 <!-- Open internal style sheet -->
 <style type="text/css">
-  #ieBlur {
+  #blackOverlay {
+    display: block;
     z-index: 3;
     height: 360px;
     width: 640px;
