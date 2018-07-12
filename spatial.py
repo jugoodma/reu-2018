@@ -1,41 +1,43 @@
 import csv
-import itertools
-import re
+import random
+from settings import *
 
 # begin
-name = 'final_AVE_formatted_clips.csv' # change this if you want a NEW csv
 interval = 1.0
 window = 1.0
-#labels_file = 'class_labels_indices.csv'
-data_file = 'final_AVE_formatted.csv'
-start_row = 1
-num_rows = 500 # (250) this shouldn't change due to batch limitations in MTurk
-#labels = {}
+final_data = environments['spatial']['csv']
+audioset = 'unbalanced_train_segments.csv'
+subset = 'spatial-sub.csv'
 
-print('Creating csv ' + name + ' with ' + str(interval) + 'sec intervals and ' + str(window) + 'sec window.')
-"""
-# create dictionary for mapping obscured labels to human-readable labels
-with open(labels_file, newline = '') as f:
-    reader = csv.reader(f)
-    next(reader) # skip the first line since it has headers for the columns
-    for row in reader:
-        labels[row[1]] = row[2]
-"""
+print('Creating csv ' + final_data + ' with ' + str(interval) + 'sec intervals and ' + str(window) + 'sec window.')
+
+random.seed(6942069)
+
 # create csv file with clips
-with open('final_AVE_formatted_clips.csv', 'w') as output:
-    writer = csv.writer(output, delimiter = ',', quotechar = '"')
+temp = []
+with open(data_path + subset, 'r', newline = '') as f:
+    reader = csv.reader(f, quotechar = '"', delimiter = '&', quoting = csv.QUOTE_ALL, skipinitialspace = True)
+    for row in reader:
+        temp.append(row)
+#random.shuffle(temp)
+#temp = temp[0:20]
+starts = {}
+with open(data_path + audioset, 'r', newline = '') as f:
+    reader = csv.reader(f, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
+    for i in range(3):
+        next(reader)
+    for row in reader:
+        starts[row[0]] = [int(float(row[1])), int(float(row[2]))] # start, end
+with open(data_path + final_data, 'w', newline = '') as f:
+    writer = csv.writer(f,  quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
     # write the header row
-    writer.writerow(['ytid'] + ['start'] + ['end'] + ['labels'])
-    # read data in specified range
-    with open(data_file) as f:
-        reader = itertools.islice(csv.reader(f, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True), start_row, start_row + num_rows)
-        for row in reader:
-            # the following is specific to the .csv files given by AudioSet
-            #lbls = ', '.join(list(map(lambda l: labels[l],row[3].split(','))))
-            ytid = re.search('(=?)(.*)$', row[0]).group(2)
-            for i in range(int(((float(row[2]) - float(row[1]) - window) / interval) + 1)): # calculate number of clips
-                print(i)
-                writer.writerow([ytid] + [int((interval * i) + int(row[1]))] + [int((interval * i) + window + int(row[1]))] + [row[3]])
+    writer.writerow(['ytid'] + ['start'] + ['end'] + ['label'])
+    for row in temp:
+        offset = starts[row[1]][0]
+        for i in range(int(((float(row[4]) - float(row[3]) - window) / interval) + 1)): # calculate number of clips
+            r = [row[1]] + [int((interval * i) + int(row[3])) + offset] + [int((interval * i) + window + int(row[3])) + offset] + [row[0]]
+            print(r)
+            writer.writerow(r)
 
 # end
 print('Done.')

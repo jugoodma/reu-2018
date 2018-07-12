@@ -6,6 +6,7 @@ mturk_type = "sandbox"
 data_type = "temporal"
 data_path = "data/"
 template_path = "templates/"
+result_path = "results/"
 max_results = 10
 approve_all = False
 

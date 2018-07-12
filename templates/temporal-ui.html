@@ -1,5 +1,5 @@
 <!--
-  MTurk UI that takes .csv with youtube id, start time, end time, and labels
+  MTurk UI that takes .csv with youtube id, start time, end time, and label
   and displays said video (should be 1sec) to the user repeatedly
   
   Justin Goodman
@@ -130,6 +130,7 @@
       <br /><br />
       <!-- Worker input -->
       <table id="response-bar" onmouseup="stop();" ondragstart="return false;" ondrop="return false;" oncontextmenu="return false;" width="640px"></table>
+      <p>Reminder: you can click-and-drag to select/de-select multiple boxes.</p>
       <p class="hide" id="errorMessage">Please indicate when the Audio-Visual Event occured.</p>
       <button class="btn btn-primary" type="button" id="play">Play Video</button>
       <br />
@@ -311,6 +312,7 @@
   };
   // generate response bar and corresponding form data
   // NOTE: assuming 1-second window. Change this if the window length changes!
+  // -- window is now specified as 0.25-sec
   // NOTE: also assuming 1-second intervals. Change this if the interval changes!
   for (i = 0; i < num_cells; i++) {
     // locations
