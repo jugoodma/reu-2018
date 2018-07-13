@@ -178,9 +178,9 @@
   var c;
   var ua = window.navigator.userAgent;
   var first = true;
-  //var url = "https://www.youtube.com/watch?v=YTID"; // old version
-  var jsonData = ${json};
-  var len = jsonData.length;
+  var url = "https://www.youtube.com/watch?v=";
+  var ytid = ${ytid};
+  var xmlhttp = new XMLHttpRequest();
   var i;
   var start = ${start};
   var end = ${end};
@@ -190,12 +190,20 @@
   var player = $("#player");
   var loadText = $("#loading");
   // --- script code
-  loadText.html("Loading video...");
+  loadText.html("Loading video (this may take a second)...");
   $('#ua').val(ua);
   // set onclick for instructions
   $('#instrLink').on('click', instrClicked);
   // youtube video code
-  //$.getJSON("https://you-link.herokuapp.com/?", {url: url}, ready);
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      ready(JSON.parse(this.responseText));
+    } else {
+      error();
+    }
+  };
+  xmlhttp.open("GET", url, true);
+  xmlhttp.send();
   for (i = 0; i < len; i++) {
     player.append($(document.createElement("source")).attr({'src': jsonData[i]['url'], 'type': jsonData[i]['type']}));
   }
@@ -205,12 +213,15 @@
   function instrClicked() {
     instr.val(1);
   }
-  //function ready(data) {
-  //  loadText.html('Video is ready for playback! If you see a black box above this message, you are good to go!, Start time: START-sec, End time: END-sec.');
-  //  $.each(data, function(idx, obj){
-  //    player.append($(document.createElement("source")).attr({'src': obj['url'], 'type': obj['type']}));
-  //  });
-  //}
+  function ready(data) {
+    loadText.html('Video is ready for playback! If you see a black box above this message, you are good to go!, Start time: START-sec, End time: END-sec.');
+    $.each(data, function(idx, obj){
+      player.append($(document.createElement("source")).attr({'src': obj['url'], 'type': obj['type']}));
+    });
+  }
+  function error() {
+    
+  }
   function check() {
     c = player.get(0).currentTime;
     loadText.html("Current time: " + Math.floor(c));
@@ -218,7 +229,6 @@
       player.get(0).currentTime = start;
     }
   }
-
   function play(ele) {
     player.get(0).play();
     if (first) {
