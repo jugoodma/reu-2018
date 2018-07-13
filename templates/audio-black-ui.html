@@ -27,7 +27,6 @@
               <section>
                 <p><b>TL;DR:</b> We are artificial intelligence researchers looking to create a dataset. We want you to annotate (with 1 sentence) a video without <em>seeing</em> and only <em>hearing</em> the video.</p>
                 <p><b>NOTE: IF YOU CAN SEE THE VIDEO, DO NOT ACCEPT THIS HIT!</b></p>
-                <p>If you do NOT have an ad-blocker on your browser, please do NOT accept these HITs. Ads will interfere with what you hear in the YouTube video. Since you cannot see the YouTube video, you may not know an Ad is playing. Here is an excellent ad-blocker: <a href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm?hl=en-US" target="_blank">for Chrome</a>, <a href="https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/" target="_blank">for Firefox</a>.</p>
               </section>
               <section>
                 <h4>STEPS TO SUCCESSFULLY COMPLETE THESE HITS:</h4>
@@ -92,16 +91,17 @@
   <div class="row" id="workContent">
     <div class="col-sm-8">
       <h3 id="ass">Assignment:</h3>
-      <h3 id="ieOnly" style="display: none; color: red;">It seems like you're using Internet Explorer. You should see a black screen instead of a blurred video.</h3>
-      <h3 id="noAdBlock" style="display: none; color: red;">It seems that you are not using an Ad-Blocker. The YouTube video player may, unknown to you, display an advertisement which will mess up your interpretation of the video.</h3>
+      <video height="10px" width="640px"><p style="color: red;">It seems like your browser is out-dated. Please do not complete these HITs!</p></video>
       <br />
       <br />
       <div>
-        <div id="blackOverlay"></div>
-        <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&amp;start=${start}&amp;end=${end}" style="pointer-events: none;"></iframe>
+        <div id="blackOverlay">If you <b>do not</b> see a red message above this black box, you are good to go on these HITs!</div>
+        <video id="player" width="640" height="360" controls>
+          <p>Looks like your browser is out-dated. You should skip this HIT!</p>
+        </video>
       </div>
       <br />
-      <br />
+      <p id="loading">Looks like our code had an error, the video is unavailable, or your browser is out-dated. You should skip this HIT!</p>
       <button class="btn btn-primary" onclick="play(this);" type="button">Play Video</button>
       <br />
       <div id="response-form" class="form-group" style="display: none;">
@@ -112,7 +112,6 @@
         <input name="clickedInstructions" type="hidden" value="0" id="instr" />
         <input name="youtubeError" type="hidden" value="0" id="yt-error" />
         <input name="userAgent" type="hidden" value="" id="ua" />
-        <input name="hasAdBlock" type="hidden" value="1" id="adb" />
       </div>
     </div>
     <!-- Worker input -->
@@ -143,78 +142,85 @@
     height: 360px;
     width: 640px;
     position: absolute;
-    color: black;
+    color: white;
     background-color: black;
+    text-align: center;
   }
 </style>
 <style type="text/css">
   #submitButton {
-  white-space: normal;
+    white-space: normal;
   }
   /* CSS for breaking long words/urls */
   .dont-break-out {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  -ms-word-break: break-all;
-  word-break: break-all;
-  word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
   }
 </style>
 <!-- End internal style sheet -->
 <!-- External JS references -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>-->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- REU-2018 script code -->
 <script type="text/javascript">
   // --- general variables
-  var firstScriptTag;
-  var player;
+  var vid;
+  var c;
   var ua = window.navigator.userAgent;
+  var first = true;
+  //var url = "https://www.youtube.com/watch?v=YTID"; // old version
+  var jsonData = ${json};
+  var len = jsonData.length;
+  var i;
+  var start = ${start};
+  var end = ${end};
   // --- document object variables
-  var tag = document.createElement('script');
   var err = $("#yt-error");
   var instr = $("#instr");
+  var player = $("#player");
+  var loadText = $("#loading");
   // --- script code
-  //document.documentElement.setAttribute("data-agent", navigator.userAgent);
+  loadText.html("Loading video...");
   $('#ua').val(ua);
   // set onclick for instructions
   $('#instrLink').on('click', instrClicked);
-  // youtube api code
-  tag.id = 'yt-api';
-  tag.src = 'https://www.youtube.com/iframe_api';
-  firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-  window.onYouTubeIframeAPIReady = function() {
-    player = new YT.Player('player', {events: {'onReady': ready, 'onStateChange': change, 'onError': error}});
+  // youtube video code
+  //$.getJSON("https://you-link.herokuapp.com/?", {url: url}, ready);
+  for (i = 0; i < len; i++) {
+    player.append($(document.createElement("source")).attr({'src': jsonData[i]['url'], 'type': jsonData[i]['type']}));
   }
+  player.on('timeupdate', check);
+  loadText.html('Video is ready for playback! If you see a black box above this message, you are good to go!, Start time: ' + start + '-sec, End time: ' + end + '-sec.');
   // --- functions
   function instrClicked() {
     instr.val(1);
   }
-  // control functions
-  function ready(event) {
-    player.getIframe().setAttribute("style", "pointer-events: none;");
-    if (player.isMuted()) {
-      player.unMute();
+  //function ready(data) {
+  //  loadText.html('Video is ready for playback! If you see a black box above this message, you are good to go!, Start time: START-sec, End time: END-sec.');
+  //  $.each(data, function(idx, obj){
+  //    player.append($(document.createElement("source")).attr({'src': obj['url'], 'type': obj['type']}));
+  //  });
+  //}
+  function check() {
+    c = player.get(0).currentTime;
+    loadText.html("Current time: " + Math.floor(c));
+    if (c < start || c > end) {
+      player.get(0).currentTime = start;
     }
   }
-  function change(event) {
-    if (event.data == YT.PlayerState.ENDED) {
-      player.loadVideoById({'videoId': '${ytid}','startSeconds': ${start},'endSeconds': ${end},'suggestedQuality': 'large'});
-    }
-  }
-  function error(event) {
-    err.val(1);
-  }
-  var first = true;
+
   function play(ele) {
-    player.playVideo();
+    player.get(0).play();
     if (first) {
       first = false;
       document.getElementById("dummy").setAttribute("value", "1");
@@ -223,46 +229,9 @@
     ele.textContent = "Pause Video";
   }
   function pause(ele) {
-    player.pauseVideo();
+    player.get(0).pause();
     ele.setAttribute("onclick", "play(this);");
     ele.textContent = "Play Video";
   }
 </script>
 <!-- End REU script -->
-<script src="https://cdn.jsdelivr.net/npm/fuckadblock@3.2.1/fuckadblock.min.js" integrity="sha256-xjwKUY/NgkPjZZBOtOxRYtK20GaqTwUCf7WYCJ1z69w=" crossorigin="anonymous" ></script><!-- need this to detect adblock -->
-<script>
-  // Function called if AdBlock is not detected
-  function adBlockNotDetected() {
-    document.getElementById('adb').value = '0';
-    document.getElementById('noAdBlock').style.display = 'block';
-  }
-  // Function called if AdBlock is detected
-  function adBlockDetected() {
-    document.getElementById('adb').value = '1';
-    document.getElementById('noAdBlock').style.display = 'none';
-  }
-
-  // We look at whether FuckAdBlock already exists.
-  if(typeof fuckAdBlock !== 'undefined' || typeof FuckAdBlock !== 'undefined') {
-    // If this is the case, it means that something tries to usurp are identity
-    // So, considering that it is a detection
-    adBlockDetected();
-  } else {
-    // Otherwise, you import the script FuckAdBlock
-    var importFAB = document.createElement('script');
-    importFAB.onload = function() {
-      // If all goes well, we configure FuckAdBlock
-      fuckAdBlock.onDetected(adBlockDetected)
-      fuckAdBlock.onNotDetected(adBlockNotDetected);
-    };
-    importFAB.onerror = function() {
-      // If the script does not load (blocked, integrity error, ...)
-      // Then a detection is triggered
-      adBlockDetected(); 
-    };
-    importFAB.integrity = 'sha256-xjwKUY/NgkPjZZBOtOxRYtK20GaqTwUCf7WYCJ1z69w=';
-    importFAB.crossOrigin = 'anonymous';
-    importFAB.src = 'https://cdnjs.cloudflare.com/ajax/libs/fuckadblock/3.2.1/fuckadblock.min.js';
-    document.head.appendChild(importFAB);
-  }
-</script>
