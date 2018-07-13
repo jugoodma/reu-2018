@@ -4,8 +4,9 @@ import re
 import json
 import math
 import requests
-from settings import *
 import random
+from settings import *
+
 # begin
 interval = 1.0
 window = 1.0
@@ -33,31 +34,31 @@ random.seed(6942069)
 print('Creating csv ' + final_data + ' with ' + str(interval) + 'sec intervals and ' + str(window) + 'sec window.')
 
 # the categories we want to run
-category_list = ['Outside, rural or natural',
-                 'Child speech, kid speaking',
-                 'Rapping',
-                 'Cheering',
+category_list = ['Child speech, kid speaking',
                  'Radio',
                  'Stream',
                  'Snoring',
                  'Computer keyboard',
                  'Oink',
                  'Tick',
-                 'Traffic noise, roadway noise',
-                 'Whack, thwack',
                  'Sneeze',
                  'Motorboat, speedboat',
                  'Choir',
                  'Vacuum cleaner',
                  'Sewing machine',
                  'Walk, footsteps',
-                 'Thunder',
                  'Ringtone',
                  'Buzzer',
                  'Fire alarm',
                  'Microwave oven',
                  'Change ringing (campanology)',
-                 'Waves, surf']
+                 'Waves, surf',
+                 'Clarinet',
+                 'Accelerating, revving, vroom',
+                 'Printer',
+                 'Skateboard',
+                 'Blender',
+                 'Lawn mower']
 print(len(category_list))
 
 # create dictionary for mapping obscured labels to human-readable labels + descriptions
