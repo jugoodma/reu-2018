@@ -91,7 +91,7 @@
   <div class="row" id="workContent">
     <div class="col-sm-8">
       <h3 id="ass">Assignment:</h3>
-      <video height="10px" width="640px"><p style="color: red;">It seems like your browser is out-dated. Please do not complete these HITs!</p></video>
+      <video height="10px" width="640px"><p class="red">It seems like your browser is out-dated. Please do not complete these HITs!</p></video>
       <br />
       <br />
       <div>
@@ -101,7 +101,7 @@
         </video>
       </div>
       <br />
-      <p id="loading">Looks like our code had an error, the video is unavailable, or your browser is out-dated. You should skip this HIT!</p>
+      <p id="loading" class="red">Looks like our code had an error, the video is unavailable, or your browser is out-dated. You should skip this HIT!</p>
       <button class="btn btn-primary" onclick="play(this);" type="button">Play Video</button>
       <br />
       <div id="response-form" class="form-group" style="display: none;">
@@ -146,8 +146,12 @@
     background-color: black;
     text-align: center;
   }
-</style>
-<style type="text/css">
+  .red {
+    color: red;
+  }
+  .blue {
+    color: blue;
+  }
   #submitButton {
     white-space: normal;
   }
@@ -178,16 +182,17 @@
   var c;
   var ua = window.navigator.userAgent;
   var first = true;
-  var url = "https://www.youtube.com/watch?v=";
-  var ytid = ${ytid};
+  var url = "https://you-link.herokuapp.com/?url=https://www.youtube.com/watch?v=${ytid}";
   var xmlhttp = new XMLHttpRequest();
   var i;
+  var len;
   var start = ${start};
   var end = ${end};
   // --- document object variables
   var err = $("#yt-error");
   var instr = $("#instr");
   var player = $("#player");
+  var plget = player.get(0);
   var loadText = $("#loading");
   // --- script code
   loadText.html("Loading video (this may take a second)...");
@@ -204,33 +209,32 @@
   };
   xmlhttp.open("GET", url, true);
   xmlhttp.send();
-  for (i = 0; i < len; i++) {
-    player.append($(document.createElement("source")).attr({'src': jsonData[i]['url'], 'type': jsonData[i]['type']}));
-  }
-  player.on('timeupdate', check);
-  loadText.html('Video is ready for playback! If you see a black box above this message, you are good to go!, Start time: ' + start + '-sec, End time: ' + end + '-sec.');
   // --- functions
   function instrClicked() {
     instr.val(1);
   }
   function ready(data) {
-    loadText.html('Video is ready for playback! If you see a black box above this message, you are good to go!, Start time: START-sec, End time: END-sec.');
-    $.each(data, function(idx, obj){
-      player.append($(document.createElement("source")).attr({'src': obj['url'], 'type': obj['type']}));
-    });
-  }
-  function error() {
-    
+    len = data.length;
+    for (i = 0; i < len; i++) {
+      player.append($(document.createElement("source")).attr({'src': data[i]['url'], 'type': data[i]['type']}).on('error', error));
+    }
+    player.on('timeupdate', check);
+    player.on('error', error);
+    loadText.html('Video is ready for playback! If you see a black box above this message, you are good to go!, Start time: ' + start + '-sec, End time: ' + end + '-sec.').removeClass('red').addClass('blue');
   }
   function check() {
-    c = player.get(0).currentTime;
+    c = plget.currentTime;
     loadText.html("Current time: " + Math.floor(c));
     if (c < start || c > end) {
-      player.get(0).currentTime = start;
+      plget.currentTime = start;
     }
   }
+  function error() {
+    loadText.html("Uh oh! Something went wrong. Please do not accept this HIT!").removeClass('blue').addClass('red');
+    err.val(1);
+  }
   function play(ele) {
-    player.get(0).play();
+    plget.play();
     if (first) {
       first = false;
       document.getElementById("dummy").setAttribute("value", "1");
@@ -239,7 +243,7 @@
     ele.textContent = "Pause Video";
   }
   function pause(ele) {
-    player.get(0).pause();
+    plget.pause();
     ele.setAttribute("onclick", "play(this);");
     ele.textContent = "Play Video";
   }
