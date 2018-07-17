@@ -57,6 +57,6 @@ with open(result_path + input_data, 'r', newline = '') as f:
         temp = re.sub("\$\{label\}", row[30], temp)
         darr = []
         for i in range(576):
-            darr.append(row[i + 36])
+            darr.append(row[i + 35])
         temp = re.sub("\$\{dankmemes\}", json.dumps(darr), temp)
         out.write(temp)

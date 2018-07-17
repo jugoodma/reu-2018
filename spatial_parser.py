@@ -1,16 +1,17 @@
 import csv
 import numpy
 import itertools
+from settings import *
 
-input_data = 'spatial-batch-output.csv'
+input_data = 'spatial-output.csv'
 
-output_data = './data/spatial-batch-output-parsed.csv'
+output_data = 'spatial-batch-output-parsed.csv'
 temp_data = './data/tempt_data.csv'
 #row[36] first location row[612] last location
 
-reader = csv.reader(open(input_data, 'r', newline = ''), quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
+reader = csv.reader(open(result_path + input_data, 'r', newline = ''), quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
 
-writer = csv.writer(open(output_data, 'w', newline = ''), quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
+writer = csv.writer(open(data_path + output_data, 'w', newline = ''), quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
 
 
 templist = []
@@ -29,8 +30,6 @@ writer2 = csv.writer(f, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_AL
 
 
 writer2.writerow(next(reader))
-
-pixel_array = numpy.zeros((640, 360))
 
 overlay_array = numpy.zeros((18, 32))
 
@@ -51,6 +50,8 @@ for row in output:
     if row[27] not in output_hash:
         output_hash[row[27]] = []
     output_hash[row[27]].append(row[36:612])
+    if row[27] == '6Q7JIacR29o':
+        print(row[36:612])
 
 
 for ytid in output_hash:
@@ -63,46 +64,41 @@ for ytid in output_hash:
         for row in range(18):
             for col in range(32):
                 overlay_array[row][col] = int(second[(32*row) + col])
+        if ytid == '6Q7JIacR29o':
+            print(overlay_array)
 
-
-        top_level = 0
+        top_level = -1
         row_sum = 0
         while row_sum == 0:
-            
+            top_level += 1
             row_sum = sum(overlay_array[top_level])
-            if row_sum == 0:
-                top_level += 1
 
 
-        bottom_level = 17
+        bottom_level = 18
         row_sum = 0
         while row_sum == 0:
-
+            bottom_level -= 1
             row_sum = sum(overlay_array[bottom_level])
-            if row_sum == 0:
-                bottom_level -= 1
+            
 
 
-        left_level = 0
+        left_level = -1
         col_sum = 0
         while col_sum == 0:
+            left_level += 1
             col_sum = sum(overlay_array[:, left_level])
-            if col_sum == 0:
-                left_level += 1
 
 
-        right_level = 31
+        right_level = 32
         col_sum = 0
         while col_sum == 0:
+            right_level -= 1
             col_sum = sum(overlay_array[:, right_level])
-            if col_sum == 0:
-                right_level -= 1
+        
 
-
-        top_level += 1
+        bottom_level += 1
         right_level += 1
-        left_level += 1
-        bottom_level +=1
+
 
 
         top_left_xy = (((top_level * 20) + 1 ), ((left_level * 20) + 1))
