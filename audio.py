@@ -49,13 +49,14 @@ videos = json.loads(open(data_path + msrvtt).read())['videos']
 for vid in videos:
     if vid['video_id'] in temp:
         ytid = vid['url'].split('=')[1]
-        output.append([ytid]+[vid['start time']]+[vid['end time']])
+        output.append([ytid]+[vid['start time']]+[vid['end time']]+['msrvtt'])
 random.shuffle(output)
 output = output[:5001]
 
 print(round(time.time() - start, 4))
 sub = time.time()
 
+''' # skipping audioset for now
 print("Gathering audioset vids. These ids below are already contained in msrvtt")
 # add audioset videos
 temp = []
@@ -75,24 +76,9 @@ with open(data_path + audioset, 'r', newline = '') as f:
 
 # shuffle audioset vids
 random.shuffle(temp)
-while len(output) < 7000: # only enough money for 5000 videos :'(
+while len(output) < 6000: # only enough money for 5000 videos :'(
     output.append(temp.pop(0))
-
-print(round(time.time() - sub, 4))
-sub = time.time()
-
-print("Translating ytid to json with direct video links")
-def manl(lst):
-    r = requests.get(ytdirect + lst[0])
-    return lst + [r.json()]
-
-# translate all youtube videos to direct json links
-with Pool(processes = 8) as pool:
-    output = list(pool.map(manl, output))
-
-# filter for errors
-output = list(filter(lambda lst: 'error' not in str(lst[3]), output))
-
+'''
 print(round(time.time() - sub, 4))
 sub = time.time()
 
@@ -101,7 +87,7 @@ print("Writing final output file")
 with open(data_path + environments['audio']['csv'], 'w', newline = '') as f:
     writer = csv.writer(f, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
     # write the header
-    writer.writerow(['ytid'] + ['start'] + ['end'] + ['json'])
+    writer.writerow(['ytid'] + ['start'] + ['end']+ ['origin'])
     writer.writerows(output)
 
 print(round(time.time() - sub, 4))

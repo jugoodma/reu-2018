@@ -3,27 +3,21 @@ by Justin Goodman & Marc Moore
 
 Data expander
 
-Dataset is from [Google's AudioSet](https://research.google.com/audioset///download.html)
+Datasets are from
+* [Google's AudioSet](https://research.google.com/audioset/download.html)
+* [Microsoft's MSR-VTT](http://ms-multimedia-challenge.com/2017/dataset)
 
-Steps:
-1. Create Amazon Mechanical Turk Requester Account
-1. Create new project with settings outlined in settings.txt
-1. In design layout click 'source', then paste in the text from ui.html
-1. Preview, then Finish
-1. Click Publish Batch
-1. Change settings and run database.py
-1. Upload the generated .csv
-1. Publish HIT batch
-1. ???
-1. Profit!
+Paste the `.html` files in `/templates` into the Amazon Mechanical Turk Requester frontend interface
+Use the `.xml` files in `/templates` for backend HIT creation
 
 Download required files using:
 ```bash
 wget -nc http://storage.googleapis.com/us_audioset/youtube_corpus/v1/csv/unbalanced_train_segments.csv
-wget -nc http://storage.googleapis.com/us_audioset/youtube_corpus/v1/csv/class_labels_indices.csv
+wget -nc https://raw.githubusercontent.com/audioset/ontology/master/ontology.json
 wget -nc http://vrttest2017.oss-us-east-1.aliyuncs.com/data/videodatainfo_2017.json
 ```
 
+For backend HIT creation and general script usage
 ```bash
-pip install boto3
+pip install csv json boto3
 ```

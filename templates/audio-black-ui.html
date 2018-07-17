@@ -27,6 +27,7 @@
               <section>
                 <p><b>TL;DR:</b> We are artificial intelligence researchers looking to create a dataset. We want you to annotate (with 1 sentence) a video without <em>seeing</em> and only <em>hearing</em> the video.</p>
                 <p><b>NOTE: IF YOU CAN SEE THE VIDEO, DO NOT ACCEPT THIS HIT!</b></p>
+                <p>If something goes wrong with this HIT, then a red error message should appear under the black box and tell you to skip the HIT.</p>
               </section>
               <section>
                 <h4>STEPS TO SUCCESSFULLY COMPLETE THESE HITS:</h4>
@@ -34,23 +35,26 @@
                   <li>Click the <span><button class="btn btn-primary" onclick="" type="button">Play Video</button></span> button and listen to the video.
                     <ul>
                       <li><b style="color: red;">IMPORTANT:</b> You should see a black screen for the video. Our goal with this dataset is to understand how much of human scene understanding is based on audio information. Thus, if you can see the video then your response to this HIT is useless.</li>
-                      <li>The YouTube video player will then play the specified 10-30 second clip for you. The 'Play Video' button will change to a <span><button class="btn btn-primary" onclick="" type="button">Pause Video</button></span> button. The clip will play on repeat until you click the 'Pause Video' button.</li>
-                      <li><b>Controls in the YouTube player are disabled</b>. We disabled the controls so we can show you one specific part of the video.</li>
+                      <li>The video player will then play the specified 10-30 second clip for you. The 'Play Video' button will change to a <span><button class="btn btn-primary" onclick="" type="button">Pause Video</button></span> button. The clip will play on repeat until you click the 'Pause Video' button.</li>
+                      <li><b>Controls in the video player are disabled</b>. We disabled the controls so we can show you one specific part of the video.</li>
                     </ul>
                   </li>
                   <li>Annotate the video with <b>1 descriptive sentence</b> in the <span><textarea rows="1" placeholder="Describe here..."></textarea></span> textbox.
                     <ul>
                       <li>Your annotation should be in English.</li>
                       <li>Be confident in your answer. You are allowed to <b>use creativity to infer</b> what might be going on visually, but <b>base all of your descriptions on the audio</b>.</li>
+                      <li>These videos we show you should have audio. If you do not hear anything, try turning up your volume. If you still cannot hear anything, then tell us there is no audio in the comments box and continue as normal.</li>
+                      <li>Please do not transcribe the audio. Describe the audio. If you hear speech, summarize what the speaker says, and describe the context of the speaker (news broadcast, sports broadcast, etc).</li>
                       <li>Your response should be a complete sentence. If your sentence is too short <b>we will reject your response</b>.</li>
                       <li>Feel free to write more than 1 sentence. Please use a period and a space, like you would write a normal paragraph, to separate your sentences.</li>
                       <li><b>AVOID spelling mistakes and grammatical mistakes</b>.</li>
-                      <li>AVOID using self-referring phrases. We know these are your thoughts and we know you're talking about the video. Example phrases (DO NOT USE THESE):
+                      <li>AVOID using self-referring phrases. We know these are your thoughts and we know you're talking about the video. Example phrases (AVOID USING THESE):
                         <ul>
                           <li>'i think'</li>
                           <li>'it seems like'</li>
                           <li>'this sounds like'</li>
                           <li>'the video appears to be'</li>
+                          <li>'a video about'</li>
                           <li>'i guess'</li>
                           <li>'YouTube'</li>
                           <li>etc...</li>
@@ -73,7 +77,7 @@
                   </li>
                   <li>Click <span><button class="btn btn-primary" onclick="" type="button">Submit Answer</button></span>! Thank you for completing our HIT!</li>
                 </ol>
-                <p><b>Note</b>: If this is your first time doing these HITs, please tell us, in the first comments box, your favorite animal just so we know you read the instructions :) (you should only do this on your first time!).</p>
+                <p><b>Note</b>: If this is your first time doing these HITs, please tell us, in the first comments box, your favorite animal just so we know you read the instructions :) (you only need to do this once!).</p>
               </section>
               <section>
                 <h4>ABOUT US:</h4>
@@ -91,18 +95,20 @@
   <div class="row" id="workContent">
     <div class="col-sm-8">
       <h3 id="ass">Assignment:</h3>
-      <video height="10px" width="640px"><p style="color: red;">It seems like your browser is out-dated. Please do not complete these HITs!</p></video>
+      <video height="10px" width="640px"><p class="red">It seems like your browser is out-dated. Please do not complete these HITs!</p></video>
       <br />
       <br />
       <div>
-        <div id="blackOverlay">If you <b>do not</b> see a red message above this black box, you are good to go on these HITs!</div>
-        <video id="player" width="640" height="360" controls>
+        <div id="blackOverlay">If you <b>do not</b> see a red message above this black box, then your browser is up-to-date and you are good to go on these HITs!</div>
+        <video id="player" width="640" height="360">
+          <source src="//toaster.ml/reu2018/videos/${ytid}.mp4" type="video/mp4" onerror="error();"> <!-- INSERT YOUR SERVER HERE -->
           <p>Looks like your browser is out-dated. You should skip this HIT!</p>
         </video>
       </div>
       <br />
-      <p id="loading">Looks like our code had an error, the video is unavailable, or your browser is out-dated. You should skip this HIT!</p>
-      <button class="btn btn-primary" onclick="play(this);" type="button">Play Video</button>
+      <p id="loading" class="red">Looks like our code had an error or the video is unavailable. You should skip this HIT! Sorry for the inconvenience.</p>
+      <button class="btn btn-primary" onclick="play(this);" type="button" style="margin-right: 20px;">Play Video</button>
+      <button class="btn btn-danger" onclick="restart();" type="button">Restart Video</button>
       <br />
       <div id="response-form" class="form-group" style="display: none;">
         <!-- why are you looking here, get out! -->
@@ -146,8 +152,12 @@
     background-color: black;
     text-align: center;
   }
-</style>
-<style type="text/css">
+  .red {
+    color: red;
+  }
+  .blue {
+    color: blue;
+  }
   #submitButton {
     white-space: normal;
   }
@@ -175,62 +185,45 @@
 <script type="text/javascript">
   // --- general variables
   var vid;
-  var c;
   var ua = window.navigator.userAgent;
   var first = true;
-  var url = "https://www.youtube.com/watch?v=";
-  var ytid = ${ytid};
-  var xmlhttp = new XMLHttpRequest();
   var i;
+  var len;
   var start = ${start};
   var end = ${end};
   // --- document object variables
   var err = $("#yt-error");
   var instr = $("#instr");
   var player = $("#player");
+  var plget = player.get(0);
   var loadText = $("#loading");
   // --- script code
   loadText.html("Loading video (this may take a second)...");
+  player.on('timeupdate', check).on('error', error).on('canplay', ready).on('volumechange', vol);
   $('#ua').val(ua);
   // set onclick for instructions
   $('#instrLink').on('click', instrClicked);
-  // youtube video code
-  xmlhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      ready(JSON.parse(this.responseText));
-    } else {
-      error();
-    }
-  };
-  xmlhttp.open("GET", url, true);
-  xmlhttp.send();
-  for (i = 0; i < len; i++) {
-    player.append($(document.createElement("source")).attr({'src': jsonData[i]['url'], 'type': jsonData[i]['type']}));
-  }
-  player.on('timeupdate', check);
-  loadText.html('Video is ready for playback! If you see a black box above this message, you are good to go!, Start time: ' + start + '-sec, End time: ' + end + '-sec.');
   // --- functions
   function instrClicked() {
     instr.val(1);
   }
-  function ready(data) {
-    loadText.html('Video is ready for playback! If you see a black box above this message, you are good to go!, Start time: START-sec, End time: END-sec.');
-    $.each(data, function(idx, obj){
-      player.append($(document.createElement("source")).attr({'src': obj['url'], 'type': obj['type']}));
-    });
-  }
-  function error() {
-    
+  function ready() {
+    plget.loop = true;
+    plget.muted = false;
+    loadText.html("Ready for playback!").removeClass('red').addClass('blue');
   }
   function check() {
-    c = player.get(0).currentTime;
-    loadText.html("Current time: " + Math.floor(c));
-    if (c < start || c > end) {
-      player.get(0).currentTime = start;
-    }
+    loadText.html("Current time: " + Math.floor(plget.currentTime));
+  }
+  function vol() {
+    plget.muted = false;
+  }
+  function error() {
+    loadText.html("Uh oh! Something went wrong. Please do not accept this HIT!").removeClass('blue').addClass('red');
+    err.val(1);
   }
   function play(ele) {
-    player.get(0).play();
+    plget.play();
     if (first) {
       first = false;
       document.getElementById("dummy").setAttribute("value", "1");
@@ -239,9 +232,12 @@
     ele.textContent = "Pause Video";
   }
   function pause(ele) {
-    player.get(0).pause();
+    plget.pause();
     ele.setAttribute("onclick", "play(this);");
     ele.textContent = "Play Video";
+  }
+  function restart() {
+    plget.currentTime = 0;
   }
 </script>
 <!-- End REU script -->
