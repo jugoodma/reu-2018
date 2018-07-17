@@ -50,7 +50,7 @@ for row in output:
     if row[27] not in output_hash:
         output_hash[row[27]] = []
     output_hash[row[27]].append(row[36:612])
-    if row[27] == '6Q7JIacR29o':
+    if row[27] == '0_wopBSgNhc':
         print(row[36:612])
 
 
@@ -64,7 +64,7 @@ for ytid in output_hash:
         for row in range(18):
             for col in range(32):
                 overlay_array[row][col] = int(second[(32*row) + col])
-        if ytid == '6Q7JIacR29o':
+        if ytid == '0_wopBSgNhc':
             print(overlay_array)
 
         top_level = -1
@@ -97,7 +97,8 @@ for ytid in output_hash:
         
 
         bottom_level += 1
-        right_level += 1
+        right_level += 2
+        left_level += 1
 
 
 
