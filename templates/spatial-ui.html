@@ -34,12 +34,13 @@
                     <li>The YouTube video player will then play the specified 10-second clip for you. The 'Play Video' button will change to a <span><button class="btn btn-primary" onclick="" type="button">Pause Video</button></span> button. The clip will play on repeat until you click the 'Pause Video' button.</li>
                     <li><b>Controls in the YouTube player are disabled</b>. We disabled the controls so we can show you one specific part of the video.</li>
                     <li>Please ignore any advertisements that may play during the YouTube video. Use of an ad-blocker is highly suggested (for speed, so you don't have to wait for ads to play) but not required.</li>
+                    <li>We apologize for the YouTube overlay that appears when you pause the video. At the moment we cannot get around it, but we are working on it.</li>
                   </ul>
                 </li>
-                <li>Use the grid overlay to color in the boxes that cover the object(s) making the described sounds.</li>
+                <li>Use the grid overlay to color in the boxes that cover the object(s) making the described sounds. If the object moves during your clip, then cover the area where the object is at the <b>start</b> of the clip.</li>
                 <li>Click submit! Thank you for completing our HIT!</li>
               </ol>
-              <p><b>Note</b>: If this is your first time doing these HITs, please tell us, in the first comments box, your favorite food just so we know you read the instructions :) (you should only do this on your first time!).</p>
+              <p><b>Note</b>: If this is your first time doing these HITs, please tell us, in the first comments box, your favorite food just so we know you read the instructions :) (you only need to do this once!).</p>
               <h4 id="ann">HOW TO USE THE ANNOTATOR:</h4>
               <p>You should see a grid overlay on the provided video. The grid is 32 boxes wide by 18 boxes tall. When you play the video, you will see (an) object(s) (any size) that produces sounds described by the given label. You should highlight the boxes that contain the object(s) for the duration of your 1-second clip. To highlight a box, simply left click the box. To un-highlight a box, simply left click the same box. You can click-and-drag to select/de-select multiple boxes. To clear your selection, press the <span><button class="btn btn-danger" onclick="" type="button">Clear Selection</button></span> button. If the object(s) move(s) during your clip, highlight all areas touched by the object(s)</p>
               <ul>
@@ -64,6 +65,7 @@
         <table id="grid-table" onmouseup="stop();" ondragstart="return false;" ondrop="return false;" oncontextmenu="return false;"></table>
         <iframe id="player" width="640" height="360" src="https://www.youtube.com/embed/${ytid}?enablejsapi=1&start=${start}&end=${end}" frameborder="0" style="border: solid 4px #37474F; pointer-events: none;"></iframe>
       </div>
+      <p>Reminder: you can click-and-drag to select/de-select multiple boxes.</p>
       <br />
       <p class="hide" id="errorMessage">Please indicate where the object is located.</p>
       <button class="btn btn-primary" type="button" id="play" style="margin-right: 20px;">Play Video</button>
