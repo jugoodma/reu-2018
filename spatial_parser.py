@@ -13,6 +13,18 @@ reader = csv.reader(open(result_path + input_data, 'r', newline = ''), quotechar
 
 writer = csv.writer(open(data_path + output_data, 'w', newline = ''), quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
 
+def prettyprint(arr):
+    for i in range(18):
+        row = ''
+        for j in range(32):
+            row += arr[(i * 32) + j] + ' '
+        print(row)
+    print("---------------------------------------------------------------")
+
+def prettyprintoverlay(arr):
+    for row in arr:
+        print(' '.join([str(int(x)) for x in row]))
+    print("---------------------------------------------------------------")
 
 templist = []
 templist.append('ytid')
@@ -51,8 +63,9 @@ for row in output:
         output_hash[row[27]] = []
     output_hash[row[27]].append(row[36:612])
     if row[27] == '0_wopBSgNhc':
-        print(row[36:612])
+        prettyprint(row[36:612])
 
+print("overlay array below")
 
 for ytid in output_hash:
     current_row = []
@@ -65,7 +78,7 @@ for ytid in output_hash:
             for col in range(32):
                 overlay_array[row][col] = int(second[(32*row) + col])
         if ytid == '0_wopBSgNhc':
-            print(overlay_array)
+            prettyprintoverlay(overlay_array)
 
         top_level = -1
         row_sum = 0
