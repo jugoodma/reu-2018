@@ -51,7 +51,8 @@ def compare(lst):
 output = []
 
 for row in reader:
-    output.append(row)
+    if row[19] != "":
+        output.append(row)
 
 output.sort(key = compare)
 
@@ -110,8 +111,7 @@ for ytid in output_hash:
         
 
         bottom_level += 1
-        right_level += 2
-        left_level += 1
+        right_level += 1
 
 
 
