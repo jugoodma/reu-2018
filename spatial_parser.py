@@ -40,7 +40,6 @@ f = open(temp_data, 'w', newline = '')
 
 writer2 = csv.writer(f, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
 
-
 writer2.writerow(next(reader))
 
 overlay_array = numpy.zeros((18, 32))
@@ -56,14 +55,13 @@ for row in reader:
 
 output.sort(key = compare)
 
-
 output_hash = {}
 
 for row in output:
     if row[27] not in output_hash:
         output_hash[row[27]] = []
     output_hash[row[27]].append(row[36:612])
-    if row[27] == '0_wopBSgNhc':
+    if row[27] == '-6TQKeeULa0':
         prettyprint(row[36:612])
 
 print("overlay array below")
@@ -78,8 +76,6 @@ for ytid in output_hash:
         for row in range(18):
             for col in range(32):
                 overlay_array[row][col] = int(second[(32*row) + col])
-        if ytid == '0_wopBSgNhc':
-            prettyprintoverlay(overlay_array)
 
         top_level = -1
         row_sum = 0
@@ -87,33 +83,41 @@ for ytid in output_hash:
             top_level += 1
             row_sum = sum(overlay_array[top_level])
 
-
         bottom_level = 18
         row_sum = 0
         while row_sum == 0:
             bottom_level -= 1
             row_sum = sum(overlay_array[bottom_level])
             
-
-
         left_level = -1
         col_sum = 0
         while col_sum == 0:
             left_level += 1
             col_sum = sum(overlay_array[:, left_level])
 
-
         right_level = 32
         col_sum = 0
         while col_sum == 0:
             right_level -= 1
             col_sum = sum(overlay_array[:, right_level])
+<<<<<<< HEAD
         
 
         bottom_level += 1
         right_level += 1
+=======
+>>>>>>> 11eb9e4234fa2de17fad216cabf7901dbe7d5efc
 
+        if ytid == '-6TQKeeULa0':
+            print("top    : " + str(top_level))
+            print("bottom : " + str(bottom_level))
+            print("left   : " + str(left_level))
+            print("right  : " + str(right_level))
+            print("second: ")
+            prettyprint(second)
 
+        bottom_level += 1
+        right_level += 1
 
         top_left_xy = (((top_level * 20) + 1 ), ((left_level * 20) + 1))
         top_right_xy = (((top_level * 20) + 1 ), (right_level * 20))
@@ -124,11 +128,4 @@ for ytid in output_hash:
         current_row.append(bottom_left_xy)
         current_row.append(bottom_right_xy)
 
-
     writer.writerow(current_row)
-
-
-   
-    
-
-

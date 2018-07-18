@@ -5,3 +5,4 @@
 *.txt
 __pycache__/
 visuals/*
+!audio-video-dataset.json
