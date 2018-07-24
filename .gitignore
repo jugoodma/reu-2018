@@ -4,5 +4,8 @@
 *.json
 *.txt
 __pycache__/
+*.mp4
+*.cache
+results/*
 visuals/*
 !audio-video-dataset.json
