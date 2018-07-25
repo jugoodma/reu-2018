@@ -10,10 +10,13 @@ from settings import *
 start = 0
 sub = 0
 end = 0
-msrvtt = 'videodatainfo_2017.json'
-audioset = 'unbalanced_train_segments.csv'
-sound = 'msr-vtt-sound.csv' # these are the videos in msr-vtt that have sound
-ytdirect = 'https://you-link.herokuapp.com/?url=https://www.youtube.com/watch?v='
+#msrvtt = 'videodatainfo_2017.json'
+msrvtt = 'test_videodatainfo_2017.json'
+#audioset = 'unbalanced_train_segments.csv'
+# switching to AVE dataset, a subset of audioset
+#sound = 'msr-vtt-sound.csv' # these are the videos in msr-vtt that have sound
+sound = 'msrvtt-test-sound.csv'
+
 # number of videos per category to skip
 # started with 1 video per category
 # 7/3 running 10 videos per category
@@ -22,7 +25,7 @@ ytdirect = 'https://you-link.herokuapp.com/?url=https://www.youtube.com/watch?v=
 # stopping the skip
 
 # audioset categories
-cats = ['/m/09x0r', '/m/07yv9'] # 'Speech', 'Vehicle'
+#cats = ['/m/09x0r', '/m/07yv9'] # 'Speech', 'Vehicle'
 
 print("Creating audio input from msr-vtt...")
 start = time.time()
@@ -46,13 +49,15 @@ with open(data_path + sound, 'r', newline = '') as f:
 # go through each video in the json, only adding videos with sound
 output = []
 videos = json.loads(open(data_path + msrvtt).read())['videos']
+print(len(videos))
 for vid in videos:
-    if vid['video_id'] in temp:
-        ytid = vid['url'].split('=')[1]
-        output.append([ytid]+[vid['start time']]+[vid['end time']]+['msrvtt'])
+    ytid = vid['url'].split('=')[1]
+    if ytid in temp: # was 'video_id'
+        #ytid = vid['url'].split('=')[1]
+        output.append([ytid]+[vid['start time']]+[vid['end time']]+['msrvtt-test'])
 random.shuffle(output)
-output = output[:5001]
-
+output = output[:701]
+print(len(output))
 print(round(time.time() - start, 4))
 sub = time.time()
 
@@ -79,6 +84,7 @@ random.shuffle(temp)
 while len(output) < 6000: # only enough money for 5000 videos :'(
     output.append(temp.pop(0))
 '''
+
 print(round(time.time() - sub, 4))
 sub = time.time()
 
@@ -95,3 +101,4 @@ end = time.time()
 print("Total time: " + str(round(end - start, 4)))
 # done
 print("Done.")
+

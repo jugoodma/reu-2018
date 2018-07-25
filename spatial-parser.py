@@ -8,6 +8,9 @@ input_data = 'spatial-output.csv'
 output_data = 'spatial-batch-output-parsed.csv'
 temp_data = './data/tempt_data.csv'
 #row[36] first location row[612] last location
+# ^ this is from amazon directly.
+# new frontend acceptance tool is as follows:
+# ID,YTID,response0,...,response575
 
 reader = csv.reader(open(result_path + input_data, 'r', newline = ''), quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
 
@@ -45,24 +48,33 @@ writer2.writerow(next(reader))
 overlay_array = numpy.zeros((18, 32))
 
 def compare(lst):
-    return lst[27], lst[28]
+    #return lst[27], lst[28]
+    # 12 chars in ytid
+    return lst[0], lst[1]
 
 output = []
 
 for row in reader:
-    if row[19] != "":
-        output.append(row)
+    #if row[19] != "":
+    #    output.append(row)
+    output.append([row[1][:11], int(row[1][12])] + row[2:579])
 
 output.sort(key = compare)
 
 output_hash = {}
 
+"""
 for row in output:
     if row[27] not in output_hash:
         output_hash[row[27]] = []
     output_hash[row[27]].append(row[36:612])
     if row[27] == '-6TQKeeULa0':
         prettyprint(row[36:612])
+"""
+for row in output:
+    if row[0] not in output_hash:
+        output_hash[row[0]] = []
+    output_hash[row[0]].append(row[2:])
 
 print("overlay array below")
 
@@ -100,7 +112,14 @@ for ytid in output_hash:
         while col_sum == 0:
             right_level -= 1
             col_sum = sum(overlay_array[:, right_level])
+<<<<<<< HEAD:spatial_parser.py
             
+=======
+
+        bottom_level += 1
+        right_level += 1
+
+>>>>>>> 5290c9bc893f4279b65926cf29e3e783719f2b8e:spatial-parser.py
         if ytid == '-6TQKeeULa0':
             print("top    : " + str(top_level))
             print("bottom : " + str(bottom_level))

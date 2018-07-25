@@ -3,7 +3,7 @@ import re
 import json
 from settings import *
 
-input_data = 'spatial-output.csv'
+input_data = input("spatial file name: ./results/")
 output_path = 'visuals/'
 
 template = open(template_path + 'spatial-visualizer-ui.html', 'r').read()
@@ -57,6 +57,6 @@ with open(result_path + input_data, 'r', newline = '') as f:
         temp = re.sub("\$\{label\}", row[30], temp)
         darr = []
         for i in range(576):
-            darr.append(row[i + 37])
+            darr.append(row[i + 36])
         temp = re.sub("\$\{dankmemes\}", json.dumps(darr), temp)
         out.write(temp)
