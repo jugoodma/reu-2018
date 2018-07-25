@@ -100,14 +100,7 @@ for ytid in output_hash:
         while col_sum == 0:
             right_level -= 1
             col_sum = sum(overlay_array[:, right_level])
-<<<<<<< HEAD
-        
-
-        bottom_level += 1
-        right_level += 1
-=======
->>>>>>> 11eb9e4234fa2de17fad216cabf7901dbe7d5efc
-
+            
         if ytid == '-6TQKeeULa0':
             print("top    : " + str(top_level))
             print("bottom : " + str(bottom_level))
