@@ -2,8 +2,8 @@
     "info": {
         "year": 2018,
         "version": "1.0",
-        "description": "Separate annotations for both audio and video streams",
-        "contributor": "Marc Moore and Justin Goodman from University of Rochester MMM REU",
+        "description": "Separate annotations for both audio and video streams. Videos come from MSR-VTT and Yapeng Tian's AVE dataset. MSR-VTT training videos are used for the train and val splits, and MSR-VTT test videos are used for the test split. AVE train/test/val videos come from the train/test/val splits respectively. All AVE videos have 10-second audio-visual events.",
+        "contributor": "Marc Moore and Justin Goodman from University of Rochester MMM REU. Yapeng Tian and Chenliang Xu from University of Rochester Department of Computer Science.",
         "data_created": "2018-07-22 13:21:50.679491"
     },
     "data": [

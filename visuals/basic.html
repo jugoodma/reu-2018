@@ -1,0 +1,67 @@
+<!--
+  Spatial annotation data visualizer
+  
+  JGoody
+  MarcyMarc
+  -->
+<html>
+  <head>
+    <title>MTURK API</title>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aws-sdk@2.224.1/dist/aws-sdk.min.js" integrity="sha512-5+ghtMNuzLSRRkoJgznGss3/qxX78Wpj55iMvxgD1a+itFT86GdPLQfrCld4gfJrgOsmJbSmzm+6Es9Jk6QhAQ==" crossorigin="anonymous"></script>
+  </head>
+  
+  <body>
+    <p id="balance">When you are logged in this text will change to your current acct balance</p>
+    <hr />
+
+    <script>
+      // main handler
+      // video files are ./clips/ytid-start-end.mp4
+      //   start and end times are relative (0-10)
+      //   whereas the mturk start and end times are video related
+      
+      var bal = $('#balance');
+      
+      var config = { "accessKeyId": window.prompt("Access Key ID:"), "secretAccessKey": window.prompt("Secret Access Key:"), "region": "us-east-1" };
+      AWS.config = new AWS.Config(config);
+      var endpoint = 'https://mturk-requester.us-east-1.amazonaws.com';
+      var mturk = new AWS.MTurk({ endpoint: endpoint });
+      
+      mturk.getAccountBalance({}, function (err, data) {
+        if (err) {
+          bal.text(err);
+        } else {
+          bal.text("Balance: $" + data.AvailableBalance);
+        }
+      });
+      
+      // functions
+      function approve(id) {
+        mturk.approveAssignment({ "AssignmentId": id }, function (err, data) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(data);
+          }
+        });
+      }
+      
+      function reject(id, feedback) {
+        mturk.rejectAssignment({ "AssignmentId": id, "RequesterFeedback": feedback }, function (err, data) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(data);
+          }
+        });
+      }
+
+    </script>
+  </body>
+</html>

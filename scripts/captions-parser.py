@@ -11,7 +11,9 @@ dt = input("Which data type is this file? (audio or video): ")
 split = input("What split is this file? (test or train or val): ")
 origin = input("What origin is this file? (ave or msrvtt): ")
 
-desc = "Separate annotations for both audio and video streams"
+desc = "Separate annotations for both audio and video streams. Videos come from MSR-VTT and Yapeng Tian's AVE dataset. MSR-VTT training videos are used for the train and val splits, and MSR-VTT test videos are used for t\
+he test split. AVE train/test/val videos come from the train/test/val splits respectively. All AVE videos have 10-second audio-visual events."
+contr = "Marc Moore and Justin Goodman from University of Rochester MMM REU. Yapeng Tian and Chenliang Xu from University of Rochester Department of Computer Science."
 today = str(datetime.now())
 
 mcache = "msrvtt.cache"

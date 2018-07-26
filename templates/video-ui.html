@@ -97,7 +97,7 @@
       <br />
       <br />
       <video id="player" width="640" height="360">
-        <source src="//toaster.ml/reu2018/videos/${ytid}.mp4" type="video/mp4" onerror="error();"> <!-- INSERT YOUR SERVER HERE -->
+        <source src="https://vatbox.cs.rochester.edu/captions/videos/${ytid}.mp4" type="video/mp4" onerror="error();">
         <p>Looks like your browser is out-dated. You should skip this HIT!</p>
       </video>
       <br />
@@ -107,13 +107,12 @@
       <br />
       <div id="response-form" class="form-group" style="display: none;">
         <!-- why are you looking here, get out! -->
-        <input name="identifier" type="hidden" value="audio" />
+        <input name="identifier" type="hidden" value="video" />
         <input name="ytid" type="hidden" value="${ytid}" />
         <input name="clickedPlay" type="hidden" value="0" id="dummy" />
         <input name="clickedInstructions" type="hidden" value="0" id="instr" />
         <input name="youtubeError" type="hidden" value="0" id="yt-error" />
         <input name="userAgent" type="hidden" value="" id="ua" />
-        <input name="hasAdBlock" type="hidden" value="1" id="adb" />
       </div>
     </div>
     <!-- Worker input -->

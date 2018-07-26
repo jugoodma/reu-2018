@@ -1,0 +1,312 @@
+<!--
+  Spatial annotation data visualizer
+  
+  JGoody
+  MarcyMarc
+  -->
+<html>
+  <head>
+    <title>Spatial Visualizer</title>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aws-sdk@2.224.1/dist/aws-sdk.min.js" integrity="sha512-5+ghtMNuzLSRRkoJgznGss3/qxX78Wpj55iMvxgD1a+itFT86GdPLQfrCld4gfJrgOsmJbSmzm+6Es9Jk6QhAQ==" crossorigin="anonymous"></script>
+  </head>
+  
+  <body>
+    <p id="balance">When you are logged in this text will change to your current acct balance</p>
+    <button onclick="download(acceptdownload,'approved.csv','text/plain');">DOWNLOAD ACCEPTED</button>
+    <button onclick="download(rejectdownload,'rejected.csv','text/plain');">DOWNLOAD REJECTED</button>
+    <label for="acceptupload">Accepted file upload: <input type="file" id="acceptupload" onchange="acceptHandle(this.files);"></label>
+    <label for="rejectupload">Rejected file upload: <input type="file" id="rejectupload" onchange="rejectHandle(this.files);"></label>
+    <hr />
+    <div id="main" class="container-fluid">
+
+    </div>
+    <style>
+      #balance,
+      #feedback {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .group {
+        overflow-x: scroll;
+        white-space: nowrap;
+        width: 100%;
+        text-align: center;
+      }
+      .c {
+        display: inline-block;
+        float: none;
+      }
+      img {
+      }
+      textarea {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 10px;
+      }
+      label {
+        font-weight: 100 !important;
+      }
+      .hide {
+        display: none;
+      }
+      .show {
+        display: block;
+        color: red;
+      }
+      .selected {
+        background: rgba(255,69,0,0.5);
+      }
+      table {
+        border: 1px solid red;
+        border-collapse: collapse;
+        z-index: 3;
+        width: 640px;
+        height: 360px;
+      }
+      td {
+        border: 1px solid red;
+        border-collapse: collapse;
+      }
+    </style>
+    <script>
+      // main handler
+      // video files are ./clips/ytid-start-end.mp4
+      //   start and end times are relative (0-10)
+      //   whereas the mturk start and end times are video related
+      
+      var bal = $('#balance');
+      var fed = $('#feedback');
+      var man = $('#main');
+      
+      var row;
+      var col;
+      var i;
+      var num_rows = 18;
+      var num_cols = 32;
+      
+      var d = ${data};
+      
+      var config = ${config};
+      AWS.config = new AWS.Config(config);
+      var endpoint = 'https://mturk-requester.us-east-1.amazonaws.com';
+      var hittype = '33V96X0SXQEJBD9MZ7N5B1FVJP51Z9'; // spatial hit id type. hopefully this does not change
+      var mturk = new AWS.MTurk({ endpoint: endpoint });
+      
+      var acceptdownload = "";
+      var rejectdownload = "";
+      
+      mturk.getAccountBalance({}, function (err, data) {
+        if (err) {
+          bal.text(err);
+        } else {
+          bal.text("Balance: $" + data.AvailableBalance);
+        }
+      });
+      
+      
+      // render the HITs
+      $.each(d, function(idx, arr) {
+        var content = $(document.createElement('div')).addClass('row');
+        var wrapper = $(document.createElement('div')).addClass('group');
+        wrapper.append(
+          $(document.createElement('div')).css({"position": "absolute", "width": "100%"}).append(
+            $(document.createElement('p')).text("Worker ID: " + idx)
+          ).append(
+            $(document.createElement('textarea')).attr({"id": "reject-" + idx, "placeholder": "Rejection feedback for this worker..."}) 
+          ).append(
+            $(document.createElement('button')).attr({"class": "btn btn-info"}).text("approve all").on("click", function () {
+              if (confirm('Are you sure?')) {
+                $('.accept-' + idx).attr('checked', true);
+                $('.submit-' + idx).click();
+              }
+            })
+          ).append(
+            $(document.createElement('button')).attr({"class": "btn btn-danger"}).text("reject all").on("click", function () {
+              if (confirm('Are you sure?')) {
+                if ($('#reject-' + idx).val() === "") {
+                  alert("Reject message is required");
+                } else {
+                  $('.reject-' + idx).attr('checked', true);
+                $('.submit-' + idx).click();
+                }
+              }
+            })
+          )
+        );
+        
+        var container = $(document.createElement("div")).css("padding-top", "175px");
+        $.each(arr, function(jdx, obj) {
+          var vid = $(document.createElement('div')).attr({"class": "c", "id": obj.assignment});
+          vid.append($(document.createElement('table')).attr({"height": 360, "width": 640, "id": "table-" + obj.assignment}).css({"background-image": "url(clips/" + obj.file + ")", "display": "block"}));
+          vid.append(
+            $(document.createElement('br'))
+          ).append(
+            $(document.createElement('span')).text(obj.hit)
+          ).append(
+            $(document.createElement('br'))
+          ).append(
+            $(document.createElement('label')).text(" Approve ").append($(document.createElement('input')).attr({"id": "accept-" + obj.assignment, "name": obj.assignment, "type": "radio", "class": "accept-" + idx}))
+          ).append(
+            $(document.createElement('label')).text(" Reject ").append($(document.createElement('input')).attr({"id": "reject-" + obj.assignment, "name": obj.assignment, "type": "radio", "class": "reject-" + idx}))
+          ).append(
+            $(document.createElement('span')).text(" label: " + obj.label + " ").append($(document.createElement('a')).attr({"href": "https://www.youtube.com/embed/" + obj.ytid + "?start=" + obj.start + "&end=" + (obj.start + 1), "target": "_blank"}).text(obj.ytid))
+          ).append(
+            $(document.createElement('br'))
+          ).append(
+            $(document.createElement('button')).attr({"class": "btn btn-success"}).text("draw grid").on("click", {"ass": obj.assignment, "res": obj.response}, draw)
+          ).append(
+            $(document.createElement('button')).attr({"class": "btn btn-primary submit-" + idx}).text("submit").on("click", function () {
+              if ($('#accept-' + obj.assignment).is(':checked')) {
+                approve(obj.assignment, obj.file, obj.response);
+              } else if ($('#reject-' + obj.assignment).is(':checked')) {
+                reject(obj.assignment, obj.file, $('#reject-' + idx).val());
+              } else {
+                console.log("...");
+              }
+            })
+          );
+          container.append(vid);
+          
+          /*
+          mturk.getAssignment({ "AssignmentId": obj.assignment }, function (err, data) {
+            if (err) {
+              console.log(err);
+            } else {
+              if (data.Assignment.AssignmentStatus === "Approved") {
+                $('#' + obj.assignment).css("display", "none");
+              }
+            }
+          });
+          */
+        });
+        wrapper.append(container);
+        content.append(wrapper);
+        man.append(content);
+      });
+      
+      // functions
+      /*
+      function approve(id) {
+        mturk.approveAssignment({ "AssignmentId": id }, function (err, data) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(data);
+            $('#' + id).css("display", "none");
+          }
+        });
+        
+      }
+      */
+      function approve(id, file, response) {
+        acceptdownload += id + ",";
+        acceptdownload += file + ",";
+        for (i = 0; i < 576; i++) {
+          acceptdownload += response[i] + ",";
+        }
+        acceptdownload += "\n";
+        $('#' + id).remove();
+      }
+      
+      /*
+      function reject(id, feedback) {
+        mturk.rejectAssignment({ "AssignmentId": id, "RequesterFeedback": feedback }, function (err, data) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(data);
+            $('#' + id).css("display", "none");
+          }
+        });
+        
+      }
+      */
+      function reject(id, file, message) {
+        if (message === "") {
+          alert("Reject message is required");
+        } else {
+          rejectdownload += id + ",";
+          rejectdownload += file + ",";
+          rejectdownload += message + ",";
+          rejectdownload += "\n";
+          $('#' + id).remove();
+        }
+      }
+      
+      function acceptHandle(files) {
+        f = files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          acceptdownload = reader.result;
+          $.each(acceptdownload.split("\n"), function(idx, str) {
+            $('#' + str.split(",")[0]).remove();
+          });
+        }
+        reader.readAsText(f);
+      }
+      
+      function rejectHandle(files) {
+        f = files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          rejectdownload = reader.result;
+          $.each(rejectdownload.split("\n"), function(idx, str) {
+            $('#' + str.split(",")[0]).remove();
+          });
+        }
+        reader.readAsText(f);
+      }
+      
+      function draw(event) {
+        var ass = event.data.ass;
+        var res = event.data.res;
+        $(event.target).off("click").on("click", {"ass": ass, "res": res}, clear).text("clear grid");
+        var tbl = $('#table-' + ass);
+        for (row = 0; row < num_rows; row++) {
+          tbl_row = $(document.createElement("tr"));
+          for (col = 0; col < num_cols; col++) {
+            num = (row * num_cols) + col;
+            $(document.createElement("td")).attr({"class": (res[num] === 1 ? "selected" : "")}).appendTo(tbl_row);
+          }
+          tbl.append(tbl_row);
+        }
+        tbl.css("display", "table");
+      }
+      
+      function clear(event) {
+        var ass = event.data.ass;
+        var res = event.data.res;
+        $(event.target).off("click").on("click", {"ass": ass, "res": res}, draw).text("draw grid");
+        var tbl = $('#table-' + ass);
+        tbl.empty().css("display", "block");
+      }
+      
+      // Function to download data to a file
+      function download(data, filename, type) {
+        var file = new Blob([data], {type: type});
+        if (window.navigator.msSaveOrOpenBlob) // IE10+
+          window.navigator.msSaveOrOpenBlob(file, filename);
+        else { // Others
+          var a = document.createElement("a"),
+          url = URL.createObjectURL(file);
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);  
+          }, 0); 
+        }
+      }
+    </script>
+  </body>
+</html>

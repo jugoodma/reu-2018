@@ -1,0 +1,151 @@
+<!--
+  Spatial annotation data visualizer
+  
+  JGoody
+  MarcyMarc
+  -->
+<html>
+  <head>
+    <title>Spatial Visualizer - BOUNDING BOXES</title>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aws-sdk@2.224.1/dist/aws-sdk.min.js" integrity="sha512-5+ghtMNuzLSRRkoJgznGss3/qxX78Wpj55iMvxgD1a+itFT86GdPLQfrCld4gfJrgOsmJbSmzm+6Es9Jk6QhAQ==" crossorigin="anonymous"></script>
+  </head>
+  
+  <body>
+    <p id="balance">Hello Yapeng! Below are the annotations. Each row is an ave video and the images in each row are taken at the 0.4-second mark of each 1-second clip. Click 'draw grid' to see the bounding box. Best wishes - Justin</p>
+    <hr />
+    <div id="main" class="container-fluid">
+
+    </div>
+    <style>
+      #balance,
+      #feedback {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .group {
+        overflow-x: scroll;
+        white-space: nowrap;
+        width: 100%;
+        text-align: center;
+      }
+      .c {
+        display: inline-block;
+        float: none;
+      }
+      img {
+      }
+      textarea {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 10px;
+      }
+      label {
+        font-weight: 100 !important;
+      }
+      .hide {
+        display: none;
+      }
+      .show {
+        display: block;
+        color: red;
+      }
+      .selected {
+        background: rgba(255,69,0,0.5);
+      }
+      table {
+        border: 1px solid red;
+        border-collapse: collapse;
+        z-index: 3;
+        width: 640px;
+        height: 360px;
+      }
+      td {
+        border: 1px solid red;
+        border-collapse: collapse;
+      }
+    </style>
+    <script>
+      // main handler
+      // video files are ./clips/ytid-start-end.mp4
+      //   start and end times are relative (0-10)
+      //   whereas the mturk start and end times are video related
+      
+      var man = $('#main');
+      
+      var row;
+      var col;
+      var i;
+      var num_rows = 18;
+      var num_cols = 32;
+      
+      var d = ${data};
+      
+      // render the annotations
+      $.each(d, function(idx, arr) {
+        var content = $(document.createElement('div')).addClass('row');
+        var wrapper = $(document.createElement('div')).addClass('group');
+        wrapper.append(
+          $(document.createElement('div')).css({"position": "absolute", "width": "100%"}).append(
+            $(document.createElement('p')).text("YouTube ID: " + idx)
+          )
+        );
+        
+        var container = $(document.createElement("div")).css("padding-top", "50px");
+        $.each(arr, function(jdx, obj) {
+          var vid = $(document.createElement('div')).attr({"class": "c", "id": obj.assignment});
+          vid.append($(document.createElement('table')).attr({"height": 360, "width": 640, "id": "table-" + obj.assignment}).css({"background-image": "url(clips/" + obj.file + ")", "display": "block"}));
+          vid.append(
+            $(document.createElement('br'))
+          ).append(
+            $(document.createElement('span')).text(obj.hit)
+          ).append(
+            $(document.createElement('br'))
+          ).append(
+            $(document.createElement('span')).text(" label: " + obj.label + " ").append($(document.createElement('a')).attr({"href": "https://www.youtube.com/embed/" + obj.ytid + "?start=" + obj.start + "&end=" + (obj.start + 1), "target": "_blank"}).text(obj.ytid))
+          ).append(
+            $(document.createElement('br'))
+          ).append(
+            $(document.createElement('button')).attr({"class": "btn btn-success"}).text("draw grid").on("click", {"ass": obj.assignment, "res": obj.response}, draw)
+          );
+          container.append(vid);
+        });
+        wrapper.append(container);
+        content.append(wrapper);
+        man.append(content);
+      });
+      
+      // functions
+      function draw(event) {
+        var ass = event.data.ass;
+        var res = event.data.res;
+        $(event.target).off("click").on("click", {"ass": ass, "res": res}, clear).text("clear grid");
+        var tbl = $('#table-' + ass);
+        for (row = 0; row < num_rows; row++) {
+          tbl_row = $(document.createElement("tr"));
+          for (col = 0; col < num_cols; col++) {
+            num = (row * num_cols) + col;
+            $(document.createElement("td")).attr({"class": (res[num] === 1 ? "selected" : "")}).appendTo(tbl_row);
+          }
+          tbl.append(tbl_row);
+        }
+        tbl.css("display", "table");
+      }
+      
+      function clear(event) {
+        var ass = event.data.ass;
+        var res = event.data.res;
+        $(event.target).off("click").on("click", {"ass": ass, "res": res}, draw).text("draw grid");
+        var tbl = $('#table-' + ass);
+        tbl.empty().css("display", "block");
+      }
+    </script>
+  </body>
+</html>

@@ -34,7 +34,6 @@
                     <li>IF YOU DO NOT PLAY THE VIDEO WE WILL BLOCK YOU. The beginning thumbnail the video shows you is different than your actual clip. If you proceed with this task without playing the video then you will be doing the task completely incorrect.</li>
                     <li>The video player will then play the specified 1-second clip for you. The 'Play Video' button will change to a <span><button class="btn btn-primary" onclick="" type="button">Pause Video</button></span> button. The clip will play on repeat until you click the 'Pause Video' button.</li>
                     <li><b>Controls in the video player are disabled</b>. We disabled the controls so we can show you one specific part of the video.</li>
-                    <li>We have finally moved from YouTube to regular video files. No more overlay when you pause! We hope this will increase your accuracy. We will be checking for accuracy.</li>
                   </ul>
                 </li>
                 <li>Use the grid overlay to color in the boxes that cover the object(s) making the described sounds.
@@ -58,6 +57,26 @@
                 <li>Example: if the label is 'Oink' and you see a pig in the clip in the top-left corner, you would highlight the boxes with the pig in the top-left corner.</li>
                 <li>Example: if the label is 'Speech' and you see a person in the center of the clip, your highlighted boxes should paint only the face.</li>
               </ul>
+              <div class="row">
+                <div class="col-sm-6 center-block text-center">
+                  <img src="https://vatbox.cs.rochester.edu/spatial/good.jpg" />
+                  <p style="color: green; font-size: xx-large;"><b>GOOD</b></p>
+                </div>
+                <div class="col-sm-6 center-block text-center">
+                  <img src="https://vatbox.cs.rochester.edu/spatial/bad-1.jpg" />
+                  <p style="color: red; font-size: xx-large;"><b>BAD</b></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6 enter-block text-center">
+                  <img src="https://vatbox.cs.rochester.edu/spatial/bad-2.jpg" />
+                  <p style="color: red; font-size: xx-large;"><b>BAD</b></p>
+                </div>
+                <div class="col-sm-6 center-block text-center">
+                  <img src="https://vatbox.cs.rochester.edu/spatial/bad-3.jpg" />
+                  <p style="color: red; font-size: xx-large;"><b>BAD</b></p>
+                </div>
+              </div>
               <h4>ABOUT US:</h4>
               <p>Our names are <a href="http://terpconnect.umd.edu/~jugoodma" target="_blank">Justin Goodman</a> and Marc Moore. We are undergraduate researchers working on a data-expansion research project for University of Rochester's <a href="http://www.sas.rochester.edu/dsc/undergraduate/reu.html" target="_blank">Computational Methods</a> <a href="https://www.nsf.gov/crssprgm/reu/" target="_blank">REU</a> program. We are working under Dr. Chenliang Xu, a well-established computer vision researcher. We are pulling from an already-labeled subset of the <a href="https://research.google.com/audioset/" target="_blank">Google AudioSet</a> dataset. Thank you for helping us complete our research project!</p>
             </div>
@@ -76,7 +95,7 @@
       <div id="grid-overlay" >
         <table id="grid-table" onmouseup="stop();" ondragstart="return false;" ondrop="return false;" oncontextmenu="return false;"></table>
         <video id="player" width="640" height="360" style="pointer-events: none;">
-          <source src="https://vatbox.cs.rochester.edu/videos/${ytid}.mp4" type="video/mp4" onerror="error();"> <!-- INSERT YOUR SERVER HERE -->
+          <source src="https://vatbox.cs.rochester.edu/spatial/videos/${ytid}.mp4" type="video/mp4" onerror="error();"> <!-- INSERT YOUR SERVER HERE -->
           <p>Looks like your browser is out-dated. You should skip this HIT!</p>
         </video>
       </div>
@@ -136,6 +155,10 @@
 </style>
 <!-- REU-2018 style code -->
 <style type="text/css">
+  img {
+    max-width: 100%;
+    height: auto;
+  }
   label {
     font-weight: 100 !important;
   }

@@ -4,9 +4,10 @@ import requests
 
 mturk_type = "sandbox"
 data_type = "temporal"
-data_path = "data/"
-template_path = "templates/"
-result_path = "results/"
+data_path = "../data/"
+input_path = "../input/"
+template_path = "../templates/"
+result_path = "../results/"
 max_results = 10
 approve_all = False
 
@@ -21,7 +22,7 @@ approve_all = False
 #
 # our .gitignore ignores json files so your
 # key will not be public
-youtube_api = 'https://www.googleapis.com/youtube/v3/videos?id={}&key=' + json.loads(open('youtube-key.json', 'r').read())['key'] + '&part=status'
+youtube_api = 'https://www.googleapis.com/youtube/v3/videos?id={}&key=' + json.loads(open('../youtube-key.json', 'r').read())['key'] + '&part=status'
 
 # if the items list is > 0 then the youtube video exists/is watchable
 def youtube_video_exists(ytid):
@@ -99,13 +100,14 @@ environments = {
         "hit-type-id": "3M8DJV5FJWDQ93IDR6VEH2187CRFN0",
         "out":"spatial-output.csv",
     },
-    "audio": {
-        "csv": "audio-input.csv",
-        "assignments": 4,
+    # this is out-dated
+    "captions": {
+        "csv": "captions-input.csv",
+        "assignments": 2,
         "lifetime": 7 * 24 * 60 * 60, # 7 days
         "duration": 60 * 60, # 1 hour
         "approve": 5 * 24 * 60 * 60, # 5 days
-        "reward": "0.01",
+        "reward": "0.07",
         "title": "Annotate a video without visual context",
         "keywords": "classify, video, audio",
         "desc": "Listen to a blurred 10 to 30 second video and describe what happens in the audio scene",

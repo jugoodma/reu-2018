@@ -1,3 +1,6 @@
+# this file is not used. I don't remember what it does anyway
+#
+
 import csv
 import itertools
 import re
