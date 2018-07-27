@@ -18,4 +18,5 @@ visuals/spatial/vis-data.html
 visuals/spatial/output-data.html
 
 # these are files that we WANT in the repo
+!temporal-input-labels.txt
 !audio-video-dataset.json

@@ -99,7 +99,7 @@
           <p>Looks like your browser is out-dated. You should skip this HIT!</p>
         </video>
       </div>
-      <p>Reminder: you can click-and-drag to select/de-select multiple boxes.</p>
+      <p>Reminder: you can click-and-drag to select/de-select multiple boxes. Watch the video loop a few times before you annotate.</p>
       <br />
       <p id="loading" class="red">Looks like our code had an error or the video is unavailable. You should skip this HIT! Sorry for the inconvenience.</p>
       <p class="hide" id="errorMessage">Please indicate where the object is located.</p>
@@ -303,8 +303,10 @@
     instr.val(1);
   }
   function ready() {
+    player.off('canplay');
     plget.loop = true;
     plget.muted = false;
+    plget.currentTime = start_time + 0.01;
     loadText.html("Ready for playback!").removeClass('red').addClass('blue');
   }
   function check() {
