@@ -1,70 +1,36 @@
+# this script generates an input .csv file for
+# amazon mturk temporal annotator
+# categories are based on your input
+# first argument to script is number of videos per category
+
+# imports
+import sys
+import random
 import csv
-import itertools
 import re
 import json
 import math
 import requests
-import random
 from settings import *
 
-# begin
-interval = 1.0
-window = 1.0
+# initial variables
+cat_list = 'temporal-input-labels.txt'
 ontology = 'ontology.json'
 audioset = 'unbalanced_train_segments.csv'
 final_data = environments['temporal']['csv']
-labels = {} # and descriptions
-usable_videos = {}
-# the amount of videos you want per category from the list of top 25 categories
-amount_per_category = 340 # 200
+amount_per_category = (200 if len(sys.argv) < 2 else int(sys.argv[1]))
 
 # set random seed for reproductability
 random.seed(6942069)
 
-# skip amount (started at 1)
-# 6/26 running 20 videos per category
-# 6/27 running 1 video per category
-# 6/28 running 4 video per category
-# 7/3 running 10 videos per category
-# 7/5 running 200 videos per category
-# 7/6 running 20 videos per category (new categories, some are the same)
-# skip = 240
-# changing to random shuffle
+print('Creating csv ' + final_data)
 
-print('Creating csv ' + final_data + ' with ' + str(interval) + 'sec intervals and ' + str(window) + 'sec window.')
-
-# the categories we want to run
-"""
-category_list = ['Child speech, kid speaking',
-                 'Radio',
-                 'Stream',
-                 'Snoring',
-                 'Computer keyboard',
-                 'Oink',
-                 'Tick',
-                 'Sneeze',
-                 'Motorboat, speedboat',
-                 'Choir',
-                 'Vacuum cleaner',
-                 'Sewing machine',
-                 'Walk, footsteps',
-                 'Ringtone',
-                 'Buzzer',
-                 'Fire alarm',
-                 'Microwave oven',
-                 'Change ringing (campanology)',
-                 'Waves, surf',
-                 'Clarinet',
-                 'Accelerating, revving, vroom',
-                 'Printer',
-                 'Skateboard',
-                 'Blender',
-                 'Lawn mower']
-"""
-category_list = ['Quack']
+# read in each category (human-readable)
+category_list = [x.rstrip() for x in open(data_path + cat_list)]
 print(len(category_list))
 
 # create dictionary for mapping obscured labels to human-readable labels + descriptions
+labels = {} # and descriptions
 with open(data_path + ontology, 'r', encoding='latin-1') as json_data:
     data = json.load(json_data)
     for obj in data:
@@ -72,42 +38,59 @@ with open(data_path + ontology, 'r', encoding='latin-1') as json_data:
             labels[obj['id']] = {'name': obj['name'], 'description': obj['description'],}
 print(labels)
 
-# comment
+# go through audioset and pick out usable videos
+usable_videos = {}
+usable_twolabels = {}
 with open(data_path + audioset, 'r', newline = '') as f:
     reader = csv.reader(f, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
-    # create usable_video datastructure
+    # create usable_video structures
     for i in range(len(category_list)):
-        x = []
-        usable_videos[category_list[i]] = x
+        usable_videos[category_list[i]] = []
+        usable_twolabels[category_list[i]] = []
     # skip the three header comments in AudioSet
     for j in range(3):
         next(reader)
     # check each AudioSet video for a few things
-    # 1 - the number of labels for the video must be 1
+    # 1 - the number of labels for the video must be 1 or 2
     # 2 - the label must be in our categories list
+    # i'm too lazy to optimize this
     for row in reader:
         google_labels = row[3].split(',')
-        english_label = labels.get(google_labels[0])
-        if len(google_labels) < 2 and english_label:
-            usable_videos[english_label['name']].append([row[0], row[1], row[2], english_label['name'], english_label['description']])
+        glen = len(google_labels)
+        if glen < 2:
+            english_label = labels.get(google_labels[0])
+            if english_label:
+                usable_videos[english_label['name']].append([row[0], row[1], row[2], english_label['name'], english_label['description']])
+        elif glen < 3:
+            # first label in list gets priority
+            english_label = labels.get(google_labels[0])
+            if english_label:
+                usable_twolabels[english_label['name']].append([row[0], row[1], row[2], english_label['name'], english_label['description']])
+            else:
+                english_label = labels.get(google_labels[1])
+                if english_label:
+                    usable_twolabels[english_label['name']].append([row[0], row[1], row[2], english_label['name'], english_label['description']])
 
-# comment
-with open(data_path + final_data, 'w', newline = '') as f:
+# go through each video in our usable videos category, shuffle the videos and generate final .csv
+# priority 1 is selecting all 1-label videos
+# priority 2 is selecting from the 2-label videos
+with open(input_path + final_data, 'w', newline = '') as f:
     writer = csv.writer(f, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
     writer.writerow(['ytid'] + ['start'] + ['end'] + ['label'] + ['description'])
     # sample <amount_per_category> number of random videos from usable_videos
     for key in usable_videos:
         print(key)
         print(len(usable_videos[key]))
-        # skip some
-        #for count in range(skip):
-        #    row = random.choice(usable_videos[key])
-        #    usable_videos[key].remove(row)
-        # shuffle usable_videos
-        random.shuffle(usable_videos[key])
+        print(len(usable_twolabels[key]))
+        
+        if len(usable_videos[key]) < amount_per_category:
+            random.shuffle(usable_twolabels[key])
+        else:
+            random.shuffle(usable_videos[key])
+        both = usable_videos[key] + usable_twolabels[key]
         # write videos
         for count in range(amount_per_category):
-            row = usable_videos[key][count]
+            row = both[count]
             row[1] = int(float(row[1]))
             row[2] = int(float(row[2]))
             print(row)
