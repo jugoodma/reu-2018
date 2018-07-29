@@ -101,14 +101,14 @@ Our Audio-Video Separate Streams dataset is formatted in JSON as follows (simila
 		"ytid": str,
 		"start time": float,
 		"end time": float,
-		"split": str
+		"split": str,
 	        "audio": {
-			"sen_id": str(int) + 'a'
+			"sen_id": str(int) + 'a',
 			"video_id": str,
 			"caption": str
 		},
 		"video": {
-			"sen_id": str(int) + 'v'
+			"sen_id": str(int) + 'v',
 			"video_id": str,
 			"caption": str
 		}
