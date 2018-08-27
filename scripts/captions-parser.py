@@ -6,7 +6,7 @@ import os.path
 from datetime import datetime
 from settings import *
 
-input_data = input("What file would you like to run: ./results/")
+input_data = input("What file would you like to run: ../results/")
 dt = input("Which data type is this file? (audio or video): ")
 split = input("What split is this file? (test or train or val): ")
 origin = input("What origin is this file? (ave or msrvtt): ")
@@ -19,7 +19,7 @@ today = str(datetime.now())
 mcache = "msrvtt.cache"
 acache = "audioset.cache"
 output = "audio-video-dataset.json"
-data = json.load(open(output, 'r'))
+data = json.load(open(data_path + output, 'r'))
 msrvtt = json.load(open(data_path + "videodatainfo_2017.json", 'r'))
 audioset = csv.reader(open(data_path + "unbalanced_train_segments.csv", 'r', newline = ''), quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
 r = 50 # number of sentences per video (actual value is 2, but we padded this in case we add to the dataset)
@@ -57,7 +57,7 @@ if os.path.isfile(data_path + acache):
     with open(data_path + acache, 'rb') as f:
         asvids = pickle.load(f)
 else:
-    count = 20000 # audioset IDs start at 20,000
+    count = 20000 # audioset/ave IDs start at 20,000
     for i in range(3):
         next(audioset)
     for row in audioset:
@@ -101,8 +101,6 @@ with open(result_path + input_data, 'r', newline = '') as f:
             idx_approval = idx
         elif ele == "Answer.youtubeError":
             idx_err = idx
-        else:
-            continue
 
     # use these indices to append to the data
     for row in reader:
@@ -142,4 +140,4 @@ with open(result_path + input_data, 'r', newline = '') as f:
                                             'caption': row[idx_response].lower()})
 
 # write data back
-json.dump(data, open(output, 'w'), indent = 2)
+json.dump(data, open(data_path + output, 'w'), indent = 2)

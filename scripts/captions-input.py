@@ -4,18 +4,19 @@ import csv
 import math
 import requests
 import time
-from multiprocessing import Pool, TimeoutError
+#from multiprocessing import Pool, TimeoutError
 from settings import *
 
 start = 0
 sub = 0
 end = 0
-#msrvtt = 'videodatainfo_2017.json'
-msrvtt = 'test_videodatainfo_2017.json'
+msrvtt = 'videodatainfo_2017.json'
+#msrvtt = 'test_videodatainfo_2017.json'
 #audioset = 'unbalanced_train_segments.csv'
 # switching to AVE dataset, a subset of audioset
 #sound = 'msr-vtt-sound.csv' # these are the videos in msr-vtt that have sound
-sound = 'msrvtt-test-sound.csv'
+sound = 'msrvtt-train-sound.csv' # list of video IDs from msr-vtt
+ran = 'audio-video-dataset.json'
 
 # number of videos per category to skip
 # started with 1 video per category
@@ -39,27 +40,20 @@ start = time.time()
 random.seed(6942069)
 
 print("Gathering msrvtt vids")
-# gather all videos with sound
-temp = []
-with open(data_path + sound, 'r', newline = '') as f:
-    reader = csv.reader(f, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
-    for row in reader:
-        temp.append(row[0])
+# gather all videos with sound and videos that have not been ran before
+r = [x['ytid'] for x in json.load(open(data_path + ran))['data']]
+s = list(csv.reader(open(data_path + sound, 'r', newline = ''), quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True))
+videos = [x for x in json.load(open(data_path + msrvtt))['videos'] if (not x['url'].split('=')[1] in r) and ([x['video_id']] in s)]
 
-# go through each video in the json, only adding videos with sound
+# go through each video in the json, only adding videos with sound AND videos that have not been ran before
 output = []
-videos = json.loads(open(data_path + msrvtt).read())['videos']
 print(len(videos))
 for vid in videos:
-    ytid = vid['url'].split('=')[1]
-    if ytid in temp: # was 'video_id'
-        #ytid = vid['url'].split('=')[1]
-        output.append([ytid]+[vid['start time']]+[vid['end time']]+['msrvtt-test'])
+    output.append([vid['url'].split('=')[1]]+[vid['start time']]+[vid['end time']]+['msrvtt'])
+
 random.shuffle(output)
-output = output[:701]
+output = output[:626] # change this number for number of outputs
 print(len(output))
-print(round(time.time() - start, 4))
-sub = time.time()
 
 ''' # skipping audioset for now
 print("Gathering audioset vids. These ids below are already contained in msrvtt")
@@ -85,20 +79,14 @@ while len(output) < 6000: # only enough money for 5000 videos :'(
     output.append(temp.pop(0))
 '''
 
-print(round(time.time() - sub, 4))
-sub = time.time()
-
 print("Writing final output file")
 # write final output file
-with open(data_path + environments['audio']['csv'], 'w', newline = '') as f:
+with open(input_path + environments['captions']['csv'], 'w', newline = '') as f:
     writer = csv.writer(f, quotechar = '"', delimiter = ',', quoting = csv.QUOTE_ALL, skipinitialspace = True)
     # write the header
     writer.writerow(['ytid'] + ['start'] + ['end']+ ['origin'])
     writer.writerows(output)
 
-print(round(time.time() - sub, 4))
-end = time.time()
-print("Total time: " + str(round(end - start, 4)))
 # done
 print("Done.")
 

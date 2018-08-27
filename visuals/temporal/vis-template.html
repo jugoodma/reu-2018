@@ -1,0 +1,286 @@
+<!--
+  Temporal annotation data visualizer
+  
+  JGoody
+  MarcyMarc
+  -->
+<html>
+  <head>
+    <title>Temporal Visualizer</title>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </head>
+  
+  <body>
+    <p id="balance">Contains key: 1 = AVE, 0 = Unrelated, -1 = only SEE, -2 = only HEAR</p>
+    <button onclick="download(acceptdownload,'approved.csv','text/plain');">DOWNLOAD ACCEPTED</button>
+    <button onclick="download(rejectdownload,'rejected.csv','text/plain');">DOWNLOAD REJECTED</button>
+    <label for="acceptupload">Accepted file upload: <input type="file" id="acceptupload" onchange="acceptHandle(this.files);"></label>
+    <label for="rejectupload">Rejected file upload: <input type="file" id="rejectupload" onchange="rejectHandle(this.files);"></label>
+    <hr />
+    <div id="main" class="container-fluid">
+
+    </div>
+    <style>
+      #balance,
+      #feedback {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .group {
+        overflow-x: scroll;
+        white-space: nowrap;
+        width: 100%;
+        text-align: center;
+      }
+      .c {
+        display: inline-block;
+        float: none;
+      }
+      img {
+      }
+      textarea {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 10px;
+      }
+      label {
+        font-weight: 100 !important;
+      }
+      .hide {
+        display: none;
+      }
+      .show {
+        display: block;
+        color: red;
+      }
+      .selected {
+        background: rgba(0, 0, 255, 0.8);
+      }
+      .current {
+        background: rgba(255, 255, 0, 0.8);
+      }
+      .selected.current {
+        background: rgba(69, 255, 69, 0.9);
+      }
+      table {
+        margin-bottom: 10px;
+        border-collapse: collapse;
+        text-align: center;
+        table-layout: fixed;
+      }
+      .rowOne > td {
+        border: 1px solid blue;
+        height: 50px;
+      }
+      .timeRow > td {
+        border: 1px solid blue;
+        height: 15px;
+      }
+      .rowTwo > td {
+        border-style: none;
+        margin-bottom: 10px;
+      }
+    </style>
+    <script>
+      // main handler
+      
+      var man = $('#main');
+      
+      var i;
+      var wind = 4;
+      var num_cells = 40; // (end - start) * wind
+      
+      var d = ${data};
+      
+      var acceptdownload = "";
+      var rejectdownload = "";
+      
+      // render the HITs
+      $.each(d, function(idx, arr) {
+        var content = $(document.createElement('div')).addClass('row');
+        var wrapper = $(document.createElement('div')).addClass('group');
+        wrapper.append(
+          $(document.createElement('div')).css({"position": "absolute", "width": "100%"}).append(
+            $(document.createElement('p')).text("Worker ID: " + idx)
+          ).append(
+            $(document.createElement('button')).attr({"class": "btn btn-info"}).text("approve all").on("click", function () {
+              if (confirm('Are you sure?')) {
+                $('.accept-' + idx).attr('checked', true);
+                $('.submit-' + idx).click();
+              }
+            })
+          ).append(
+            $(document.createElement('button')).attr({"class": "btn btn-danger"}).text("reject all").on("click", function () {
+              if (confirm('Are you sure?')) {
+                $('.reject-' + idx).attr('checked', true);
+                $('.submit-' + idx).click();
+              }
+            })
+          )
+        );
+        
+        var container = $(document.createElement("div")).css("padding-top", "175px");
+        $.each(arr, function(jdx, obj) {
+          var vid = $(document.createElement('div')).attr({"class": "c", "id": obj.assignment});
+          vid.append(
+            $(document.createElement('iframe')).attr({"id": "iframe-" + obj.assignment, "width": "640", "height": "360", "style": "pointer-events: none;"})
+          ).append(
+            $(document.createElement('table')).attr({"id": "table-" + obj.assignment, "width": "640px"})
+          ).append(
+            $(document.createElement('br'))
+          ).append(
+            $(document.createElement('span')).text(obj.hit)
+          ).append(
+            $(document.createElement('br'))
+          ).append(
+            $(document.createElement('span')).text("Contains: " + obj.contains)
+          ).append(
+            $(document.createElement('br'))
+          ).append(
+            $(document.createElement('label')).text(" Approve ").append($(document.createElement('input')).attr({"id": "accept-" + obj.assignment, "name": obj.assignment, "type": "radio", "class": "accept-" + idx}))
+          ).append(
+            $(document.createElement('label')).text(" Reject ").append($(document.createElement('input')).attr({"id": "reject-" + obj.assignment, "name": obj.assignment, "type": "radio", "class": "reject-" + idx}))
+          ).append(
+            $(document.createElement('span')).text(" label: " + obj.label + " ").append($(document.createElement('a')).attr({"href": "https://www.youtube.com/embed/" + obj.ytid + "?start=" + obj.start + "&end=" + obj.end, "target": "_blank"}).text(obj.ytid))
+          ).append(
+            $(document.createElement('br'))
+          ).append(
+            $(document.createElement('button')).attr({"class": "btn btn-success"}).text("load").on("click", {"ass": obj.assignment, "res": obj.response, "src": "https://www.youtube.com/embed/" + obj.ytid + "?enablejsapi=1&amp;start=" + obj.start + "&amp;end=" + obj.end, "sec": obj.start}, draw)
+          ).append(
+            $(document.createElement('button')).attr({"class": "btn btn-primary submit-" + idx}).text("submit").on("click", function () {
+              if ($('#accept-' + obj.assignment).is(':checked')) {
+                approve(obj.assignment, obj.ytid, obj.response);
+              } else if ($('#reject-' + obj.assignment).is(':checked')) {
+                reject(obj.assignment, obj.ytid, $('#reject-' + idx).val());
+              } else {
+                console.log("...");
+              }
+            })
+          );
+          container.append(vid);
+        });
+        wrapper.append(container);
+        content.append(wrapper);
+        man.append(content);
+      });
+      
+      // functions
+      function approve(id, file, response) {
+        acceptdownload += id + ",";
+        acceptdownload += file + ",";
+        acceptdownload += response + ",";
+        acceptdownload += "\n";
+        $('#' + id).remove();
+      }
+      
+      function reject(id, file) {
+          rejectdownload += id + ",";
+          rejectdownload += file + ",";
+          rejectdownload += "bad data" + ",";
+          rejectdownload += "\n";
+          $('#' + id).remove();
+      }
+      
+      function acceptHandle(files) {
+        f = files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          acceptdownload = reader.result;
+          $.each(acceptdownload.split("\n"), function(idx, str) {
+            $('#' + str.split(",")[0]).remove();
+          });
+        }
+        reader.readAsText(f);
+      }
+      
+      function rejectHandle(files) {
+        f = files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          rejectdownload = reader.result;
+          $.each(rejectdownload.split("\n"), function(idx, str) {
+            $('#' + str.split(",")[0]).remove();
+          });
+        }
+        reader.readAsText(f);
+      }
+      
+      function draw(event) {
+        var ass = event.data.ass;
+        var res = event.data.res;
+        var src = event.data.src;
+        var sec = event.data.sec;
+        $(event.target).off("click").on("click", {"ass": ass, "res": res, "src": src}, clear).text("clear");
+        $('#iframe-' + ass).attr("src", src);
+        var tbl = $('#table-' + ass);
+        var tbl_row = $(document.createElement("tr"));
+        var time_row = $(document.createElement("tr")).attr({'id': 'timeRow-' + ass});
+        var info_row = $(document.createElement("tr"));
+        for (i = 0; i < num_cells; i++) {
+          $(document.createElement("td")).attr({"class": (res[num] === 1 ? "selected" : "")}).appendTo(tbl_row);
+          if ((i + 1) % wind === 0) {
+            $(document.createElement("td")).attr({'style': 'border-right-width: 3px; border-right-color: red;'}).appendTo(time_row);
+          } else {
+            $(document.createElement("td")).appendTo(time_row);
+          }
+          if (i % wind === 0) {
+            info_row.append(
+              $(document.createElement("td")).attr({'colspan': wind}).append(
+                $('<button type="button"></button>').attr({'class': 'btn btn-primary'}).on('click', {"pos": i / wind, "sec": sec, "ass": ass}, seek)
+              )
+            );  
+          }
+        }
+        tbl.append(tbl_row);
+        tbl.append(time_row);
+        tbl.append(info_row);
+        tbl.css("display", "table");
+      }
+      
+      function clear(event) {
+        var ass = event.data.ass;
+        var res = event.data.res;
+        var src = event.data.src;
+        $(event.target).off("click").on("click", {"ass": ass, "res": res, "src": src}, draw).text("load");
+        $('#iframe-' + ass).attr("src", "");
+        $('#table-' + ass).empty();
+      }
+      
+      function play() {
+      
+      }
+      
+      function seek(event) {
+        var pos = event.data.pos;
+        var ass = event.data.ass;
+        
+      }
+      
+      // Function to download data to a file
+      function download(data, filename, type) {
+        var file = new Blob([data], {type: type});
+        if (window.navigator.msSaveOrOpenBlob) // IE10+
+          window.navigator.msSaveOrOpenBlob(file, filename);
+        else { // Others
+          var a = document.createElement("a"),
+          url = URL.createObjectURL(file);
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);  
+          }, 0); 
+        }
+      }
+    </script>
+  </body>
+</html>
